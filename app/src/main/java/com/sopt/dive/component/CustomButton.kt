@@ -47,12 +47,15 @@ fun LoginBtn(){
 }
 
 @Composable
-fun SignupBtn(){
+fun SignupBtn(
+    containerColor: Color,
+    contentColor: Color
+){
     CustomButton(
         buttonName = "회원가입하기",
         modifier = Modifier,
-        containerColor = Color.Transparent,
-        contentColor = Color.Gray
+        containerColor = containerColor,
+        contentColor = contentColor
     )
 }
 
@@ -68,6 +71,6 @@ fun LoginButtonPreview() {
 @Composable
 fun SignupButtonPreview() {
     DiveTheme {
-        SignupBtn()
+        SignupBtn(Color.Transparent, Color.Gray)
     }
 }

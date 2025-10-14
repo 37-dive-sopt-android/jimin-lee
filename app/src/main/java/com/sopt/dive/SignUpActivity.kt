@@ -24,15 +24,15 @@ import com.sopt.dive.component.LoginBtn
 import com.sopt.dive.component.SignupBtn
 import com.sopt.dive.ui.theme.DiveTheme
 
-class LoginActivity : ComponentActivity() {
+class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             DiveTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    LoginScreen(
-                        title = "Welcome To SOPT",
+                    SignUpScreen(
+                        title = "SIGN UP",
                         modifier = Modifier
                             .padding(innerPadding)
                             .padding(horizontal = 16.dp)
@@ -44,7 +44,7 @@ class LoginActivity : ComponentActivity() {
 }
 
 @Composable
-fun LoginScreen(title: String, modifier: Modifier = Modifier) {
+fun SignUpScreen(title: String, modifier: Modifier = Modifier) {
     Column {
         Column (
             modifier = modifier,
@@ -58,21 +58,22 @@ fun LoginScreen(title: String, modifier: Modifier = Modifier) {
             )
             CustomTextField("ID", "아이디를")
             CustomTextField("PW", "비밀번호를")
+            CustomTextField("NICKNAME", "닉네임을")
+            CustomTextField("MBTI", "MBTI를")
         }
         Column (
             modifier = modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Bottom
         ){
-            LoginBtn()
-            SignupBtn(Color.Transparent, Color.Gray)
+            SignupBtn(MaterialTheme.colorScheme.primary,Color.White)
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun LoginScreenPreview() {
+fun SignUpScreenPreview() {
     DiveTheme {
-        LoginScreen("Welcome To SOPT", Modifier.padding(horizontal = 16.dp))
+        SignUpScreen("SIGN UP", Modifier.padding(horizontal = 16.dp))
     }
 }
