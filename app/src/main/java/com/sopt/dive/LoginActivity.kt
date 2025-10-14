@@ -18,6 +18,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sopt.dive.component.LoginBtn
+import com.sopt.dive.component.SignupBtn
 import com.sopt.dive.component.Textfield
 import com.sopt.dive.ui.theme.DiveTheme
 
@@ -42,20 +44,28 @@ class LoginActivity : ComponentActivity() {
 
 @Composable
 fun LoginScreen(text: String, modifier: Modifier = Modifier) {
-    Column (
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceEvenly
-    ){
-        Text(
-            text = text,
-            modifier = modifier.padding(vertical = 5.dp),
-            fontSize = 35.sp,
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold
-        )
-        Textfield("ID", "아이디를")
-        Textfield("PW", "비밀번호를")
+    Column {
+        Column (
+            modifier = modifier,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = text,
+                modifier = modifier.padding(bottom = 5.dp),
+                fontSize = 35.sp,
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+            Textfield("ID", "아이디를")
+            Textfield("PW", "비밀번호를")
+        }
+        Column (
+            modifier = modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Bottom
+        ){
+            LoginBtn()
+            SignupBtn()
+        }
     }
 }
 
