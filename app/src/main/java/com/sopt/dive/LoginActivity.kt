@@ -18,9 +18,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sopt.dive.component.CustomTextField
 import com.sopt.dive.component.LoginBtn
 import com.sopt.dive.component.SignupBtn
-import com.sopt.dive.component.Textfield
 import com.sopt.dive.ui.theme.DiveTheme
 
 class LoginActivity : ComponentActivity() {
@@ -55,8 +55,8 @@ fun LoginScreen(title: String, modifier: Modifier = Modifier) {
                 fontSize = 35.sp,
                 fontWeight = FontWeight.Bold
             )
-            Textfield("ID", "아이디를")
-            Textfield("PW", "비밀번호를")
+            CustomTextField("ID", "아이디를")
+            CustomTextField("PW", "비밀번호를")
         }
         Column (
             modifier = modifier.fillMaxSize(),
