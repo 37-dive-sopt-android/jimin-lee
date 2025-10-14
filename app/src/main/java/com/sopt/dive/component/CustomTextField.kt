@@ -13,13 +13,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
-fun Textfield (
+fun CustomTextField (
     fieldName: String,
     placeholder: String,
     modifier: Modifier = Modifier
@@ -32,7 +34,7 @@ fun Textfield (
         Text(
             text = fieldName,
             fontSize = 30.sp,
-            style = MaterialTheme.typography.titleMedium
+            fontWeight = FontWeight.Medium
         )
         TextField(
             value = text,
@@ -41,7 +43,12 @@ fun Textfield (
                 focusedContainerColor = MaterialTheme.colorScheme.surface,
                 unfocusedContainerColor = MaterialTheme.colorScheme.surface
             ),
-            placeholder = { "${placeholder} 입력해주세요" },
+            placeholder = {
+                Text(
+                    text = "${placeholder} 입력해주세요",
+                    color = Color.Gray
+                )
+            },
             modifier = modifier
                 .fillMaxWidth()
         )
@@ -52,6 +59,6 @@ fun Textfield (
 @Composable
 fun TextfieldPreview() {
     DiveTheme {
-        Textfield("ID","아이디를")
+        CustomTextField("ID","아이디를")
     }
 }

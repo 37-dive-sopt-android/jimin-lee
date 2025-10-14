@@ -31,10 +31,10 @@ class LoginActivity : ComponentActivity() {
             DiveTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     LoginScreen(
-                        text = "Welcome To SOPT",
+                        title = "Welcome To SOPT",
                         modifier = Modifier
                             .padding(innerPadding)
-                            .padding(horizontal = 16.dp)
+                            .padding(16.dp)
                     )
                 }
             }
@@ -43,17 +43,16 @@ class LoginActivity : ComponentActivity() {
 }
 
 @Composable
-fun LoginScreen(text: String, modifier: Modifier = Modifier) {
+fun LoginScreen(title: String, modifier: Modifier = Modifier) {
     Column {
         Column (
             modifier = modifier,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = text,
+                text = title,
                 modifier = modifier.padding(bottom = 5.dp),
                 fontSize = 35.sp,
-                style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
             Textfield("ID", "아이디를")
