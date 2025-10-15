@@ -1,5 +1,6 @@
 package com.sopt.dive
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,6 +30,8 @@ class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+
         setContent {
             DiveTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -45,6 +49,16 @@ class LoginActivity : ComponentActivity() {
 
 @Composable
 fun LoginScreen(title: String, modifier: Modifier = Modifier) {
+
+    val context = LocalContext.current
+
+    val intent1 = Intent(context, MainActivity::class.java).apply {
+        flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+    }
+    val intent2 = Intent(context, SignUpActivity::class.java).apply {
+        flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+    }
+
     Column {
         Column (
             modifier = modifier,
@@ -63,8 +77,16 @@ fun LoginScreen(title: String, modifier: Modifier = Modifier) {
             modifier = modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Bottom
         ){
-            LoginBtn()
-            SignupBtn(Color.Transparent, Color.Gray)
+            LoginBtn({
+                context.startActivity(intent1)
+            })
+            SignupBtn(
+                Color.Transparent,
+                Color.Gray,
+                {
+                    context.startActivity(intent2)
+                }
+            )
         }
     }
 }

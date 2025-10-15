@@ -20,10 +20,11 @@ fun CustomButton (
     buttonName: String,
     modifier: Modifier = Modifier,
     containerColor: Color,
-    contentColor: Color
+    contentColor: Color,
+    onClick: () -> Unit
 ) {
     Button(
-        onClick = {},
+        onClick = onClick,
         modifier = modifier.fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(containerColor, contentColor)
     ) {
@@ -37,25 +38,30 @@ fun CustomButton (
 
 
 @Composable
-fun LoginBtn(){
+fun LoginBtn(
+    onClick: () -> Unit
+){
     CustomButton(
         buttonName = "Welcome To SOPT",
         modifier = Modifier,
         containerColor = MaterialTheme.colorScheme.primary,
-        contentColor = Color.White
+        contentColor = Color.White,
+        onClick = onClick
     )
 }
 
 @Composable
 fun SignupBtn(
     containerColor: Color,
-    contentColor: Color
+    contentColor: Color,
+    onClick: () -> Unit
 ){
     CustomButton(
         buttonName = "회원가입하기",
         modifier = Modifier,
         containerColor = containerColor,
-        contentColor = contentColor
+        contentColor = contentColor,
+        onClick = onClick
     )
 }
 
@@ -63,7 +69,7 @@ fun SignupBtn(
 @Composable
 fun LoginButtonPreview() {
     DiveTheme {
-        LoginBtn()
+        LoginBtn({})
     }
 }
 
@@ -71,6 +77,6 @@ fun LoginButtonPreview() {
 @Composable
 fun SignupButtonPreview() {
     DiveTheme {
-        SignupBtn(Color.Transparent, Color.Gray)
+        SignupBtn(Color.Transparent, Color.Gray, {})
     }
 }

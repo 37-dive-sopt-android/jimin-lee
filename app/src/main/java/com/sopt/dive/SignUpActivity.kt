@@ -1,5 +1,6 @@
 package com.sopt.dive
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,6 +47,13 @@ class SignUpActivity : ComponentActivity() {
 
 @Composable
 fun SignUpScreen(title: String, modifier: Modifier = Modifier) {
+
+    val context = LocalContext.current
+
+    val intent = Intent(context, LoginActivity::class.java).apply {
+        flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+    }
+
     Column {
         Column (
             modifier = modifier,
@@ -65,7 +74,13 @@ fun SignUpScreen(title: String, modifier: Modifier = Modifier) {
             modifier = modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Bottom
         ){
-            SignupBtn(MaterialTheme.colorScheme.primary,Color.White)
+            SignupBtn(
+                MaterialTheme.colorScheme.primary,
+                Color.White,
+                {
+                    context.startActivity(intent)
+                }
+            )
         }
     }
 }
