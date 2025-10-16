@@ -13,6 +13,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,7 +26,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.component.CustomTextField
-import com.sopt.dive.component.LoginBtn
 import com.sopt.dive.component.SignupBtn
 import com.sopt.dive.ui.theme.DiveTheme
 
@@ -48,9 +51,19 @@ class SignUpActivity : ComponentActivity() {
 @Composable
 fun SignUpScreen(title: String, modifier: Modifier = Modifier) {
 
+    var userId by rememberSaveable { mutableStateOf("") }
+    var userPw by rememberSaveable { mutableStateOf("") }
+    var userNickname by rememberSaveable { mutableStateOf("") }
+    var userMbti by rememberSaveable { mutableStateOf("") }
+
     val context = LocalContext.current
 
     val intent = Intent(context, LoginActivity::class.java).apply {
+        putExtra("userId",userId)
+        putExtra("userPw",userPw)
+        putExtra("userNickname",userNickname)
+        putExtra("userMbti",userMbti)
+
         flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
     }
 
@@ -65,10 +78,10 @@ fun SignUpScreen(title: String, modifier: Modifier = Modifier) {
                 fontSize = 35.sp,
                 fontWeight = FontWeight.Bold
             )
-            CustomTextField("ID", "아이디를")
-            CustomTextField("PW", "비밀번호를")
-            CustomTextField("NICKNAME", "닉네임을")
-            CustomTextField("MBTI", "MBTI를")
+            CustomTextField("ID", "아이디를", userId, { userId = it })
+            CustomTextField("PW", "비밀번호를", userPw, { userPw = it })
+            CustomTextField("NICKNAME", "닉네임을", userNickname, { userNickname = it })
+            CustomTextField("MBTI", "MBTI를", userMbti, { userMbti = it })
         }
         Column (
             modifier = modifier.fillMaxSize(),

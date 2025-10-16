@@ -24,9 +24,10 @@ import com.sopt.dive.ui.theme.DiveTheme
 fun CustomTextField (
     fieldName: String,
     placeholder: String,
-    modifier: Modifier = Modifier
+    text: String,
+    onTextChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    var text by rememberSaveable { mutableStateOf("") }
 
     Column (
         modifier = modifier.padding(vertical = 16.dp)
@@ -38,7 +39,7 @@ fun CustomTextField (
         )
         TextField(
             value = text,
-            onValueChange = { text = it },
+            onValueChange = onTextChange,
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = MaterialTheme.colorScheme.surface,
                 unfocusedContainerColor = MaterialTheme.colorScheme.surface
@@ -55,10 +56,10 @@ fun CustomTextField (
     }
 }
 
-@Preview(showBackground = true)
+/*@Preview(showBackground = true)
 @Composable
 fun TextfieldPreview() {
     DiveTheme {
-        CustomTextField("ID","아이디를")
+        CustomTextField("ID","아이디를", "input", {"input" = it})
     }
-}
+}*/

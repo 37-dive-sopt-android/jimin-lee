@@ -13,6 +13,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,6 +35,10 @@ class LoginActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        val userId = intent.getStringExtra("userId")?:""
+        val userPw = intent.getStringExtra("userPw")?:""
+        val userNickname = intent.getStringExtra("userNickname")?:""
+        val userMbti = intent.getStringExtra("userMbti")?:""
 
         setContent {
             DiveTheme {
@@ -39,7 +47,11 @@ class LoginActivity : ComponentActivity() {
                         title = "Welcome To SOPT",
                         modifier = Modifier
                             .padding(innerPadding)
-                            .padding(horizontal = 16.dp)
+                            .padding(horizontal = 16.dp),
+                        userId = userId,
+                        userPw = userPw,
+                        userNickname = userNickname,
+                        userMbti = userMbti
                     )
                 }
             }
@@ -48,16 +60,31 @@ class LoginActivity : ComponentActivity() {
 }
 
 @Composable
-fun LoginScreen(title: String, modifier: Modifier = Modifier) {
+fun LoginScreen(
+    title: String,
+    modifier: Modifier = Modifier,
+    userId: String,
+    userPw: String,
+    userNickname: String,
+    userMbti: String
+) {
 
     val context = LocalContext.current
 
     val intent1 = Intent(context, MainActivity::class.java).apply {
+        putExtra("userId",userId)
+        putExtra("userPw",userPw)
+        putExtra("userNickname",userNickname)
+        putExtra("userMbti",userMbti)
+
         flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
     }
     val intent2 = Intent(context, SignUpActivity::class.java).apply {
         flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
     }
+
+    var loginId by rememberSaveable { mutableStateOf("") }
+    var loginPw by rememberSaveable { mutableStateOf("") }
 
     Column {
         Column (
@@ -70,8 +97,8 @@ fun LoginScreen(title: String, modifier: Modifier = Modifier) {
                 fontSize = 35.sp,
                 fontWeight = FontWeight.Bold
             )
-            CustomTextField("ID", "아이디를")
-            CustomTextField("PW", "비밀번호를")
+            CustomTextField("ID", "아이디를", loginId, {loginId = it})
+            CustomTextField("PW", "비밀번호를", loginPw, {loginPw = it})
         }
         Column (
             modifier = modifier.fillMaxSize(),
@@ -91,10 +118,11 @@ fun LoginScreen(title: String, modifier: Modifier = Modifier) {
     }
 }
 
+/*
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
     DiveTheme {
         LoginScreen("Welcome To SOPT", Modifier.padding(horizontal = 16.dp))
     }
-}
+}*/

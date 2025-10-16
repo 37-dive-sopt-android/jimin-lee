@@ -1,9 +1,12 @@
 package com.sopt.dive
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +19,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,6 +36,12 @@ import com.sopt.dive.ui.theme.DiveTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val userId = intent.getStringExtra("userId")?:""
+        val userPw = intent.getStringExtra("userPw")?:""
+        val userNickname = intent.getStringExtra("userNickname")?:""
+        val userMbti = intent.getStringExtra("userMbti")?:""
+
         enableEdgeToEdge()
         setContent {
             DiveTheme {
@@ -36,7 +49,11 @@ class MainActivity : ComponentActivity() {
                     MainScreen(
                         modifier = Modifier
                             .padding(innerPadding)
-                            .padding(20.dp)
+                            .padding(20.dp),
+                        userId = userId,
+                        userPw = userPw,
+                        userNickname = userNickname,
+                        userMbti = userMbti
                     )
                 }
             }
@@ -45,7 +62,14 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen(modifier: Modifier = Modifier) {
+fun MainScreen(
+    modifier: Modifier = Modifier,
+    userId: String,
+    userPw: String,
+    userNickname: String,
+    userMbti: String
+) {
+
     Column (modifier){
         Row (
             modifier = Modifier.padding(vertical = 10.dp),
@@ -72,17 +96,18 @@ fun MainScreen(modifier: Modifier = Modifier) {
 
         Spacer(Modifier.height(40.dp))
 
-        Info("ID", "안녕하세요")
-        Info("PW", "1234")
-        Info("NICKNAME", "지민")
-        Info("MBTI", "AAAA")
+        Info("ID", userId)
+        Info("PW", userPw)
+        Info("NICKNAME", userNickname)
+        Info("MBTI", userMbti)
     }
 }
 
+/*
 @Preview(showBackground = true)
 @Composable
 fun MainScreenPreview() {
     DiveTheme {
         MainScreen(Modifier.padding(horizontal = 20.dp))
     }
-}
+}*/
