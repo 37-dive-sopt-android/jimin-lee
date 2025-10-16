@@ -1,5 +1,6 @@
 package com.sopt.dive
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -58,15 +59,6 @@ fun SignUpScreen(title: String, modifier: Modifier = Modifier) {
 
     val context = LocalContext.current
 
-    val intent = Intent(context, LoginActivity::class.java).apply {
-        putExtra("userId",userId)
-        putExtra("userPw",userPw)
-        putExtra("userNickname",userNickname)
-        putExtra("userMbti",userMbti)
-
-        flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-    }
-
     Column {
         Column (
             modifier = modifier,
@@ -91,7 +83,15 @@ fun SignUpScreen(title: String, modifier: Modifier = Modifier) {
                 MaterialTheme.colorScheme.primary,
                 Color.White,
                 {
-                    context.startActivity(intent)
+                    val intent = Intent().apply {
+                        putExtra("userId",userId)
+                        putExtra("userPw",userPw)
+                        putExtra("userNickname",userNickname)
+                        putExtra("userMbti",userMbti)
+                    }
+                    val activity = (context as Activity)
+                    activity.setResult(Activity.RESULT_OK, intent)
+                    activity.finish()
                 }
             )
         }

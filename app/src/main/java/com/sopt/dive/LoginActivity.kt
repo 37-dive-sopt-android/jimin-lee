@@ -1,15 +1,17 @@
 package com.sopt.dive
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,12 +36,6 @@ class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
-        val userId = intent.getStringExtra("userId")?:""
-        val userPw = intent.getStringExtra("userPw")?:""
-        val userNickname = intent.getStringExtra("userNickname")?:""
-        val userMbti = intent.getStringExtra("userMbti")?:""
-
         setContent {
             DiveTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -47,11 +43,7 @@ class LoginActivity : ComponentActivity() {
                         title = "Welcome To SOPT",
                         modifier = Modifier
                             .padding(innerPadding)
-                            .padding(horizontal = 16.dp),
-                        userId = userId,
-                        userPw = userPw,
-                        userNickname = userNickname,
-                        userMbti = userMbti
+                            .padding(horizontal = 16.dp)
                     )
                 }
             }
@@ -62,25 +54,24 @@ class LoginActivity : ComponentActivity() {
 @Composable
 fun LoginScreen(
     title: String,
-    modifier: Modifier = Modifier,
-    userId: String,
-    userPw: String,
-    userNickname: String,
-    userMbti: String
+    modifier: Modifier = Modifier
 ) {
+
+    var userId by rememberSaveable { mutableStateOf("") }
+    var userPw by rememberSaveable { mutableStateOf("") }
+    var userNickname by rememberSaveable { mutableStateOf("") }
+    var userMbti by rememberSaveable { mutableStateOf("") }
 
     val context = LocalContext.current
 
-    val intent1 = Intent(context, MainActivity::class.java).apply {
-        putExtra("userId",userId)
-        putExtra("userPw",userPw)
-        putExtra("userNickname",userNickname)
-        putExtra("userMbti",userMbti)
-
-        flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-    }
-    val intent2 = Intent(context, SignUpActivity::class.java).apply {
-        flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+    val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data = result.data
+            userId = data?.getStringExtra("userId")?:""
+            userPw = data?.getStringExtra("userPw")?:""
+            userNickname = data?.getStringExtra("userNickname")?:""
+            userMbti = data?.getStringExtra("userMbti")?:""
+        }
     }
 
     var loginId by rememberSaveable { mutableStateOf("") }
@@ -105,13 +96,20 @@ fun LoginScreen(
             verticalArrangement = Arrangement.Bottom
         ){
             LoginBtn({
-                context.startActivity(intent1)
+                val intent = Intent(context, MainActivity::class.java).apply {
+                    putExtra("userId",userId)
+                    putExtra("userPw",userPw)
+                    putExtra("userNickname",userNickname)
+                    putExtra("userMbti",userMbti)
+                }
+                context.startActivity(intent)
             })
             SignupBtn(
                 Color.Transparent,
                 Color.Gray,
                 {
-                    context.startActivity(intent2)
+                    val intent = Intent(context, SignUpActivity::class.java)
+                    launcher.launch(intent)
                 }
             )
         }
