@@ -9,9 +9,10 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -44,7 +45,7 @@ class LoginActivity : ComponentActivity() {
                         title = "Welcome To SOPT",
                         modifier = Modifier
                             .padding(innerPadding)
-                            .padding(horizontal = 16.dp)
+                            .padding(all = 16.dp)
                     )
                 }
             }
@@ -78,17 +79,20 @@ fun LoginScreen(
     var loginId by rememberSaveable { mutableStateOf("") }
     var loginPw by rememberSaveable { mutableStateOf("") }
 
-    Column {
+    Column (
+        modifier = modifier
+    ){
         Column (
-            modifier = modifier,
+            modifier = Modifier.padding(top = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = title,
-                modifier = modifier.padding(bottom = 5.dp),
+                modifier = Modifier,
                 fontSize = 35.sp,
                 fontWeight = FontWeight.Bold
             )
+            Spacer(Modifier.height(40.dp))
             CustomTextField(
                 "ID",
                 "아이디를",
@@ -104,11 +108,11 @@ fun LoginScreen(
                 ""
             )
         }
-        Column (
-            modifier = modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Bottom
-        ){
-            LoginBtn({
+
+        Spacer(Modifier.weight(1f))
+
+        LoginBtn({
+            if (loginId.isNotEmpty() && loginPw.isNotEmpty()) {
                 if (loginId == userId && loginPw == userPw) {
                     val intent = Intent(context, MainActivity::class.java).apply {
                         putExtra("userId", userId)
@@ -117,22 +121,22 @@ fun LoginScreen(
                         putExtra("userMbti", userMbti)
                     }
                     context.startActivity(intent)
-
                     Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
-                }
-                else {
+                } else {
                     Toast.makeText(context, "아이디 또는 비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
                 }
-            })
-            SignupBtn(
-                Color.Transparent,
-                Color.Gray,
-                {
-                    val intent = Intent(context, SignUpActivity::class.java)
-                    launcher.launch(intent)
-                }
-            )
-        }
+            } else {
+                Toast.makeText(context, "아이디와 비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show()
+            }
+        })
+        SignupBtn(
+            Color.Transparent,
+            Color.Gray,
+            {
+                val intent = Intent(context, SignUpActivity::class.java)
+                launcher.launch(intent)
+            }
+        )
     }
 }
 

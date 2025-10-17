@@ -2,7 +2,6 @@ package com.sopt.dive.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -23,7 +22,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
@@ -38,11 +36,11 @@ fun CustomTextField (
     var showPW by rememberSaveable { mutableStateOf(false) }
 
     Column (
-        modifier = modifier.padding(vertical = 10.dp)
+        modifier = modifier
     ){
         Text(
             text = fieldName,
-            fontSize = 30.sp,
+            fontSize = 25.sp,
             fontWeight = FontWeight.Medium
         )
         TextField(
@@ -98,7 +96,7 @@ fun CustomTextField (
         )
         Text(
             text = error,
-            fontSize = 15.sp,
+            fontSize = 13.sp,
             color = Color.Red
         )
     }

@@ -1,17 +1,16 @@
 package com.sopt.dive
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,7 +42,7 @@ class SignUpActivity : ComponentActivity() {
                         title = "SIGN UP",
                         modifier = Modifier
                             .padding(innerPadding)
-                            .padding(horizontal = 16.dp),
+                            .padding(all = 16.dp),
                         onSignUpSuccess = { userId, userPw, userNickname, userMbti ->
                             val intent = Intent().apply {
                                 putExtra("userId", userId)
@@ -80,10 +79,10 @@ fun SignUpScreen(
 
     val context = LocalContext.current
 
-    var idError = if (userId.isNotEmpty() && userId.length !in 6..10) "아이디는 6~10글자로 입력해주세요" else ""
-    var pwError = if (userPw.isNotEmpty() && userPw.length !in 8..12) "비밀번호는 8~12글자로 입력해주세요" else ""
-    var nickError = if (userNickname.isNotEmpty() && userNickname.isBlank()) "닉네임은 1글자 이상 입력해주세요 (공백만 입력 불가)" else ""
-    var mbtiError = if (userMbti.isNotEmpty() && !userMbti.matches(Regex("^[a-zA-Z]{4}$"))) "MBTI는 4글자 영어로 입력해주세요" else ""
+    val idError = if (userId.isNotEmpty() && userId.length !in 6..10) "아이디는 6~10글자로 입력해주세요" else ""
+    val pwError = if (userPw.isNotEmpty() && userPw.length !in 8..12) "비밀번호는 8~12글자로 입력해주세요" else ""
+    val nickError = if (userNickname.isNotEmpty() && userNickname.isBlank()) "닉네임은 1글자 이상 입력해주세요 (공백만 입력 불가)" else ""
+    val mbtiError = if (userMbti.isNotEmpty() && !userMbti.matches(Regex("^[a-zA-Z]{4}$"))) "MBTI는 4글자 영어로 입력해주세요" else ""
 
 
     val errorCheck = userId.length in 6..10 &&
@@ -91,17 +90,20 @@ fun SignUpScreen(
             userNickname.isNotBlank() &&
             userMbti.matches(Regex("^[a-zA-Z]{4}$"))
 
-    Column {
+    Column (
+        modifier = modifier
+    ){
         Column (
-            modifier = modifier,
+            modifier = Modifier.padding(top = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        ){
             Text(
                 text = title,
-                modifier = modifier.padding(bottom = 5.dp),
+                modifier = Modifier,
                 fontSize = 35.sp,
                 fontWeight = FontWeight.Bold
             )
+            Spacer(Modifier.height(40.dp))
             CustomTextField(
                 "ID",
                 "아이디를",
@@ -131,24 +133,22 @@ fun SignUpScreen(
                 mbtiError
             )
         }
-        Column (
-            modifier = modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Bottom
-        ) {
-            SignupBtn(
-                Color.Black,
-                Color.White,
-                {
-                    if (errorCheck) {
-                        onSignUpSuccess(userId, userPw, userNickname, userMbti)
-                        Toast.makeText(context, "회원가입에 성공했습니다", Toast.LENGTH_SHORT).show()
 
-                    } else {
-                        Toast.makeText(context, "올바른 회원 정보를 입력해주세요", Toast.LENGTH_SHORT).show()
-                    }
+        Spacer(Modifier.weight(1f))
+
+        SignupBtn(
+            Color.Black,
+            Color.White,
+            {
+                if (errorCheck) {
+                    onSignUpSuccess(userId, userPw, userNickname, userMbti)
+                    Toast.makeText(context, "회원가입에 성공했습니다", Toast.LENGTH_SHORT).show()
+
+                } else {
+                    Toast.makeText(context, "올바른 회원 정보를 입력해주세요", Toast.LENGTH_SHORT).show()
                 }
-            )
-        }
+            }
+        )
     }
 }
 
