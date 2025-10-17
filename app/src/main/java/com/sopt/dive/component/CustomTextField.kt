@@ -3,6 +3,11 @@ package com.sopt.dive.component
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -15,10 +20,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
 fun CustomTextField (
@@ -26,11 +32,13 @@ fun CustomTextField (
     placeholder: String,
     text: String,
     onTextChange: (String) -> Unit,
+    error: String,
     modifier: Modifier = Modifier,
 ) {
+    var showPW by rememberSaveable { mutableStateOf(false) }
 
     Column (
-        modifier = modifier.padding(vertical = 16.dp)
+        modifier = modifier.padding(vertical = 10.dp)
     ){
         Text(
             text = fieldName,
@@ -50,8 +58,44 @@ fun CustomTextField (
                     color = Color.Gray
                 )
             },
-            modifier = modifier
+            visualTransformation =
+                if(fieldName == "PW") {
+                    if (!showPW) {
+                        PasswordVisualTransformation()
+                    } else {
+                        VisualTransformation.None
+                    }
+                }else {
+                    VisualTransformation.None
+                },
+            trailingIcon = {
+                if (fieldName == "PW") {
+                    if (showPW) {
+                        IconButton(onClick = { showPW = !showPW }) {
+                            Icon(
+                                imageVector = Icons.Filled.Visibility,
+                                contentDescription = "hidePW"
+                            )
+                        }
+                    } else {
+                        IconButton(
+                            onClick = { showPW = !showPW }) {
+                            Icon(
+                                imageVector = Icons.Filled.VisibilityOff,
+                                contentDescription = "showPW"
+                            )
+                        }
+                    }
+                } else {
+                }
+            },
+            modifier = Modifier
                 .fillMaxWidth()
+        )
+        Text(
+            text = error,
+            fontSize = 15.sp,
+            color = Color.Red
         )
     }
 }

@@ -3,6 +3,7 @@ package com.sopt.dive
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
@@ -88,21 +89,40 @@ fun LoginScreen(
                 fontSize = 35.sp,
                 fontWeight = FontWeight.Bold
             )
-            CustomTextField("ID", "아이디를", loginId, {loginId = it})
-            CustomTextField("PW", "비밀번호를", loginPw, {loginPw = it})
+            CustomTextField(
+                "ID",
+                "아이디를",
+                loginId,
+                {loginId = it},
+                ""
+            )
+            CustomTextField(
+                "PW",
+                "비밀번호를",
+                loginPw,
+                {loginPw = it},
+                ""
+            )
         }
         Column (
             modifier = modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Bottom
         ){
             LoginBtn({
-                val intent = Intent(context, MainActivity::class.java).apply {
-                    putExtra("userId",userId)
-                    putExtra("userPw",userPw)
-                    putExtra("userNickname",userNickname)
-                    putExtra("userMbti",userMbti)
+                if (loginId == userId && loginPw == userPw) {
+                    val intent = Intent(context, MainActivity::class.java).apply {
+                        putExtra("userId", userId)
+                        putExtra("userPw", userPw)
+                        putExtra("userNickname", userNickname)
+                        putExtra("userMbti", userMbti)
+                    }
+                    context.startActivity(intent)
+
+                    Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
                 }
-                context.startActivity(intent)
+                else {
+                    Toast.makeText(context, "아이디 또는 비밀번호가 잘못 입력되었습니다", Toast.LENGTH_SHORT).show()
+                }
             })
             SignupBtn(
                 Color.Transparent,
@@ -116,11 +136,10 @@ fun LoginScreen(
     }
 }
 
-/*
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
     DiveTheme {
         LoginScreen("Welcome To SOPT", Modifier.padding(horizontal = 16.dp))
     }
-}*/
+}

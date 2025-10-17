@@ -3,6 +3,7 @@ package com.sopt.dive
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -36,7 +37,8 @@ class SignUpActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             DiveTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Scaffold(
+                    modifier = Modifier.fillMaxSize()) { innerPadding ->
                     SignUpScreen(
                         title = "SIGN UP",
                         modifier = Modifier
@@ -50,7 +52,10 @@ class SignUpActivity : ComponentActivity() {
 }
 
 @Composable
-fun SignUpScreen(title: String, modifier: Modifier = Modifier) {
+fun SignUpScreen(
+    title: String,
+    modifier: Modifier = Modifier
+) {
 
     var userId by rememberSaveable { mutableStateOf("") }
     var userPw by rememberSaveable { mutableStateOf("") }
@@ -58,6 +63,14 @@ fun SignUpScreen(title: String, modifier: Modifier = Modifier) {
     var userMbti by rememberSaveable { mutableStateOf("") }
 
     val context = LocalContext.current
+
+    var idError = if (userId.isNotEmpty() && userId.length !in 6..10) "아이디는 6~10글자로 입력해주세요" else ""
+    var pwError = if (userPw.isNotEmpty() && userPw.length !in 8..12) "비밀번호는 8~12글자로 입력해주세요" else ""
+    var nickError = if (userNickname.isNotEmpty() && userNickname.isBlank()) "닉네임은 1글자 이상 입력해주세요 (공백만 입력 불가)" else ""
+    var mbtiError = if (userMbti.isNotEmpty() && !userMbti.matches(Regex("^[a-zA-Z]{4}$"))) "MBTI는 4글자 영어로 입력해주세요" else ""
+
+    val errorCheck1 = idError == "" && pwError == "" && nickError == "" && mbtiError == ""
+    val errorCheck2 = userId.isNotEmpty() && userPw.isNotEmpty() && userNickname.isNotBlank() && userMbti.isNotEmpty()
 
     Column {
         Column (
@@ -70,28 +83,59 @@ fun SignUpScreen(title: String, modifier: Modifier = Modifier) {
                 fontSize = 35.sp,
                 fontWeight = FontWeight.Bold
             )
-            CustomTextField("ID", "아이디를", userId, { userId = it })
-            CustomTextField("PW", "비밀번호를", userPw, { userPw = it })
-            CustomTextField("NICKNAME", "닉네임을", userNickname, { userNickname = it })
-            CustomTextField("MBTI", "MBTI를", userMbti, { userMbti = it })
+            CustomTextField(
+                "ID",
+                "아이디를",
+                userId,
+                { userId = it },
+                idError
+            )
+            CustomTextField(
+                "PW",
+                "비밀번호를",
+                userPw,
+                { userPw = it },
+                pwError
+            )
+            CustomTextField(
+                "NICKNAME",
+                "닉네임을",
+                userNickname,
+                { userNickname = it },
+                nickError
+            )
+            CustomTextField(
+                "MBTI",
+                "MBTI를",
+                userMbti,
+                { userMbti = it },
+                mbtiError
+            )
         }
         Column (
             modifier = modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Bottom
-        ){
+        ) {
             SignupBtn(
                 MaterialTheme.colorScheme.primary,
                 Color.White,
                 {
-                    val intent = Intent().apply {
-                        putExtra("userId",userId)
-                        putExtra("userPw",userPw)
-                        putExtra("userNickname",userNickname)
-                        putExtra("userMbti",userMbti)
+                    if (errorCheck1 && errorCheck2) {
+                        val intent = Intent().apply {
+                            putExtra("userId", userId)
+                            putExtra("userPw", userPw)
+                            putExtra("userNickname", userNickname)
+                            putExtra("userMbti", userMbti)
+                        }
+                        val activity = (context as Activity)
+                        activity.setResult(Activity.RESULT_OK, intent)
+                        activity.finish()
+
+                        Toast.makeText(context, "회원가입에 성공했습니다", Toast.LENGTH_SHORT).show()
+
+                    } else {
+                        Toast.makeText(context, "올바른 회원 정보를 입력해주세요", Toast.LENGTH_SHORT).show()
                     }
-                    val activity = (context as Activity)
-                    activity.setResult(Activity.RESULT_OK, intent)
-                    activity.finish()
                 }
             )
         }

@@ -75,13 +75,13 @@ fun MainScreen(
                     .clip(CircleShape)
             )
             Text(
-                text = "이지민",
+                text = userNickname,
                 modifier = modifier,
                 fontSize = 20.sp
             )
         }
         Text(
-            text = "안녕하세요 이지민입니다",
+            text = "안녕하세요 ${userNickname}입니다",
             modifier = Modifier.padding(vertical = 10.dp),
             fontSize = 20.sp
         )
