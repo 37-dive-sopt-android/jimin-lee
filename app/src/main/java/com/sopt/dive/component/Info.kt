@@ -27,8 +27,8 @@ fun Info (
         Text(
             text = infoName,
             modifier = Modifier.padding(bottom = 5.dp),
-            fontSize = 40.sp,
-            fontWeight = FontWeight.Medium
+            fontSize = 30.sp,
+            fontWeight = FontWeight.Bold
         )
         Text(
             text = infoContent,

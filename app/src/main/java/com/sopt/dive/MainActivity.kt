@@ -86,7 +86,7 @@ fun MainScreen(
             fontSize = 20.sp
         )
 
-        Spacer(Modifier.height(40.dp))
+        Spacer(Modifier.height(20.dp))
 
         Info("ID", userId)
         Info("PW", userPw)
