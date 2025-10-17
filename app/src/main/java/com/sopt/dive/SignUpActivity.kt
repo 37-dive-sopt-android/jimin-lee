@@ -43,7 +43,17 @@ class SignUpActivity : ComponentActivity() {
                         title = "SIGN UP",
                         modifier = Modifier
                             .padding(innerPadding)
-                            .padding(horizontal = 16.dp)
+                            .padding(horizontal = 16.dp),
+                        onSignUpSuccess = { userId, userPw, userNickname, userMbti ->
+                            val intent = Intent().apply {
+                                putExtra("userId", userId)
+                                putExtra("userPw", userPw)
+                                putExtra("userNickname", userNickname)
+                                putExtra("userMbti", userMbti)
+                            }
+                            setResult(RESULT_OK, intent)
+                            finish()
+                        }
                     )
                 }
             }
@@ -51,10 +61,16 @@ class SignUpActivity : ComponentActivity() {
     }
 }
 
+
 @Composable
 fun SignUpScreen(
     title: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onSignUpSuccess: (
+        id: String,
+        pw: String,
+        nickname: String,
+        mbti: String ) -> Unit
 ) {
 
     var userId by rememberSaveable { mutableStateOf("") }
@@ -69,8 +85,11 @@ fun SignUpScreen(
     var nickError = if (userNickname.isNotEmpty() && userNickname.isBlank()) "닉네임은 1글자 이상 입력해주세요 (공백만 입력 불가)" else ""
     var mbtiError = if (userMbti.isNotEmpty() && !userMbti.matches(Regex("^[a-zA-Z]{4}$"))) "MBTI는 4글자 영어로 입력해주세요" else ""
 
-    val errorCheck1 = idError == "" && pwError == "" && nickError == "" && mbtiError == ""
-    val errorCheck2 = userId.isNotEmpty() && userPw.isNotEmpty() && userNickname.isNotBlank() && userMbti.isNotEmpty()
+
+    val errorCheck = userId.length in 6..10 &&
+            userPw.length in 8..12 &&
+            userNickname.isNotBlank() &&
+            userMbti.matches(Regex("^[a-zA-Z]{4}$"))
 
     Column {
         Column (
@@ -117,20 +136,11 @@ fun SignUpScreen(
             verticalArrangement = Arrangement.Bottom
         ) {
             SignupBtn(
-                MaterialTheme.colorScheme.primary,
+                Color.Black,
                 Color.White,
                 {
-                    if (errorCheck1 && errorCheck2) {
-                        val intent = Intent().apply {
-                            putExtra("userId", userId)
-                            putExtra("userPw", userPw)
-                            putExtra("userNickname", userNickname)
-                            putExtra("userMbti", userMbti)
-                        }
-                        val activity = (context as Activity)
-                        activity.setResult(Activity.RESULT_OK, intent)
-                        activity.finish()
-
+                    if (errorCheck) {
+                        onSignUpSuccess(userId, userPw, userNickname, userMbti)
                         Toast.makeText(context, "회원가입에 성공했습니다", Toast.LENGTH_SHORT).show()
 
                     } else {
@@ -146,6 +156,6 @@ fun SignUpScreen(
 @Composable
 fun SignUpScreenPreview() {
     DiveTheme {
-        SignUpScreen("SIGN UP", Modifier.padding(horizontal = 16.dp))
+        SignUpScreen("SIGN UP", Modifier.padding(horizontal = 16.dp), onSignUpSuccess = { _, _, _, _ -> })
     }
 }

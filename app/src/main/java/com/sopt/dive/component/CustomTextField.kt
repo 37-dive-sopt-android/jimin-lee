@@ -49,8 +49,11 @@ fun CustomTextField (
             value = text,
             onValueChange = onTextChange,
             colors = TextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.surface,
-                unfocusedContainerColor = MaterialTheme.colorScheme.surface
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                focusedIndicatorColor = Color.Black,
+                unfocusedIndicatorColor = Color.Black,
+                cursorColor = Color.Black
             ),
             placeholder = {
                 Text(
@@ -89,6 +92,7 @@ fun CustomTextField (
                 } else {
                 }
             },
+            singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
         )

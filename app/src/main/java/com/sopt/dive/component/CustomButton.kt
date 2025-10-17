@@ -44,7 +44,7 @@ fun LoginBtn(
     CustomButton(
         buttonName = "Welcome To SOPT",
         modifier = Modifier,
-        containerColor = MaterialTheme.colorScheme.primary,
+        containerColor = Color.Black,
         contentColor = Color.White,
         onClick = onClick
     )
