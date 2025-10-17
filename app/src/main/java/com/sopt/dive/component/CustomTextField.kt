@@ -7,7 +7,6 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -23,6 +22,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
 fun CustomTextField (
@@ -102,10 +102,10 @@ fun CustomTextField (
     }
 }
 
-/*@Preview(showBackground = true)
+@Preview(showBackground = true)
 @Composable
 fun TextfieldPreview() {
     DiveTheme {
-        CustomTextField("ID","아이디를", "input", {"input" = it})
+        CustomTextField("ID","아이디를", "input", { }, "")
     }
-}*/
+}
