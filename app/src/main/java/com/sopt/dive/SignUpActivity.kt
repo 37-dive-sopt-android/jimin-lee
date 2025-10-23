@@ -106,6 +106,7 @@ private fun SignUpScreen(
             placeholder = stringResource(R.string.placeholder_id),
             text = userId,
             onTextChange = { userId = it },
+            isPassword = false,
             error = idError
         )
         CustomTextField(
@@ -113,6 +114,7 @@ private fun SignUpScreen(
             placeholder = stringResource(R.string.placeholder_pw),
             text = userPw,
             onTextChange = { userPw = it },
+            isPassword = true,
             error = pwError
         )
         CustomTextField(
@@ -120,6 +122,7 @@ private fun SignUpScreen(
             placeholder = stringResource(R.string.placeholder_nickname),
             text = userNickname,
             onTextChange = { userNickname = it },
+            isPassword = false,
             error = nickError
         )
         CustomTextField(
@@ -127,6 +130,7 @@ private fun SignUpScreen(
             placeholder = stringResource(R.string.placeholder_mbti),
             text = userMbti,
             onTextChange = { userMbti = it },
+            isPassword = false,
             error = mbtiError
         )
 

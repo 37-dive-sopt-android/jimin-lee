@@ -32,8 +32,9 @@ fun CustomTextField (
     placeholder: String,
     text: String,
     onTextChange: (String) -> Unit,
+    isPassword: Boolean,
     error: String,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     var showPW by rememberSaveable { mutableStateOf(false) }
 
@@ -62,7 +63,7 @@ fun CustomTextField (
                 )
             },
             visualTransformation =
-                if(fieldName == "PW") {
+                if(isPassword) {
                     if (!showPW) {
                         PasswordVisualTransformation()
                     } else {
@@ -72,7 +73,7 @@ fun CustomTextField (
                     VisualTransformation.None
                 },
             trailingIcon = {
-                if (fieldName == "PW") {
+                if (isPassword) {
                     if (showPW) {
                         IconButton(onClick = { showPW = !showPW }) {
                             Icon(
@@ -89,7 +90,6 @@ fun CustomTextField (
                             )
                         }
                     }
-                } else {
                 }
             },
             singleLine = true,
@@ -108,6 +108,6 @@ fun CustomTextField (
 @Composable
 private fun TextfieldPreview() {
     DiveTheme {
-        CustomTextField("ID","아이디를", "input", { }, "")
+        CustomTextField("ID","아이디를", "input", { }, false,"")
     }
 }
