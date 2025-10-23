@@ -60,6 +60,7 @@ class SignUpActivity : ComponentActivity() {
     }
 }
 
+private val MBTI_PATTERN = Regex("^[a-zA-Z]{4}$")
 
 @Composable
 private fun SignUpScreen(
@@ -78,16 +79,17 @@ private fun SignUpScreen(
 
     val context = LocalContext.current
 
-    val idError = if (userId.isNotEmpty() && userId.length !in 6..10) stringResource(R.string.error_message_id) else ""
-    val pwError = if (userPw.isNotEmpty() && userPw.length !in 8..12) stringResource(R.string.error_message_pw) else ""
-    val nickError = if (userNickname.isNotEmpty() && userNickname.isBlank()) stringResource(R.string.error_message_nickname) else ""
-    val mbtiError = if (userMbti.isNotEmpty() && !userMbti.matches(Regex("^[a-zA-Z]{4}$"))) stringResource(R.string.error_message_mbti) else ""
+    val isIdValid = userId.length in 6..10
+    val isPwValid = userPw.length in 8..12
+    val isNickValid = userNickname.isNotBlank()
+    val isMbtiValid = userMbti.matches(MBTI_PATTERN)
 
+    val idError = if (userId.isNotEmpty() && !isIdValid) stringResource(R.string.error_message_id) else ""
+    val pwError = if (userPw.isNotEmpty() && !isPwValid) stringResource(R.string.error_message_pw) else ""
+    val nickError = if (userNickname.isNotEmpty() && !isNickValid) stringResource(R.string.error_message_nickname) else ""
+    val mbtiError = if (userMbti.isNotEmpty() && !isMbtiValid) stringResource(R.string.error_message_mbti) else ""
 
-    val errorCheck = userId.length in 6..10 &&
-            userPw.length in 8..12 &&
-            userNickname.isNotBlank() &&
-            userMbti.matches(Regex("^[a-zA-Z]{4}$"))
+    val isSignUpValid = isIdValid && isPwValid && isNickValid && isMbtiValid
 
 
     Column (
@@ -141,7 +143,7 @@ private fun SignUpScreen(
             containerColor = Color.Black,
             contentColor = Color.White,
             onClick = {
-                if (errorCheck) {
+                if (isSignUpValid) {
                     onSignUpSuccess(userId, userPw, userNickname, userMbti)
                     Toast.makeText(
                         context,
