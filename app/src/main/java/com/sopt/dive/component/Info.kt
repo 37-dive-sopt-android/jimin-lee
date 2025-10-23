@@ -43,7 +43,7 @@ fun Info (
 
 @Preview(showBackground = true)
 @Composable
-fun InfoPreview() {
+private fun InfoPreview() {
     DiveTheme {
         Info("ID", "vavava")
     }

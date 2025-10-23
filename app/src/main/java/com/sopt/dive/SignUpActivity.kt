@@ -62,7 +62,7 @@ class SignUpActivity : ComponentActivity() {
 
 
 @Composable
-fun SignUpScreen(
+private fun SignUpScreen(
     modifier: Modifier = Modifier,
     onSignUpSuccess: (
         id: String,
@@ -89,62 +89,67 @@ fun SignUpScreen(
             userNickname.isNotBlank() &&
             userMbti.matches(Regex("^[a-zA-Z]{4}$"))
 
-    Column (
-        modifier = modifier
-    ){
-        Column (
-            modifier = Modifier.padding(top = 20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ){
-            Text(
-                text = stringResource(R.string.title_signup),
-                modifier = Modifier,
-                fontSize = 35.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(Modifier.height(40.dp))
-            CustomTextField(
-                stringResource(R.string.fieldname_id),
-                stringResource(R.string.placeholder_id),
-                userId,
-                { userId = it },
-                idError
-            )
-            CustomTextField(
-                stringResource(R.string.fieldname_pw),
-                stringResource(R.string.placeholder_pw),
-                userPw,
-                { userPw = it },
-                pwError
-            )
-            CustomTextField(
-                stringResource(R.string.fieldname_nickname),
-                stringResource(R.string.placeholder_nickname),
-                userNickname,
-                { userNickname = it },
-                nickError
-            )
-            CustomTextField(
-                stringResource(R.string.fieldname_mbti),
-                stringResource(R.string.placeholder_mbti),
-                userMbti,
-                { userMbti = it },
-                mbtiError
-            )
-        }
 
-        Spacer(Modifier.weight(1f))
+    Column (
+        modifier = Modifier.padding(top = 20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = stringResource(R.string.title_signup),
+            modifier = Modifier,
+            fontSize = 35.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(Modifier.height(40.dp))
+        CustomTextField(
+            fieldName = stringResource(R.string.fieldname_id),
+            placeholder = stringResource(R.string.placeholder_id),
+            text = userId,
+            onTextChange = { userId = it },
+            error = idError
+        )
+        CustomTextField(
+            fieldName = stringResource(R.string.fieldname_pw),
+            placeholder = stringResource(R.string.placeholder_pw),
+            text = userPw,
+            onTextChange = { userPw = it },
+            error = pwError
+        )
+        CustomTextField(
+            fieldName = stringResource(R.string.fieldname_nickname),
+            placeholder = stringResource(R.string.placeholder_nickname),
+            text = userNickname,
+            onTextChange = { userNickname = it },
+            error = nickError
+        )
+        CustomTextField(
+            fieldName = stringResource(R.string.fieldname_mbti),
+            placeholder = stringResource(R.string.placeholder_mbti),
+            text = userMbti,
+            onTextChange = { userMbti = it },
+            error = mbtiError
+        )
+
+        Spacer(modifier.weight(1f))
 
         SignupBtn(
-            Color.Black,
-            Color.White,
-            {
+            containerColor = Color.Black,
+            contentColor = Color.White,
+            onClick = {
                 if (errorCheck) {
                     onSignUpSuccess(userId, userPw, userNickname, userMbti)
-                    Toast.makeText(context, context.getString(R.string.success_signup), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.success_signup),
+                        Toast.LENGTH_SHORT
+                    ).show()
 
                 } else {
-                    Toast.makeText(context, context.getString(R.string.fail_signup), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.fail_signup),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         )
@@ -153,7 +158,7 @@ fun SignUpScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun SignUpScreenPreview() {
+private fun SignUpScreenPreview() {
     DiveTheme {
         SignUpScreen(Modifier.padding(horizontal = 16.dp), onSignUpSuccess = { _, _, _, _ -> })
     }

@@ -106,7 +106,7 @@ fun CustomTextField (
 
 @Preview(showBackground = true)
 @Composable
-fun TextfieldPreview() {
+private fun TextfieldPreview() {
     DiveTheme {
         CustomTextField("ID","아이디를", "input", { }, "")
     }

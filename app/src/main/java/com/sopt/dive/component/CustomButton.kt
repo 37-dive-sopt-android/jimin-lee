@@ -67,7 +67,7 @@ fun SignupBtn(
 
 @Preview(showBackground = true)
 @Composable
-fun LoginButtonPreview() {
+private fun LoginButtonPreview() {
     DiveTheme {
         LoginBtn({})
     }
@@ -75,7 +75,7 @@ fun LoginButtonPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun SignupButtonPreview() {
+private fun SignupButtonPreview() {
     DiveTheme {
         SignupBtn(Color.Transparent, Color.Gray, {})
     }

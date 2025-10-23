@@ -54,7 +54,7 @@ class LoginActivity : ComponentActivity() {
 }
 
 @Composable
-fun LoginScreen(
+private fun LoginScreen(
     modifier: Modifier = Modifier
 ) {
 
@@ -93,18 +93,18 @@ fun LoginScreen(
             )
             Spacer(Modifier.height(40.dp))
             CustomTextField(
-                stringResource(R.string.fieldname_id),
-                stringResource(R.string.placeholder_id),
-                loginId,
-                {loginId = it},
-                ""
+                fieldName = stringResource(R.string.fieldname_id),
+                placeholder = stringResource(R.string.placeholder_id),
+                text = loginId,
+                onTextChange = {loginId = it},
+                error = ""
             )
             CustomTextField(
-                stringResource(R.string.fieldname_pw),
-                stringResource(R.string.placeholder_pw),
-                loginPw,
-                {loginPw = it},
-                ""
+                fieldName = stringResource(R.string.fieldname_pw),
+                placeholder = stringResource(R.string.placeholder_pw),
+                text = loginPw,
+                onTextChange = {loginPw = it},
+                error = ""
             )
         }
 
@@ -129,9 +129,9 @@ fun LoginScreen(
             }
         })
         SignupBtn(
-            Color.Transparent,
-            Color.Gray,
-            {
+            containerColor = Color.Transparent,
+            contentColor = Color.Gray,
+            onClick = {
                 val intent = Intent(context, SignUpActivity::class.java)
                 launcher.launch(intent)
             }
@@ -141,7 +141,7 @@ fun LoginScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun LoginScreenPreview() {
+private fun LoginScreenPreview() {
     DiveTheme {
         LoginScreen(Modifier.padding(horizontal = 16.dp))
     }

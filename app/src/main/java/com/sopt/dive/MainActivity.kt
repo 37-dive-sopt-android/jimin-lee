@@ -41,13 +41,13 @@ class MainActivity : ComponentActivity() {
             DiveTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     MainScreen(
-                        modifier = Modifier
-                            .padding(innerPadding)
-                            .padding(20.dp),
                         userId = userId,
                         userPw = userPw,
                         userNickname = userNickname,
-                        userMbti = userMbti
+                        userMbti = userMbti,
+                        modifier = Modifier
+                            .padding(innerPadding)
+                            .padding(20.dp)
                     )
                 }
             }
@@ -56,12 +56,12 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen(
-    modifier: Modifier = Modifier,
+private fun MainScreen(
     userId: String,
     userPw: String,
     userNickname: String,
-    userMbti: String
+    userMbti: String,
+    modifier: Modifier = Modifier
 ) {
 
     Column (modifier){
@@ -90,17 +90,29 @@ fun MainScreen(
 
         Spacer(Modifier.height(20.dp))
 
-        Info(stringResource(R.string.fieldname_id), userId)
-        Info(stringResource(R.string.fieldname_pw), userPw)
-        Info(stringResource(R.string.fieldname_nickname), userNickname)
-        Info(stringResource(R.string.fieldname_mbti), userMbti)
+        Info(
+            infoName = stringResource(R.string.fieldname_id),
+            infoContent = userId
+        )
+        Info(
+            infoName = stringResource(R.string.fieldname_pw),
+            infoContent = userPw
+        )
+        Info(
+            infoName = stringResource(R.string.fieldname_nickname),
+            infoContent = userNickname
+        )
+        Info(
+            infoName = stringResource(R.string.fieldname_mbti),
+            infoContent = userMbti
+        )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun MainScreenPreview() {
+private fun MainScreenPreview() {
     DiveTheme {
-        MainScreen(Modifier.padding(20.dp), "","","","")
+        MainScreen("","","","", Modifier.padding(20.dp))
     }
 }
