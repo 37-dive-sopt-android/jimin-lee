@@ -1,4 +1,4 @@
-package com.sopt.dive
+package com.sopt.dive.screen
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -24,8 +24,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sopt.dive.R
 import com.sopt.dive.component.Info
 import com.sopt.dive.ui.theme.DiveTheme
+import com.sopt.dive.utils.IntentKeys
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
