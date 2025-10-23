@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,7 +43,6 @@ class LoginActivity : ComponentActivity() {
             DiveTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     LoginScreen(
-                        title = "Welcome To SOPT",
                         modifier = Modifier
                             .padding(innerPadding)
                             .padding(all = 16.dp)
@@ -55,7 +55,6 @@ class LoginActivity : ComponentActivity() {
 
 @Composable
 fun LoginScreen(
-    title: String,
     modifier: Modifier = Modifier
 ) {
 
@@ -69,10 +68,10 @@ fun LoginScreen(
     val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val data = result.data
-            userId = data?.getStringExtra("userId")?:""
-            userPw = data?.getStringExtra("userPw")?:""
-            userNickname = data?.getStringExtra("userNickname")?:""
-            userMbti = data?.getStringExtra("userMbti")?:""
+            userId = data?.getStringExtra(IntentKeys.KEY_USER_ID)?:""
+            userPw = data?.getStringExtra(IntentKeys.KEY_USER_PW)?:""
+            userNickname = data?.getStringExtra(IntentKeys.KEY_USER_NICKNAME)?:""
+            userMbti = data?.getStringExtra(IntentKeys.KEY_USER_MBTI)?:""
         }
     }
 
@@ -87,22 +86,22 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = title,
+                text = stringResource(R.string.title_login),
                 modifier = Modifier,
                 fontSize = 35.sp,
                 fontWeight = FontWeight.Bold
             )
             Spacer(Modifier.height(40.dp))
             CustomTextField(
-                "ID",
-                "아이디를",
+                stringResource(R.string.fieldname_id),
+                stringResource(R.string.placeholder_id),
                 loginId,
                 {loginId = it},
                 ""
             )
             CustomTextField(
-                "PW",
-                "비밀번호를",
+                stringResource(R.string.fieldname_pw),
+                stringResource(R.string.placeholder_pw),
                 loginPw,
                 {loginPw = it},
                 ""
@@ -115,18 +114,18 @@ fun LoginScreen(
             if (loginId.isNotEmpty() && loginPw.isNotEmpty()) {
                 if (loginId == userId && loginPw == userPw) {
                     val intent = Intent(context, MainActivity::class.java).apply {
-                        putExtra("userId", userId)
-                        putExtra("userPw", userPw)
-                        putExtra("userNickname", userNickname)
-                        putExtra("userMbti", userMbti)
+                        putExtra(IntentKeys.KEY_USER_ID, userId)
+                        putExtra(IntentKeys.KEY_USER_PW, userPw)
+                        putExtra(IntentKeys.KEY_USER_NICKNAME, userNickname)
+                        putExtra(IntentKeys.KEY_USER_MBTI, userMbti)
                     }
                     context.startActivity(intent)
-                    Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.success_login), Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(context, "아이디 또는 비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.fail_incorrect_login), Toast.LENGTH_SHORT).show()
                 }
             } else {
-                Toast.makeText(context, "아이디와 비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.fail_blank_login), Toast.LENGTH_SHORT).show()
             }
         })
         SignupBtn(
@@ -144,6 +143,6 @@ fun LoginScreen(
 @Composable
 fun LoginScreenPreview() {
     DiveTheme {
-        LoginScreen("Welcome To SOPT", Modifier.padding(horizontal = 16.dp))
+        LoginScreen(Modifier.padding(horizontal = 16.dp))
     }
 }

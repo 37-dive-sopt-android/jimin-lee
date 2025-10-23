@@ -17,11 +17,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.sopt.dive.R
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
@@ -55,7 +57,7 @@ fun CustomTextField (
             ),
             placeholder = {
                 Text(
-                    text = "${placeholder} 입력해주세요",
+                    text = placeholder,
                     color = Color.Gray
                 )
             },
@@ -75,7 +77,7 @@ fun CustomTextField (
                         IconButton(onClick = { showPW = !showPW }) {
                             Icon(
                                 imageVector = Icons.Filled.Visibility,
-                                contentDescription = "hidePW"
+                                contentDescription = stringResource(R.string.trailingIcon_hidePW)
                             )
                         }
                     } else {
@@ -83,7 +85,7 @@ fun CustomTextField (
                             onClick = { showPW = !showPW }) {
                             Icon(
                                 imageVector = Icons.Filled.VisibilityOff,
-                                contentDescription = "showPW"
+                                contentDescription = stringResource(R.string.trailingIcon_showpw)
                             )
                         }
                     }

@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,16 +40,15 @@ class SignUpActivity : ComponentActivity() {
                 Scaffold(
                     modifier = Modifier.fillMaxSize()) { innerPadding ->
                     SignUpScreen(
-                        title = "SIGN UP",
                         modifier = Modifier
                             .padding(innerPadding)
                             .padding(all = 16.dp),
                         onSignUpSuccess = { userId, userPw, userNickname, userMbti ->
                             val intent = Intent().apply {
-                                putExtra("userId", userId)
-                                putExtra("userPw", userPw)
-                                putExtra("userNickname", userNickname)
-                                putExtra("userMbti", userMbti)
+                                putExtra(IntentKeys.KEY_USER_ID, userId)
+                                putExtra(IntentKeys.KEY_USER_PW, userPw)
+                                putExtra(IntentKeys.KEY_USER_NICKNAME, userNickname)
+                                putExtra(IntentKeys.KEY_USER_MBTI, userMbti)
                             }
                             setResult(RESULT_OK, intent)
                             finish()
@@ -63,7 +63,6 @@ class SignUpActivity : ComponentActivity() {
 
 @Composable
 fun SignUpScreen(
-    title: String,
     modifier: Modifier = Modifier,
     onSignUpSuccess: (
         id: String,
@@ -79,10 +78,10 @@ fun SignUpScreen(
 
     val context = LocalContext.current
 
-    val idError = if (userId.isNotEmpty() && userId.length !in 6..10) "아이디는 6~10글자로 입력해주세요" else ""
-    val pwError = if (userPw.isNotEmpty() && userPw.length !in 8..12) "비밀번호는 8~12글자로 입력해주세요" else ""
-    val nickError = if (userNickname.isNotEmpty() && userNickname.isBlank()) "닉네임은 1글자 이상 입력해주세요 (공백만 입력 불가)" else ""
-    val mbtiError = if (userMbti.isNotEmpty() && !userMbti.matches(Regex("^[a-zA-Z]{4}$"))) "MBTI는 4글자 영어로 입력해주세요" else ""
+    val idError = if (userId.isNotEmpty() && userId.length !in 6..10) stringResource(R.string.error_message_id) else ""
+    val pwError = if (userPw.isNotEmpty() && userPw.length !in 8..12) stringResource(R.string.error_message_pw) else ""
+    val nickError = if (userNickname.isNotEmpty() && userNickname.isBlank()) stringResource(R.string.error_message_nickname) else ""
+    val mbtiError = if (userMbti.isNotEmpty() && !userMbti.matches(Regex("^[a-zA-Z]{4}$"))) stringResource(R.string.error_message_mbti) else ""
 
 
     val errorCheck = userId.length in 6..10 &&
@@ -98,36 +97,36 @@ fun SignUpScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ){
             Text(
-                text = title,
+                text = stringResource(R.string.title_signup),
                 modifier = Modifier,
                 fontSize = 35.sp,
                 fontWeight = FontWeight.Bold
             )
             Spacer(Modifier.height(40.dp))
             CustomTextField(
-                "ID",
-                "아이디를",
+                stringResource(R.string.fieldname_id),
+                stringResource(R.string.placeholder_id),
                 userId,
                 { userId = it },
                 idError
             )
             CustomTextField(
-                "PW",
-                "비밀번호를",
+                stringResource(R.string.fieldname_pw),
+                stringResource(R.string.placeholder_pw),
                 userPw,
                 { userPw = it },
                 pwError
             )
             CustomTextField(
-                "NICKNAME",
-                "닉네임을",
+                stringResource(R.string.fieldname_nickname),
+                stringResource(R.string.placeholder_nickname),
                 userNickname,
                 { userNickname = it },
                 nickError
             )
             CustomTextField(
-                "MBTI",
-                "MBTI를",
+                stringResource(R.string.fieldname_mbti),
+                stringResource(R.string.placeholder_mbti),
                 userMbti,
                 { userMbti = it },
                 mbtiError
@@ -142,10 +141,10 @@ fun SignUpScreen(
             {
                 if (errorCheck) {
                     onSignUpSuccess(userId, userPw, userNickname, userMbti)
-                    Toast.makeText(context, "회원가입에 성공했습니다", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.success_signup), Toast.LENGTH_SHORT).show()
 
                 } else {
-                    Toast.makeText(context, "올바른 회원 정보를 입력해주세요", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.fail_signup), Toast.LENGTH_SHORT).show()
                 }
             }
         )
@@ -156,6 +155,6 @@ fun SignUpScreen(
 @Composable
 fun SignUpScreenPreview() {
     DiveTheme {
-        SignUpScreen("SIGN UP", Modifier.padding(horizontal = 16.dp), onSignUpSuccess = { _, _, _, _ -> })
+        SignUpScreen(Modifier.padding(horizontal = 16.dp), onSignUpSuccess = { _, _, _, _ -> })
     }
 }

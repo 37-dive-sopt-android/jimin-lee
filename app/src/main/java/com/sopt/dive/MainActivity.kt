@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,10 +31,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val userId = intent.getStringExtra("userId")?:""
-        val userPw = intent.getStringExtra("userPw")?:""
-        val userNickname = intent.getStringExtra("userNickname")?:""
-        val userMbti = intent.getStringExtra("userMbti")?:""
+        val userId = intent.getStringExtra(IntentKeys.KEY_USER_ID)?:""
+        val userPw = intent.getStringExtra(IntentKeys.KEY_USER_PW)?:""
+        val userNickname = intent.getStringExtra(IntentKeys.KEY_USER_NICKNAME)?:""
+        val userMbti = intent.getStringExtra(IntentKeys.KEY_USER_MBTI)?:""
 
         enableEdgeToEdge()
         setContent {
@@ -70,7 +71,7 @@ fun MainScreen(
         ){
             Image(
                 painter = painterResource(R.drawable.profile),
-                contentDescription = "profileImg",
+                contentDescription = stringResource(R.string.main_profileimg),
                 modifier = Modifier
                     .size(100.dp)
                     .clip(CircleShape)
@@ -89,10 +90,10 @@ fun MainScreen(
 
         Spacer(Modifier.height(20.dp))
 
-        Info("ID", userId)
-        Info("PW", userPw)
-        Info("NICKNAME", userNickname)
-        Info("MBTI", userMbti)
+        Info(stringResource(R.string.fieldname_id), userId)
+        Info(stringResource(R.string.fieldname_pw), userPw)
+        Info(stringResource(R.string.fieldname_nickname), userNickname)
+        Info(stringResource(R.string.fieldname_mbti), userMbti)
     }
 }
 
