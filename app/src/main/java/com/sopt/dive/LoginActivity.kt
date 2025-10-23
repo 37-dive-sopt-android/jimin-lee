@@ -112,9 +112,13 @@ private fun LoginScreen(
 
         Spacer(Modifier.weight(1f))
 
-        LoginBtn({
-            if (loginId.isNotEmpty() && loginPw.isNotEmpty()) {
-                if (loginId == userId && loginPw == userPw) {
+        LoginBtn(
+            onClick = {
+            when {
+                loginId.isBlank() || loginPw.isBlank() -> {
+                    Toast.makeText(context, context.getString(R.string.fail_blank_login), Toast.LENGTH_SHORT).show()
+                }
+                loginId == userId && loginPw == userPw -> {
                     val intent = Intent(context, MainActivity::class.java).apply {
                         putExtra(IntentKeys.KEY_USER_ID, userId)
                         putExtra(IntentKeys.KEY_USER_PW, userPw)
@@ -123,11 +127,10 @@ private fun LoginScreen(
                     }
                     context.startActivity(intent)
                     Toast.makeText(context, context.getString(R.string.success_login), Toast.LENGTH_SHORT).show()
-                } else {
+                }
+                else -> {
                     Toast.makeText(context, context.getString(R.string.fail_incorrect_login), Toast.LENGTH_SHORT).show()
                 }
-            } else {
-                Toast.makeText(context, context.getString(R.string.fail_blank_login), Toast.LENGTH_SHORT).show()
             }
         })
         SignupBtn(
