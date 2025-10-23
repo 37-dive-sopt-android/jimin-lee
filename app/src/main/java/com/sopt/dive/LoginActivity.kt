@@ -30,9 +30,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sopt.dive.component.CustomButton
 import com.sopt.dive.component.CustomTextField
-import com.sopt.dive.component.LoginBtn
-import com.sopt.dive.component.SignupBtn
 import com.sopt.dive.ui.theme.DiveTheme
 
 class LoginActivity : ComponentActivity() {
@@ -112,7 +111,10 @@ private fun LoginScreen(
 
         Spacer(Modifier.weight(1f))
 
-        LoginBtn(
+        CustomButton(
+            buttonName = stringResource(R.string.button_login),
+            containerColor = Color.Black,
+            contentColor = Color.White,
             onClick = {
             when {
                 loginId.isBlank() || loginPw.isBlank() -> {
@@ -133,7 +135,8 @@ private fun LoginScreen(
                 }
             }
         })
-        SignupBtn(
+        CustomButton (
+            buttonName = stringResource(R.string.button_signup),
             containerColor = Color.Transparent,
             contentColor = Color.Gray,
             onClick = {

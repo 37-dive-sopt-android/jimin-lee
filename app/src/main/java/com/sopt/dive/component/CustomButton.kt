@@ -18,9 +18,9 @@ import com.sopt.dive.ui.theme.DiveTheme
 @Composable
 fun CustomButton (
     buttonName: String,
-    modifier: Modifier = Modifier,
     containerColor: Color,
     contentColor: Color,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     Button(
@@ -36,47 +36,10 @@ fun CustomButton (
     }
 }
 
-
-@Composable
-fun LoginBtn(
-    onClick: () -> Unit
-){
-    CustomButton(
-        buttonName = stringResource(R.string.button_login),
-        modifier = Modifier,
-        containerColor = Color.Black,
-        contentColor = Color.White,
-        onClick = onClick
-    )
-}
-
-@Composable
-fun SignupBtn(
-    containerColor: Color,
-    contentColor: Color,
-    onClick: () -> Unit
-){
-    CustomButton(
-        buttonName = stringResource(R.string.button_signup),
-        modifier = Modifier,
-        containerColor = containerColor,
-        contentColor = contentColor,
-        onClick = onClick
-    )
-}
-
 @Preview(showBackground = true)
 @Composable
-private fun LoginButtonPreview() {
+private fun CustomButtonPreview() {
     DiveTheme {
-        LoginBtn({})
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun SignupButtonPreview() {
-    DiveTheme {
-        SignupBtn(Color.Transparent, Color.Gray, {})
+        CustomButton("",Color.Gray,Color.Black,Modifier,{})
     }
 }

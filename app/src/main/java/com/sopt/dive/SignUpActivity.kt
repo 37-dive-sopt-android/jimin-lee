@@ -27,8 +27,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sopt.dive.component.CustomButton
 import com.sopt.dive.component.CustomTextField
-import com.sopt.dive.component.SignupBtn
 import com.sopt.dive.ui.theme.DiveTheme
 
 class SignUpActivity : ComponentActivity() {
@@ -91,7 +91,7 @@ private fun SignUpScreen(
 
 
     Column (
-        modifier = Modifier.padding(top = 20.dp),
+        modifier = modifier.padding(top = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -136,7 +136,8 @@ private fun SignUpScreen(
 
         Spacer(modifier.weight(1f))
 
-        SignupBtn(
+        CustomButton(
+            buttonName = stringResource(R.string.button_signup),
             containerColor = Color.Black,
             contentColor = Color.White,
             onClick = {
