@@ -1,3 +1,43 @@
 <resources>
     <string name="app_name">dive</string>
+
+    <!--title-->
+    <string name="title_login">Welcome To SOPT</string>
+    <string name="title_signup">SIGN UP</string>
+
+    <!--fieldname-->
+    <string name="fieldname_id">ID</string>
+    <string name="fieldname_pw">PW</string>
+    <string name="fieldname_nickname">NICKNAME</string>
+    <string name="fieldname_mbti">MBTI</string>
+
+    <!--button-->
+    <string name="button_login">Welcome To SOPT</string>
+    <string name="button_signup">회원가입하기</string>
+
+    <!--placeholder-->
+    <string name="placeholder_id">아이디를 입력해주세요</string>
+    <string name="placeholder_pw">비밀번호를 입력해주세요</string>
+    <string name="placeholder_nickname">닉네임을 입력해주세요</string>
+    <string name="placeholder_mbti">MBTI를 입력해주세요</string>
+
+    <!--error_message-->
+    <string name="error_message_id">아이디는 6~10글자로 입력해주세요</string>
+    <string name="error_message_pw">비밀번호는 8~12글자로 입력해주세요</string>
+    <string name="error_message_nickname">닉네임은 1글자 이상 입력해주세요 (공백만 입력 불가)</string>
+    <string name="error_message_mbti">MBTI는 4글자 영어로 입력해주세요</string>
+
+    <!--signup-->
+    <string name="success_signup">회원가입에 성공했습니다</string>
+    <string name="fail_signup">올바른 회원 정보를 입력해주세요</string>
+
+    <!--login-->
+    <string name="success_login">로그인에 성공했습니다</string>
+    <string name="fail_incorrect_login">아이디 또는 비밀번호가 일치하지 않습니다</string>
+    <string name="fail_blank_login">아이디와 비밀번호를 입력해주세요</string>
+
+    <!--contentDescription-->
+    <string name="main_profileimg">profileImg</string>
+    <string name="trailingIcon_hidePW">hidePW</string>
+    <string name="trailingIcon_showpw">showPW</string>
 </resources>
