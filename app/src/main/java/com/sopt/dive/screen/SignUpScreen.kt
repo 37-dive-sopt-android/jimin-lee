@@ -1,4 +1,4 @@
-package com.sopt.dive.screen
+package com.sopt.dive.ui.screen
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
@@ -18,13 +18,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
-import com.sopt.dive.component.CustomButton
-import com.sopt.dive.component.CustomTextField
-import com.sopt.dive.ui.theme.DiveTheme
+import com.sopt.dive.ui.component.CustomButton
+import com.sopt.dive.ui.component.CustomTextField
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -35,13 +33,8 @@ private val MBTI_PATTERN = Regex("^[a-zA-Z]{4}$")
 @Composable
 fun SignUpScreen(
     paddingValues: PaddingValues,
-    navigateToLogin: () -> Unit,
-    modifier: Modifier = Modifier,
-    onSignUpSuccess: (
-        id: String,
-        pw: String,
-        nickname: String,
-        mbti: String ) -> Unit
+    navigateToLogin: (id: String, pw: String, nickname: String, mbti: String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
 
     var userId by rememberSaveable { mutableStateOf("") }
@@ -116,7 +109,7 @@ fun SignUpScreen(
             contentColor = Color.White,
             onClick = {
                 if (isSignUpValid) {
-                    onSignUpSuccess(userId, userPw, userNickname, userMbti)
+                    navigateToLogin(userId, userPw, userNickname, userMbti)
                     Toast.makeText(
                         context,
                         context.getString(R.string.success_signup),

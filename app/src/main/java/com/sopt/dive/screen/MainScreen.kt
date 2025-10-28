@@ -1,4 +1,4 @@
-package com.sopt.dive.screen
+package com.sopt.dive.ui.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -16,21 +16,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
-import com.sopt.dive.component.Info
-import com.sopt.dive.ui.theme.DiveTheme
+import com.sopt.dive.ui.component.Info
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object Main
+data class Main(
+    val id: String,
+    val pw: String,
+    val nickname: String,
+    val mbti: String
+)
 
 @Composable
 fun MainScreen(
     paddingValues: PaddingValues,
-    navigateToLogin: () -> Unit,
     userId: String,
     userPw: String,
     userNickname: String,
