@@ -1,25 +1,32 @@
 package com.sopt.dive.ui.screen
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.sopt.dive.R
-import com.sopt.dive.ui.component.Info
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.sopt.dive.ui.navigation.BottomBarItem
+import com.sopt.dive.ui.navigation.BottomNavGraph
+import com.sopt.dive.ui.theme.DiveTheme
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -39,56 +46,85 @@ fun MainScreen(
     userMbti: String,
     modifier: Modifier = Modifier
 ) {
+    val navController = rememberNavController()
 
-    Column (modifier){
-        Row (
-            modifier = Modifier.padding(vertical = 10.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ){
-            Image(
-                painter = painterResource(R.drawable.profile),
-                contentDescription = stringResource(R.string.main_profileimg),
-                modifier = Modifier
-                    .size(100.dp)
-                    .clip(CircleShape)
-            )
-            Text(
-                text = userNickname,
-                modifier = modifier,
-                fontSize = 20.sp
-            )
+    Scaffold (
+        bottomBar = { BottomBar(navController = navController) }
+    ){
+        Surface {
+            Box(Modifier.padding(it)){
+                BottomNavGraph(
+                    paddingValues = paddingValues,
+                    userId = userId,
+                    userPw = userPw,
+                    userNickname = userNickname,
+                    userMbti = userMbti,
+                    navController = navController
+                )
+            }
         }
-        Text(
-            text = "안녕하세요 ${userNickname}입니다",
-            modifier = Modifier.padding(vertical = 10.dp),
-            fontSize = 20.sp
-        )
-
-        Spacer(Modifier.height(20.dp))
-
-        Info(
-            infoName = stringResource(R.string.fieldname_id),
-            infoContent = userId
-        )
-        Info(
-            infoName = stringResource(R.string.fieldname_pw),
-            infoContent = userPw
-        )
-        Info(
-            infoName = stringResource(R.string.fieldname_nickname),
-            infoContent = userNickname
-        )
-        Info(
-            infoName = stringResource(R.string.fieldname_mbti),
-            infoContent = userMbti
-        )
     }
 }
 
-/*@Preview(showBackground = true)
+@Composable
+fun BottomBar(
+    navController: NavHostController
+) {
+    val screens = listOf<BottomBarItem>(
+        BottomBarItem.Home,
+        BottomBarItem.Search,
+        BottomBarItem.My
+    )
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+
+    NavigationBar (
+        containerColor = Color.Gray,
+
+    ) {
+        screens.forEach { screens ->
+            AddItem(item = screens, currentDestination = currentDestination, navController =navController )
+        }
+    }
+}
+
+
+@Composable
+fun RowScope.AddItem(
+    item: BottomBarItem,
+    currentDestination: NavDestination?,
+    navController: NavHostController
+) {
+
+    NavigationBarItem(
+        selected = currentDestination?.hierarchy?.any {
+            it.route == item.route
+        } == true,
+        onClick = {
+            navController.navigate(item.route) {
+                popUpTo(navController.graph.findStartDestination().id)
+                launchSingleTop = true
+            }
+        },
+        icon = {
+            Icon(
+                painter = painterResource(item.icon),
+                contentDescription = item.route,
+                modifier = Modifier.size(30.dp)
+            )
+        },
+        colors = NavigationBarItemDefaults.colors(
+            selectedIconColor = Color.Black,
+            unselectedIconColor = Color.LightGray,
+            indicatorColor = Color.Transparent
+        )
+    )
+}
+
+@Preview(showBackground = true)
 @Composable
 private fun MainScreenPreview() {
     DiveTheme {
-        MainScreen("","","","", Modifier.padding(20.dp))
+        MainScreen(PaddingValues(),"d","d","d","d")
     }
-}*/
+}
