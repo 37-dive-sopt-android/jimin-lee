@@ -112,11 +112,3 @@ fun LoginScreen(
         )
     }
 }
-
-/*@Preview(showBackground = true)
-@Composable
-private fun LoginScreenPreview() {
-    DiveTheme {
-        LoginScreen(Modifier.padding(horizontal = 16.dp))
-    }
-}*/

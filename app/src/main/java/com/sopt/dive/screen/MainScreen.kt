@@ -1,8 +1,10 @@
 package com.sopt.dive.ui.screen
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -38,7 +40,6 @@ data class Main(
 
 @Composable
 fun MainScreen(
-    paddingValues: PaddingValues,
     userId: String,
     userPw: String,
     userNickname: String,
@@ -53,7 +54,6 @@ fun MainScreen(
         Surface {
             Box(Modifier.padding(it)){
                 BottomNavGraph(
-                    paddingValues = paddingValues,
                     userId = userId,
                     userPw = userPw,
                     userNickname = userNickname,
@@ -77,12 +77,22 @@ fun BottomBar(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    NavigationBar (
-        containerColor = Color.Gray,
-
-    ) {
-        screens.forEach { screens ->
-            AddItem(item = screens, currentDestination = currentDestination, navController =navController )
+    Box (
+        modifier = Modifier
+            .fillMaxWidth()
+            .navigationBarsPadding()
+    ){
+        NavigationBar(
+            modifier = Modifier.height(70.dp),
+            containerColor = Color.White
+        ) {
+            screens.forEach { screens ->
+                AddItem(
+                    item = screens,
+                    currentDestination = currentDestination,
+                    navController = navController
+                )
+            }
         }
     }
 }
@@ -123,5 +133,5 @@ fun RowScope.AddItem(
 @Preview(showBackground = true)
 @Composable
 private fun MainScreenPreview() {
-    MainScreen(PaddingValues(),"d","d","d","d", Modifier.padding(20.dp))
+    MainScreen("d","d","d","d")
 }

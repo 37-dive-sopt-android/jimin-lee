@@ -127,11 +127,3 @@ fun SignUpScreen(
         )
     }
 }
-
-/*@Preview(showBackground = true)
-@Composable
-private fun SignUpScreenPreview() {
-    DiveTheme {
-        SignUpScreen(Modifier.padding(horizontal = 16.dp), onSignUpSuccess = { _, _, _, _ -> })
-    }
-}*/

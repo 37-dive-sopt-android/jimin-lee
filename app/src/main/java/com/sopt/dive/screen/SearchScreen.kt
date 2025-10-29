@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun SearchScreen(
-    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = Modifier
@@ -41,5 +40,5 @@ fun SearchScreen(
 @Preview(showBackground = true)
 @Composable
 private fun SearchScreenPreview() {
-    SearchScreen(Modifier.padding(horizontal = 16.dp))
+    SearchScreen()
 }

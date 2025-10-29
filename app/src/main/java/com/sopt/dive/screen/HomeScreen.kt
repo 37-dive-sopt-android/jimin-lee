@@ -33,15 +33,13 @@ data class Home(
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier
 ) {
     Column (
         modifier = Modifier
             .fillMaxWidth()
     ){
         LazyColumn(
-            modifier = modifier,
-            contentPadding = PaddingValues(vertical = 16.dp),
+            contentPadding = PaddingValues(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {

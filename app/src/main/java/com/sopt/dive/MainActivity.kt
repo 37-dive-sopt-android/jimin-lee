@@ -36,14 +36,13 @@ class MainActivity : ComponentActivity() {
                         composable<Main> { backStackEntry ->
                             val item = backStackEntry.toRoute<Main>()
                             MainScreen(
-                                paddingValues = innerPadding,
                                 userId = item.id,
                                 userPw = item.pw,
                                 userNickname = item.nickname,
                                 userMbti = item.mbti,
                                 modifier = Modifier.Companion
                                     .padding(innerPadding)
-                                    .padding(20.dp)
+                                    .padding(16.dp)
                             )
                         }
 
@@ -79,8 +78,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     }
-
+                }
             }
         }
     }
-}

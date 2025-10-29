@@ -24,12 +24,10 @@ import com.sopt.dive.ui.component.Info
 
 @Composable
 fun MyScreen(
-    paddingValues: PaddingValues,
     userId: String,
     userPw: String,
     userNickname: String,
     userMbti: String,
-    modifier: Modifier = Modifier
 ) {
 
     Column (
@@ -82,5 +80,5 @@ fun MyScreen(
 @Preview(showBackground = true)
 @Composable
 private fun MyScreenPreview() {
-    MyScreen(PaddingValues(),"","","", "",Modifier.padding(20.dp))
+    MyScreen("","","", "")
 }

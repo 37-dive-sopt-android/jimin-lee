@@ -16,7 +16,6 @@ import com.sopt.dive.ui.screen.SearchScreen
 
 @Composable
 fun BottomNavGraph(
-    paddingValues: PaddingValues,
     userId: String,
     userPw: String,
     userNickname: String,
@@ -31,22 +30,17 @@ fun BottomNavGraph(
         popExitTransition = { ExitTransition.None }
     ) {
         composable(route = BottomBarItem.Home.route){
-            HomeScreen(
-                modifier = Modifier.padding(16.dp)
-            )
+            HomeScreen()
         }
         composable(route = BottomBarItem.Search.route){
             SearchScreen()
         }
         composable(route = BottomBarItem.My.route){
             MyScreen(
-                paddingValues = paddingValues,
                 userId = userId,
                 userPw = userPw,
                 userNickname = userNickname,
-                userMbti = userMbti,
-                modifier = Modifier.Companion
-                    .padding(paddingValues)
+                userMbti = userMbti
             )
         }
     }
