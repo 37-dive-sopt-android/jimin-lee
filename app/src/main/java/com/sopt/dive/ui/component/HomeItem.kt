@@ -126,7 +126,7 @@ fun HomeNameItem (
             Text(
                 text = content,
                 modifier = Modifier
-                    .padding(end = 5.dp)
+                    .padding(top = 3.dp, end = 5.dp)
                     .fillMaxWidth(0.5f),
                 fontSize = 13.sp,
                 color = Color.Gray,
