@@ -1,6 +1,5 @@
 package com.sopt.dive.ui.navigation
 
-
 import com.sopt.dive.R
 
 sealed class BottomBarItem(
