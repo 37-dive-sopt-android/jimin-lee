@@ -2,7 +2,6 @@ package com.sopt.dive.ui.screen
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,16 +22,11 @@ import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
 import com.sopt.dive.ui.component.CustomButton
 import com.sopt.dive.ui.component.CustomTextField
-import kotlinx.serialization.Serializable
-
-@Serializable
-data object SignUp
 
 private val MBTI_PATTERN = Regex("^[a-zA-Z]{4}$")
 
 @Composable
 fun SignUpScreen(
-    paddingValues: PaddingValues,
     navigateToLogin: (id: String, pw: String, nickname: String, mbti: String) -> Unit,
     modifier: Modifier = Modifier
 ) {

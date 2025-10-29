@@ -1,4 +1,4 @@
-package com.sopt.dive.ui.navigation
+package com.sopt.dive.navigation
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition

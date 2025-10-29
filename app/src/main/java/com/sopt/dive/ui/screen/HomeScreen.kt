@@ -15,21 +15,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sopt.dive.homeItemList
-import com.sopt.dive.ui.component.Birth
-import com.sopt.dive.ui.component.Content
-import com.sopt.dive.ui.component.Etc
+import com.sopt.dive.data.homeItemList
 import com.sopt.dive.ui.component.HomeItem
-
-
-data class Home(
-    val img: Int,
-    val name: String,
-    val message: String,
-    val birth: Birth,
-    val content: Content,
-    val etc: Etc
-)
 
 @Composable
 fun HomeScreen(

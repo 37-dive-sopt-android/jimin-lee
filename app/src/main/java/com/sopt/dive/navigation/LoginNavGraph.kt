@@ -1,4 +1,4 @@
-package com.sopt.dive.ui.navigation
+package com.sopt.dive.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -9,11 +9,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.sopt.dive.ui.screen.Login
+import com.sopt.dive.data.route.Login
 import com.sopt.dive.ui.screen.LoginScreen
-import com.sopt.dive.ui.screen.Main
+import com.sopt.dive.data.route.Main
 import com.sopt.dive.ui.screen.MainScreen
-import com.sopt.dive.ui.screen.SignUp
+import com.sopt.dive.data.route.SignUp
 import com.sopt.dive.ui.screen.SignUpScreen
 
 @Composable
@@ -41,7 +41,6 @@ fun LoginNavGraph(
         composable<Login> { backStackEntry ->
             val item = backStackEntry.toRoute<Login>()
             LoginScreen(
-                paddingValues = innerPadding,
                 userId = item.id,
                 userPw = item.pw,
                 userNickname = item.nickname,
@@ -60,7 +59,6 @@ fun LoginNavGraph(
 
         composable<SignUp> {
             SignUpScreen(
-                paddingValues = innerPadding,
                 navigateToLogin = { id, pw, nickname, mbti ->
                     navController.navigate(Login(id, pw, nickname, mbti))
                 },

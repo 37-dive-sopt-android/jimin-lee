@@ -1,4 +1,4 @@
-package com.sopt.dive.ui.navigation
+package com.sopt.dive.navigation
 
 import com.sopt.dive.R
 

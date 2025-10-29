@@ -26,17 +26,8 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.sopt.dive.ui.navigation.BottomBarItem
-import com.sopt.dive.ui.navigation.BottomNavGraph
-import kotlinx.serialization.Serializable
-
-@Serializable
-data class Main(
-    val id: String,
-    val pw: String,
-    val nickname: String,
-    val mbti: String
-)
+import com.sopt.dive.navigation.BottomBarItem
+import com.sopt.dive.navigation.BottomNavGraph
 
 @Composable
 fun MainScreen(

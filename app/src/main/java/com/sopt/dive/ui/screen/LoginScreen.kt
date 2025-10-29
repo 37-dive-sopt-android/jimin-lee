@@ -23,19 +23,9 @@ import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
 import com.sopt.dive.ui.component.CustomButton
 import com.sopt.dive.ui.component.CustomTextField
-import kotlinx.serialization.Serializable
-
-@Serializable
-data class Login(
-    val id: String,
-    val pw: String,
-    val nickname: String,
-    val mbti: String
-)
 
 @Composable
 fun LoginScreen(
-    paddingValues: PaddingValues,
     userId: String,
     userPw: String,
     userNickname: String,

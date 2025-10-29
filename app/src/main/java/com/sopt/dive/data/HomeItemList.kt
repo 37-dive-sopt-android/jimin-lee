@@ -1,9 +1,6 @@
-package com.sopt.dive
+package com.sopt.dive.data
 
-import com.sopt.dive.ui.component.Birth
-import com.sopt.dive.ui.component.Content
-import com.sopt.dive.ui.component.Etc
-import com.sopt.dive.ui.screen.Home
+import com.sopt.dive.R
 
 val homeItemList = listOf(
     Home(
