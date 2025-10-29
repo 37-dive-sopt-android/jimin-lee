@@ -38,9 +38,7 @@ fun HomeScreen(
     Column (
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
     ){
-
         LazyColumn(
             modifier = modifier,
             contentPadding = PaddingValues(vertical = 16.dp),

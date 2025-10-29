@@ -1,5 +1,7 @@
 package com.sopt.dive.ui.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -22,7 +24,11 @@ fun BottomNavGraph(
     navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = BottomBarItem.Home.route
+        startDestination = BottomBarItem.Home.route,
+        enterTransition = { EnterTransition.None },
+        exitTransition = { ExitTransition.None },
+        popEnterTransition = { EnterTransition.None },
+        popExitTransition = { ExitTransition.None }
     ) {
         composable(route = BottomBarItem.Home.route){
             HomeScreen(
@@ -41,7 +47,6 @@ fun BottomNavGraph(
                 userMbti = userMbti,
                 modifier = Modifier.Companion
                     .padding(paddingValues)
-                    .padding(20.dp)
             )
         }
     }

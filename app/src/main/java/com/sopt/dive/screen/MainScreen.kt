@@ -26,7 +26,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.sopt.dive.ui.navigation.BottomBarItem
 import com.sopt.dive.ui.navigation.BottomNavGraph
-import com.sopt.dive.ui.theme.DiveTheme
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -124,7 +123,5 @@ fun RowScope.AddItem(
 @Preview(showBackground = true)
 @Composable
 private fun MainScreenPreview() {
-    DiveTheme {
-        MainScreen(PaddingValues(),"d","d","d","d")
-    }
+    MainScreen(PaddingValues(),"d","d","d","d", Modifier.padding(20.dp))
 }

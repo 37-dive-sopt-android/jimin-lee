@@ -19,14 +19,12 @@ import com.sopt.dive.ui.screen.Main
 import com.sopt.dive.ui.screen.MainScreen
 import com.sopt.dive.ui.screen.SignUp
 import com.sopt.dive.ui.screen.SignUpScreen
-import com.sopt.dive.ui.theme.DiveTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            DiveTheme {
                 Scaffold(modifier = Modifier.Companion.fillMaxSize()) { innerPadding ->
 
                     val navController = rememberNavController()
@@ -81,7 +79,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     }
-                }
+
             }
         }
     }

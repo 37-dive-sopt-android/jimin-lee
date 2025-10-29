@@ -11,7 +11,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
 fun Info (
@@ -44,8 +43,6 @@ fun Info (
 @Preview(showBackground = true)
 @Composable
 private fun InfoPreview() {
-    DiveTheme {
-        Info("ID", "vavava")
-    }
+    Info("ID", "vavava")
 }
 

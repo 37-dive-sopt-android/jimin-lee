@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
@@ -31,7 +32,9 @@ fun MyScreen(
     modifier: Modifier = Modifier
 ) {
 
-    Column (modifier){
+    Column (
+        modifier = Modifier.padding(20.dp)
+    ){
         Row (
             modifier = Modifier.padding(vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -45,7 +48,7 @@ fun MyScreen(
             )
             Text(
                 text = userNickname,
-                modifier = modifier,
+                modifier = Modifier.padding(start = 20.dp),
                 fontSize = 20.sp
             )
         }
@@ -76,10 +79,8 @@ fun MyScreen(
     }
 }
 
-/*@Preview(showBackground = true)
+@Preview(showBackground = true)
 @Composable
-private fun MainScreenPreview() {
-    DiveTheme {
-        MainScreen("","","","", Modifier.padding(20.dp))
-    }
-}*/
+private fun MyScreenPreview() {
+    MyScreen(PaddingValues(),"","","", "",Modifier.padding(20.dp))
+}
