@@ -21,7 +21,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -117,9 +116,9 @@ fun RowScope.AddItem(
         },
         icon = {
             Icon(
-                painter = painterResource(item.icon),
+                imageVector = item.icon,
                 contentDescription = item.route,
-                modifier = Modifier.size(30.dp)
+                modifier = Modifier.size(40.dp)
             )
         },
         colors = NavigationBarItemDefaults.colors(
