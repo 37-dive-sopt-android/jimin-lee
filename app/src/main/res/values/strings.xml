@@ -4,6 +4,8 @@
     <!--title-->
     <string name="title_login">Welcome To SOPT</string>
     <string name="title_signup">SIGN UP</string>
+    <string name="title_home">Home</string>
+    <string name="title_Search">Search</string>
 
     <!--fieldname-->
     <string name="fieldname_id">ID</string>
@@ -40,4 +42,7 @@
     <string name="main_profileimg">profileImg</string>
     <string name="trailingIcon_hidePW">hidePW</string>
     <string name="trailingIcon_showpw">showPW</string>
+
+    <!--homeItem-->
+    <string name="btn_gift">선물하기</string>
 </resources>

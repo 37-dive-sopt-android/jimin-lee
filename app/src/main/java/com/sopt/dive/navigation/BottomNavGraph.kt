@@ -22,7 +22,7 @@ fun BottomNavGraph(
     navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = BottomBarItem.Home.route,
+        startDestination = Home::class,
         enterTransition = { EnterTransition.None },
         exitTransition = { ExitTransition.None },
         popEnterTransition = { EnterTransition.None },

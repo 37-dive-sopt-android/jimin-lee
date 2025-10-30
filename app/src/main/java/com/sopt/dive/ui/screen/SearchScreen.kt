@@ -7,10 +7,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sopt.dive.R
 
 @Composable
 fun SearchScreen(
@@ -20,7 +22,7 @@ fun SearchScreen(
             .fillMaxSize()
     ) {
         Text(
-            text = "Search",
+            text = stringResource(R.string.title_Search),
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .padding(top = 26.dp),

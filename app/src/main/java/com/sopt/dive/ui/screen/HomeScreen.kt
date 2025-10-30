@@ -11,10 +11,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sopt.dive.R
 import com.sopt.dive.data.homeItemList
 import com.sopt.dive.ui.component.HomeItem
 
@@ -32,7 +34,7 @@ fun HomeScreen(
         ) {
             item {
                 Text(
-                    text = "Home",
+                    text = stringResource(R.string.title_home),
                     modifier = Modifier.padding(bottom = 10.dp),
                     fontSize = 30.sp,
                     fontWeight = FontWeight.Bold

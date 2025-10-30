@@ -26,6 +26,9 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.sopt.dive.data.route.Home
+import com.sopt.dive.data.route.My
+import com.sopt.dive.data.route.Search
 import com.sopt.dive.navigation.BottomBarItem
 import com.sopt.dive.navigation.BottomNavGraph
 
@@ -96,14 +99,20 @@ fun RowScope.AddItem(
     navController: NavHostController
 ) {
 
+    val destinationObject = when (item.route) {
+        "home" -> Home
+        "search" -> Search
+        "my" -> My
+        else -> Home
+    }
+
     NavigationBarItem(
-        selected = currentDestination?.hierarchy?.any {
-            it.route == item.route
-        } == true,
+        selected = currentDestination?.route == destinationObject::class.qualifiedName,
         onClick = {
-            navController.navigate(item.route) {
+            navController.navigate(destinationObject) {
                 popUpTo(navController.graph.findStartDestination().id)
                 launchSingleTop = true
+                restoreState = true
             }
         },
         icon = {

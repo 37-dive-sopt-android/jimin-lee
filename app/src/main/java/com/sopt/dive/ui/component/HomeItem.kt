@@ -101,7 +101,7 @@ fun HomeNameItem (
         ){
 
         Row(
-            modifier = Modifier.width(160.dp),
+            modifier = Modifier.width(150.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
@@ -182,7 +182,7 @@ fun HomeEtcItem (
                 contentPadding = PaddingValues(horizontal = 10.dp, vertical = 5.dp)
             ){
                 Text(
-                    text = "선물하기",
+                    text = stringResource(R.string.btn_gift),
                     modifier = Modifier.padding(end = 3.dp),
                     fontSize = 10.sp,
                     color = Color.DarkGray,
