@@ -19,6 +19,14 @@ data class Login(
     val mbti: String
 )
 
-
 @Serializable
 data object SignUp
+
+@Serializable
+data object Home
+
+@Serializable
+data object Search
+
+@Serializable
+data object My

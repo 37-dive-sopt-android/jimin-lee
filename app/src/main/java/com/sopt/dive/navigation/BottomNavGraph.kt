@@ -6,6 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.sopt.dive.data.route.Home
+import com.sopt.dive.data.route.My
+import com.sopt.dive.data.route.Search
 import com.sopt.dive.ui.screen.HomeScreen
 import com.sopt.dive.ui.screen.MyScreen
 import com.sopt.dive.ui.screen.SearchScreen
@@ -25,13 +28,13 @@ fun BottomNavGraph(
         popEnterTransition = { EnterTransition.None },
         popExitTransition = { ExitTransition.None }
     ) {
-        composable(route = BottomBarItem.Home.route){
+        composable<Home>{
             HomeScreen()
         }
-        composable(route = BottomBarItem.Search.route){
+        composable<Search>{
             SearchScreen()
         }
-        composable(route = BottomBarItem.My.route){
+        composable<My>{
             MyScreen(
                 userId = userId,
                 userPw = userPw,
