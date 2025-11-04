@@ -31,9 +31,9 @@ fun CustomTextField (
     placeholder: String,
     text: String,
     onTextChange: (String) -> Unit,
-    isPassword: Boolean,
-    error: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isPassword: Boolean = false,
+    error: String = ""
 ) {
     var showPW by rememberSaveable { mutableStateOf(false) }
 
@@ -106,5 +106,5 @@ fun CustomTextField (
 @Preview(showBackground = true)
 @Composable
 private fun TextfieldPreview() {
-    CustomTextField("ID","아이디를", "input", { }, false,"")
+    CustomTextField("ID","아이디를", "input", { })
 }

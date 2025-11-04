@@ -57,17 +57,14 @@ fun LoginScreen(
                 fieldName = stringResource(R.string.fieldname_id),
                 placeholder = stringResource(R.string.placeholder_id),
                 text = loginId,
-                onTextChange = {loginId = it},
-                isPassword = false,
-                error = ""
+                onTextChange = {loginId = it}
             )
             CustomTextField(
                 fieldName = stringResource(R.string.fieldname_pw),
                 placeholder = stringResource(R.string.placeholder_pw),
                 text = loginPw,
                 onTextChange = {loginPw = it},
-                isPassword = true,
-                error = ""
+                isPassword = true
             )
         }
 
