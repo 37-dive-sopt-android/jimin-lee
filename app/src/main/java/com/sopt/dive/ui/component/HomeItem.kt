@@ -74,7 +74,7 @@ fun HomeItem (
 }
 
 @Composable
-fun HomeNameItem (
+private fun HomeNameItem (
     name: String,
     message: String,
     birth: HomeListType.Birth,
@@ -137,67 +137,51 @@ fun HomeNameItem (
 }
 
 @Composable
-fun HomeEtcItem (
+private fun HomeEtcItem (
     etc: HomeListType.Etc
 ) {
-    when (etc) {
-        is HomeListType.Etc.None -> null
-        is HomeListType.Etc.Music -> {
-            Button (
-                onClick = {},
-                modifier = Modifier.height(30.dp),
-                shape = RoundedCornerShape(30.dp),
-                colors = ButtonDefaults.buttonColors(Color.Transparent),
-                border = BorderStroke(1.dp, Color.Green),
-                contentPadding = PaddingValues(horizontal = 10.dp)
-            ){
-                Text(
-                    text = etc.music,
-                    modifier = Modifier.weight(1f, fill = false),
-                    fontSize = 10.sp,
-                    color = Color.DarkGray,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1
-                )
-                Image(
-                    painter = painterResource(R.drawable.ic_music),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(start = 5.dp)
-                        .size(15.dp),
-                    colorFilter  = ColorFilter.tint(Color.Green)
+    val etcText = when(etc) {
+        is HomeListType.Etc.Music -> etc.music
+        is HomeListType.Etc.Gift -> stringResource(R.string.btn_gift)
+        is HomeListType.Etc.None -> return
+    }
 
-                )
-            }
-        }
-        is HomeListType.Etc.Gift -> {
-            Button (
-                onClick = {},
-                modifier = Modifier.height(30.dp),
-                shape = RoundedCornerShape(30.dp),
-                colors = ButtonDefaults.buttonColors(Color.Transparent),
-                border = BorderStroke(1.dp, Color.Red),
-                contentPadding = PaddingValues(horizontal = 10.dp, vertical = 5.dp)
-            ){
-                Text(
-                    text = stringResource(R.string.btn_gift),
-                    modifier = Modifier.padding(end = 3.dp),
-                    fontSize = 10.sp,
-                    color = Color.DarkGray,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1
-                )
-                Image(
-                    painter = painterResource(R.drawable.ic_gift),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(start = 5.dp)
-                        .size(15.dp),
-                    colorFilter  = ColorFilter.tint(Color.Red)
+    val etcImage = when(etc) {
+        is HomeListType.Etc.Music -> painterResource(R.drawable.ic_music)
+        is HomeListType.Etc.Gift -> painterResource(R.drawable.ic_gift)
+        is HomeListType.Etc.None -> return
+    }
 
-                )
-            }
-        }
+    val etcColor = when(etc) {
+        is HomeListType.Etc.Music -> Color.Green
+        is HomeListType.Etc.Gift -> Color.Red
+        is HomeListType.Etc.None -> return
+    }
+
+    Button (
+        onClick = {},
+        modifier = Modifier.height(30.dp),
+        shape = RoundedCornerShape(30.dp),
+        colors = ButtonDefaults.buttonColors(Color.Transparent),
+        border = BorderStroke(1.dp, etcColor),
+        contentPadding = PaddingValues(horizontal = 10.dp)
+    ){
+        Text(
+            text = etcText,
+            modifier = Modifier.weight(1f, fill = false),
+            fontSize = 10.sp,
+            color = Color.DarkGray,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1
+        )
+        Image(
+            painter = etcImage,
+            contentDescription = null,
+            modifier = Modifier
+                .padding(start = 5.dp)
+                .size(15.dp),
+            colorFilter  = ColorFilter.tint(etcColor)
+        )
     }
 }
 
