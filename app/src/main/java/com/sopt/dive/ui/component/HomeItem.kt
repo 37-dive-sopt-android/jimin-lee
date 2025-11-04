@@ -30,18 +30,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
-import com.sopt.dive.data.Birth
-import com.sopt.dive.data.Content
-import com.sopt.dive.data.Etc
+import com.sopt.dive.data.type.HomeListType
 
 @Composable
 fun HomeItem (
     img: Int,
     name: String,
     message: String,
-    birth: Birth,
-    content: Content,
-    etc: Etc,
+    birth: HomeListType.Birth,
+    content: HomeListType.Content,
+    etc: HomeListType.Etc,
     modifier: Modifier = Modifier
 ) {
     Row (
@@ -79,19 +77,19 @@ fun HomeItem (
 fun HomeNameItem (
     name: String,
     message: String,
-    birth: Birth,
-    content: Content,
+    birth: HomeListType.Birth,
+    content: HomeListType.Content,
 ) {
     val birthArea = remember {
         when (birth) {
-            Birth.NONE -> null
-            Birth.BIRTH -> R.drawable.ic_cake
+            HomeListType.Birth.NONE -> null
+            HomeListType.Birth.BIRTH -> R.drawable.ic_cake
         }
     }
     val contentArea = remember {
         when (content) {
-            Content.NONE -> null
-            Content.Exist -> message
+            HomeListType.Content.NONE -> null
+            HomeListType.Content.Exist -> message
         }
     }
 
@@ -140,11 +138,11 @@ fun HomeNameItem (
 
 @Composable
 fun HomeEtcItem (
-    etc: Etc
+    etc: HomeListType.Etc
 ) {
     when (etc) {
-        is Etc.None -> null
-        is Etc.Music -> {
+        is HomeListType.Etc.None -> null
+        is HomeListType.Etc.Music -> {
             Button (
                 onClick = {},
                 modifier = Modifier.height(30.dp),
@@ -172,7 +170,7 @@ fun HomeEtcItem (
                 )
             }
         }
-        is Etc.Gift -> {
+        is HomeListType.Etc.Gift -> {
             Button (
                 onClick = {},
                 modifier = Modifier.height(30.dp),
@@ -208,5 +206,5 @@ fun HomeEtcItem (
 @Preview(showBackground = true)
 @Composable
 private fun HomeItemPreview() {
-    HomeItem(R.drawable.profile,"이지민", "", Birth.BIRTH, Content.NONE, Etc.Music("dsfsfsdfsd"))
+    HomeItem(R.drawable.profile,"이지민", "", HomeListType.Birth.BIRTH, HomeListType.Content.NONE, HomeListType.Etc.Music("dsfsfsdfsd"))
 }
