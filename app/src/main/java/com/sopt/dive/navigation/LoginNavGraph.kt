@@ -8,6 +8,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navOptions
 import androidx.navigation.toRoute
 import com.sopt.dive.data.route.Login
 import com.sopt.dive.ui.screen.LoginScreen
@@ -46,7 +47,14 @@ fun LoginNavGraph(
                 userNickname = item.nickname,
                 userMbti = item.mbti,
                 navigateToMain = { id, pw, nickname, mbti ->
-                    navController.navigate(Main(id, pw, nickname, mbti))
+                    navController.navigate(
+                        route = Main(id, pw, nickname, mbti),
+                        navOptions = navOptions {
+                            popUpTo(navController.graph.startDestinationId) {
+                                inclusive = true
+                            }
+                        }
+                    )
                 },
                 navigateToSignUp = {
                     navController.navigate(SignUp)
@@ -60,7 +68,15 @@ fun LoginNavGraph(
         composable<SignUp> {
             SignUpScreen(
                 navigateToLogin = { id, pw, nickname, mbti ->
-                    navController.navigate(Login(id, pw, nickname, mbti))
+                    navController.navigate(
+                        route = Login(id, pw, nickname, mbti),
+                        navOptions = navOptions {
+                            popUpTo<SignUp> {
+                                inclusive = true
+                            }
+                            launchSingleTop = true
+                        }
+                    )
                 },
                 modifier = Modifier
                     .padding(innerPadding)
