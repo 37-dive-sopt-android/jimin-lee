@@ -1,4 +1,4 @@
-package com.sopt.dive.ui.screen
+package com.sopt.dive.ui.screen.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,8 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
-import com.sopt.dive.data.homeItemList
-import com.sopt.dive.ui.component.HomeItem
+import com.sopt.dive.ui.screen.home.component.HomeItem
 
 @Composable
 fun HomeScreen(

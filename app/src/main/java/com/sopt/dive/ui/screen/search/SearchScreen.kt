@@ -1,4 +1,4 @@
-package com.sopt.dive.ui.screen
+package com.sopt.dive.ui.screen.search
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues

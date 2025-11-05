@@ -1,4 +1,4 @@
-package com.sopt.dive.ui.component
+package com.sopt.dive.ui.screen.home.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -30,7 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
-import com.sopt.dive.data.type.HomeListType
+import com.sopt.dive.ui.screen.home.type.HomeListType
 
 @Composable
 fun HomeItem (

@@ -1,6 +1,6 @@
-package com.sopt.dive.data
+package com.sopt.dive.data.model
 
-import com.sopt.dive.data.type.HomeListType
+import com.sopt.dive.ui.screen.home.type.HomeListType
 
 data class Home(
     val img: Int,

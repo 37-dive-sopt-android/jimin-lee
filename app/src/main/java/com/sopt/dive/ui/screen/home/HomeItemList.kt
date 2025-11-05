@@ -1,7 +1,8 @@
-package com.sopt.dive.data
+package com.sopt.dive.ui.screen.home
 
 import com.sopt.dive.R
-import com.sopt.dive.data.type.HomeListType
+import com.sopt.dive.data.model.Home
+import com.sopt.dive.ui.screen.home.type.HomeListType
 
 val homeItemList = listOf(
     Home(

@@ -1,4 +1,4 @@
-package com.sopt.dive.data.type
+package com.sopt.dive.ui.screen.home.type
 
 sealed class HomeListType{
     enum class Birth {

@@ -1,4 +1,4 @@
-package com.sopt.dive.ui.screen
+package com.sopt.dive.ui.screen.signup
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column

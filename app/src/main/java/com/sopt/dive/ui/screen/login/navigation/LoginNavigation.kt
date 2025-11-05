@@ -1,4 +1,4 @@
-package com.sopt.dive.navigation
+package com.sopt.dive.ui.screen.login.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -11,24 +11,28 @@ import androidx.navigation.navOptions
 import com.sopt.dive.data.route.Home
 import com.sopt.dive.data.route.Login
 import com.sopt.dive.data.route.SignUp
-import com.sopt.dive.ui.screen.SignUpScreen
+import com.sopt.dive.ui.screen.login.LoginScreen
 
-fun NavGraphBuilder.signupNavGraph(
+
+fun NavGraphBuilder.loginNavGraph(
     navController: NavController,
     innerPadding: PaddingValues
-) {
-    composable<SignUp> {
-        SignUpScreen(
-            navigateToLogin = {
+){
+    composable<Login> {
+        LoginScreen(
+            navigateToMain = {
                 navController.navigate(
-                    route = Login,
+                    route = Home,
                     navOptions = navOptions {
-                        popUpTo<SignUp> {
+                        popUpTo<Login> {
                             inclusive = true
                         }
                         launchSingleTop = true
                     }
                 )
+            },
+            navigateToSignUp = {
+                navController.navigate(route = SignUp)
             },
             modifier = Modifier
                 .padding(innerPadding)

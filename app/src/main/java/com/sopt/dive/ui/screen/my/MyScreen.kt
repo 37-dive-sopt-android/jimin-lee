@@ -1,4 +1,4 @@
-package com.sopt.dive.ui.screen
+package com.sopt.dive.ui.screen.my
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
 import com.sopt.dive.data.local.SharedPreference
-import com.sopt.dive.ui.component.Info
+import com.sopt.dive.ui.screen.my.component.Info
 
 @Composable
 fun MyScreen(
