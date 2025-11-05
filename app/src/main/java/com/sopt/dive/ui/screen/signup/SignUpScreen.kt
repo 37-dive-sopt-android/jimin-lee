@@ -1,17 +1,10 @@
-package com.sopt.dive.screen
+package com.sopt.dive.ui.screen.signup
 
-import android.content.Intent
-import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,62 +17,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
-import com.sopt.dive.component.CustomButton
-import com.sopt.dive.component.CustomTextField
-import com.sopt.dive.ui.theme.DiveTheme
-import com.sopt.dive.utils.IntentKeys
-
-class SignUpActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            DiveTheme {
-                Scaffold(
-                    modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    SignUpScreen(
-                        modifier = Modifier
-                            .padding(innerPadding)
-                            .padding(all = 16.dp),
-                        onSignUpSuccess = { userId, userPw, userNickname, userMbti ->
-                            val intent = Intent().apply {
-                                putExtra(IntentKeys.KEY_USER_ID, userId)
-                                putExtra(IntentKeys.KEY_USER_PW, userPw)
-                                putExtra(IntentKeys.KEY_USER_NICKNAME, userNickname)
-                                putExtra(IntentKeys.KEY_USER_MBTI, userMbti)
-                            }
-                            setResult(RESULT_OK, intent)
-                            finish()
-                        }
-                    )
-                }
-            }
-        }
-    }
-}
+import com.sopt.dive.data.local.SharedPreference
+import com.sopt.dive.ui.component.CustomButton
+import com.sopt.dive.ui.component.CustomTextField
 
 private val MBTI_PATTERN = Regex("^[a-zA-Z]{4}$")
 
 @Composable
-private fun SignUpScreen(
-    modifier: Modifier = Modifier,
-    onSignUpSuccess: (
-        id: String,
-        pw: String,
-        nickname: String,
-        mbti: String ) -> Unit
+fun SignUpScreen(
+    navigateToLogin: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
+
+    val context = LocalContext.current
+    val prefs = SharedPreference(context)
 
     var userId by rememberSaveable { mutableStateOf("") }
     var userPw by rememberSaveable { mutableStateOf("") }
     var userNickname by rememberSaveable { mutableStateOf("") }
     var userMbti by rememberSaveable { mutableStateOf("") }
-
-    val context = LocalContext.current
 
     val isIdValid = userId.length in 6..10
     val isPwValid = userPw.length in 8..12
@@ -92,7 +51,6 @@ private fun SignUpScreen(
     val mbtiError = if (userMbti.isNotEmpty() && !isMbtiValid) stringResource(R.string.error_message_mbti) else ""
 
     val isSignUpValid = isIdValid && isPwValid && isNickValid && isMbtiValid
-
 
     Column (
         modifier = modifier.padding(top = 20.dp),
@@ -110,7 +68,6 @@ private fun SignUpScreen(
             placeholder = stringResource(R.string.placeholder_id),
             text = userId,
             onTextChange = { userId = it },
-            isPassword = false,
             error = idError
         )
         CustomTextField(
@@ -126,7 +83,6 @@ private fun SignUpScreen(
             placeholder = stringResource(R.string.placeholder_nickname),
             text = userNickname,
             onTextChange = { userNickname = it },
-            isPassword = false,
             error = nickError
         )
         CustomTextField(
@@ -134,7 +90,6 @@ private fun SignUpScreen(
             placeholder = stringResource(R.string.placeholder_mbti),
             text = userMbti,
             onTextChange = { userMbti = it },
-            isPassword = false,
             error = mbtiError
         )
 
@@ -146,7 +101,8 @@ private fun SignUpScreen(
             contentColor = Color.White,
             onClick = {
                 if (isSignUpValid) {
-                    onSignUpSuccess(userId, userPw, userNickname, userMbti)
+                    prefs.saveUserInfo(userId, userPw, userNickname, userMbti)
+                    navigateToLogin()
                     Toast.makeText(
                         context,
                         context.getString(R.string.success_signup),
@@ -162,13 +118,5 @@ private fun SignUpScreen(
                 }
             }
         )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun SignUpScreenPreview() {
-    DiveTheme {
-        SignUpScreen(Modifier.padding(horizontal = 16.dp), onSignUpSuccess = { _, _, _, _ -> })
     }
 }

@@ -1,4 +1,4 @@
-package com.sopt.dive.component
+package com.sopt.dive.ui.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,7 +24,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
-import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
 fun CustomTextField (
@@ -32,9 +31,9 @@ fun CustomTextField (
     placeholder: String,
     text: String,
     onTextChange: (String) -> Unit,
-    isPassword: Boolean,
-    error: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isPassword: Boolean = false,
+    error: String = ""
 ) {
     var showPW by rememberSaveable { mutableStateOf(false) }
 
@@ -107,7 +106,5 @@ fun CustomTextField (
 @Preview(showBackground = true)
 @Composable
 private fun TextfieldPreview() {
-    DiveTheme {
-        CustomTextField("ID","아이디를", "input", { }, false,"")
-    }
+    CustomTextField("ID","아이디를", "input", { })
 }

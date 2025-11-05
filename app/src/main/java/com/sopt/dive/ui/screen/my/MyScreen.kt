@@ -1,72 +1,48 @@
-package com.sopt.dive.screen
+package com.sopt.dive.ui.screen.my
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
-import com.sopt.dive.component.Info
-import com.sopt.dive.ui.theme.DiveTheme
-import com.sopt.dive.utils.IntentKeys
-
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val userId = intent.getStringExtra(IntentKeys.KEY_USER_ID)?:""
-        val userPw = intent.getStringExtra(IntentKeys.KEY_USER_PW)?:""
-        val userNickname = intent.getStringExtra(IntentKeys.KEY_USER_NICKNAME)?:""
-        val userMbti = intent.getStringExtra(IntentKeys.KEY_USER_MBTI)?:""
-
-        enableEdgeToEdge()
-        setContent {
-            DiveTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen(
-                        userId = userId,
-                        userPw = userPw,
-                        userNickname = userNickname,
-                        userMbti = userMbti,
-                        modifier = Modifier
-                            .padding(innerPadding)
-                            .padding(20.dp)
-                    )
-                }
-            }
-        }
-    }
-}
+import com.sopt.dive.data.local.SharedPreference
+import com.sopt.dive.ui.screen.my.component.Info
 
 @Composable
-private fun MainScreen(
-    userId: String,
-    userPw: String,
-    userNickname: String,
-    userMbti: String,
-    modifier: Modifier = Modifier
+fun MyScreen(
+    innerPadding: PaddingValues
 ) {
 
-    Column (modifier){
+    val context = LocalContext.current
+
+    val sharedPref = SharedPreference(context)
+
+    val userInfo = sharedPref.getUserInfo()
+    val userId = userInfo.id
+    val userPw = userInfo.pw
+    val userNickname = userInfo.nickname
+    val userMbti = userInfo.mbti
+
+    Column (
+        modifier = Modifier
+            .padding(innerPadding)
+            .padding(20.dp)
+    ){
         Row (
             modifier = Modifier.padding(vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -80,7 +56,7 @@ private fun MainScreen(
             )
             Text(
                 text = userNickname,
-                modifier = modifier,
+                modifier = Modifier.padding(start = 20.dp),
                 fontSize = 20.sp
             )
         }
@@ -108,13 +84,5 @@ private fun MainScreen(
             infoName = stringResource(R.string.fieldname_mbti),
             infoContent = userMbti
         )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun MainScreenPreview() {
-    DiveTheme {
-        MainScreen("","","","", Modifier.padding(20.dp))
     }
 }
