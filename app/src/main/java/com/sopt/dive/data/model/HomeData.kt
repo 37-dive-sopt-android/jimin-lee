@@ -2,7 +2,7 @@ package com.sopt.dive.data.model
 
 import com.sopt.dive.ui.screen.home.type.HomeListType
 
-data class Home(
+data class HomeData(
     val img: Int,
     val name: String,
     val message: String,
