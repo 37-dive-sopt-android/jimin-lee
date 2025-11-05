@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
+import com.sopt.dive.data.local.SharedPreference
 import com.sopt.dive.ui.component.CustomButton
 import com.sopt.dive.ui.component.CustomTextField
 
@@ -27,16 +28,17 @@ private val MBTI_PATTERN = Regex("^[a-zA-Z]{4}$")
 
 @Composable
 fun SignUpScreen(
-    navigateToLogin: (id: String, pw: String, nickname: String, mbti: String) -> Unit,
+    navigateToLogin: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+
+    val context = LocalContext.current
+    val prefs = SharedPreference(context)
 
     var userId by rememberSaveable { mutableStateOf("") }
     var userPw by rememberSaveable { mutableStateOf("") }
     var userNickname by rememberSaveable { mutableStateOf("") }
     var userMbti by rememberSaveable { mutableStateOf("") }
-
-    val context = LocalContext.current
 
     val isIdValid = userId.length in 6..10
     val isPwValid = userPw.length in 8..12
@@ -49,7 +51,6 @@ fun SignUpScreen(
     val mbtiError = if (userMbti.isNotEmpty() && !isMbtiValid) stringResource(R.string.error_message_mbti) else ""
 
     val isSignUpValid = isIdValid && isPwValid && isNickValid && isMbtiValid
-
 
     Column (
         modifier = modifier.padding(top = 20.dp),
@@ -100,7 +101,8 @@ fun SignUpScreen(
             contentColor = Color.White,
             onClick = {
                 if (isSignUpValid) {
-                    navigateToLogin(userId, userPw, userNickname, userMbti)
+                    prefs.saveUserInfo(userId, userPw, userNickname, userMbti)
+                    navigateToLogin()
                     Toast.makeText(
                         context,
                         context.getString(R.string.success_signup),

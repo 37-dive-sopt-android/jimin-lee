@@ -5,19 +5,16 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -28,32 +25,24 @@ import com.sopt.dive.data.route.Home
 import com.sopt.dive.data.route.My
 import com.sopt.dive.data.route.Search
 import com.sopt.dive.navigation.BottomBarItem
-import com.sopt.dive.navigation.BottomNavGraph
+import com.sopt.dive.navigation.MainNavHost
 
 @Composable
 fun MainScreen(
-    userId: String,
-    userPw: String,
-    userNickname: String,
-    userMbti: String,
-    modifier: Modifier = Modifier
 ) {
     val navController = rememberNavController()
 
     Scaffold (
-        bottomBar = { BottomBar(navController = navController) }
-    ){
-        Surface {
-            Box(Modifier.padding(it)){
-                BottomNavGraph(
-                    userId = userId,
-                    userPw = userPw,
-                    userNickname = userNickname,
-                    userMbti = userMbti,
-                    navController = navController
-                )
-            }
+        bottomBar = {
+            BottomBar(
+                navController = navController
+            )
         }
+    ){ innerPadding ->
+        MainNavHost(
+            navController = navController,
+            innerPadding = innerPadding
+        )
     }
 }
 
@@ -62,12 +51,24 @@ fun BottomBar(
     navController: NavHostController
 ) {
     val screens = listOf<BottomBarItem>(
-        BottomBarItem.Home,
-        BottomBarItem.Search,
-        BottomBarItem.My
+        BottomBarItem.HOME,
+        BottomBarItem.SEARCH,
+        BottomBarItem.MY
     )
+    val mainTabRoutes = listOf(
+        Home::class.qualifiedName,
+        Search::class.qualifiedName,
+        My::class.qualifiedName
+    )
+
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
+
+    val currentRoute = navBackStackEntry?.destination?.route
+
+    if (currentRoute !in mainTabRoutes) {
+        return
+    }
 
     Box (
         modifier = Modifier
@@ -79,7 +80,7 @@ fun BottomBar(
             containerColor = Color.White
         ) {
             screens.forEach { screens ->
-                AddItem(
+                BottomBarItem(
                     item = screens,
                     currentDestination = currentDestination,
                     navController = navController
@@ -89,25 +90,16 @@ fun BottomBar(
     }
 }
 
-
 @Composable
-fun RowScope.AddItem(
+private fun RowScope.BottomBarItem(
     item: BottomBarItem,
     currentDestination: NavDestination?,
     navController: NavHostController
 ) {
-
-    val destinationObject = when (item.route) {
-        "home" -> Home
-        "search" -> Search
-        "my" -> My
-        else -> Home
-    }
-
     NavigationBarItem(
-        selected = currentDestination?.route == destinationObject::class.qualifiedName,
+        selected = currentDestination?.route == item.route::class.qualifiedName,
         onClick = {
-            navController.navigate(destinationObject) {
+            navController.navigate(item.route) {
                 popUpTo(navController.graph.findStartDestination().id) {
                     saveState = true
                 }
@@ -118,7 +110,7 @@ fun RowScope.AddItem(
         icon = {
             Icon(
                 imageVector = item.icon,
-                contentDescription = item.route,
+                contentDescription = null,
                 modifier = Modifier.size(40.dp)
             )
         },
@@ -128,10 +120,4 @@ fun RowScope.AddItem(
             indicatorColor = Color.Transparent
         )
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun MainScreenPreview() {
-    MainScreen("d","d","d","d")
 }

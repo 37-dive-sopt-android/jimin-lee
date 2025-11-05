@@ -5,21 +5,25 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.sopt.dive.data.route.Home
+import com.sopt.dive.data.route.MainTabRoute
+import com.sopt.dive.data.route.My
+import com.sopt.dive.data.route.Search
 
-sealed class BottomBarItem(
-    val route: String,
+enum class BottomBarItem(
+    val route: MainTabRoute,
     val icon: ImageVector
 ){
-    data object Home: BottomBarItem(
-        route = "home",
+    HOME(
+        route = Home,
         icon = Icons.Filled.Home
-    )
-    data object Search: BottomBarItem(
-        route = "search",
+    ),
+    SEARCH(
+        route = Search,
         icon = Icons.Filled.Search
-    )
-    data object My: BottomBarItem(
-        route = "my",
+    ),
+    MY(
+        route = My,
         icon = Icons.Filled.Person
-    )
+    );
 }

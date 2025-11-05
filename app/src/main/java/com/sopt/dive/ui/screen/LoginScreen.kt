@@ -20,21 +20,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
+import com.sopt.dive.data.local.SharedPreference
 import com.sopt.dive.ui.component.CustomButton
 import com.sopt.dive.ui.component.CustomTextField
 
 @Composable
 fun LoginScreen(
-    userId: String,
-    userPw: String,
-    userNickname: String,
-    userMbti: String,
-    navigateToMain: (id: String, pw: String, nickname: String, mbti: String) -> Unit,
+    navigateToMain: () -> Unit,
     navigateToSignUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
     val context = LocalContext.current
+
+    val sharedPref = SharedPreference(context)
+    val userInfo = sharedPref.getUserInfo()
+    val userId = userInfo.id
+    val userPw = userInfo.pw
 
     var loginId by rememberSaveable { mutableStateOf("") }
     var loginPw by rememberSaveable { mutableStateOf("") }
@@ -80,7 +82,7 @@ fun LoginScreen(
                         Toast.makeText(context, context.getString(R.string.fail_blank_login), Toast.LENGTH_SHORT).show()
                     }
                     loginId == userId && loginPw == userPw -> {
-                        navigateToMain(userId, userPw, userNickname, userMbti)
+                        navigateToMain()
                         Toast.makeText(context, context.getString(R.string.success_login), Toast.LENGTH_SHORT).show()
                     }
                     else -> {
