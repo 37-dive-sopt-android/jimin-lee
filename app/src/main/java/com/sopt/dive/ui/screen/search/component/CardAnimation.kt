@@ -28,6 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.sopt.dive.R
+import com.sopt.dive.utils.noRippleClickable
 import kotlin.math.sqrt
 
 
@@ -67,7 +68,7 @@ fun CardAnimation() {
             .width(200.dp)
             .aspectRatio(0.75f)
             .zIndex(1f)
-            .clickable { isTextVisible = !isTextVisible }
+            .noRippleClickable { isTextVisible = !isTextVisible }
     ) {
         ImageCard(
             isTextVisible = isTextVisible,
