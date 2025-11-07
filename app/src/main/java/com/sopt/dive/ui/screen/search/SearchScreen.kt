@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sopt.dive.ui.screen.search.component.CardFlip
-import com.sopt.dive.ui.screen.search.component.CardAnimation
+import com.sopt.dive.ui.screen.search.component.CardSpring
 
 @Composable
 fun SearchScreen(
@@ -28,7 +28,7 @@ fun SearchScreen(
         Column {
             CardFlip()
             Spacer(modifier = Modifier.height(50.dp))
-            CardAnimation()
+            CardSpring()
         }
 
     }

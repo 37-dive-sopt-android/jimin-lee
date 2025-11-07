@@ -1,10 +1,10 @@
 package com.sopt.dive.ui.screen.search.component
 
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,10 +21,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.sopt.dive.R
@@ -33,68 +35,108 @@ import kotlin.math.sqrt
 
 
 @Composable
-fun CardAnimation() {
+fun CardSpring() {
 
     var isTextVisible by remember { mutableStateOf(false) }
 
+    val transition = updateTransition(isTextVisible, label = "transition")
+
+    val dampingRatio = 20f / sqrt(4.0f * 177.8f * 1f)
+
     val animSpec = spring<Float>(
-        dampingRatio = 20f / sqrt(4.0f * 177.8f * 1f),
+        dampingRatio = dampingRatio,
+        stiffness = 177.8f
+    )
+    val animDpSpec = spring<Dp>(
+        dampingRatio = dampingRatio,
         stiffness = 177.8f
     )
 
-    val textAlpha by animateFloatAsState(
-        targetValue = if (isTextVisible) 1f else 0f,
-        animationSpec = animSpec,
-        label = "textAlpha"
-    )
+    val textAlpha by transition.animateFloat(
+        label = "textAlpha",
+        transitionSpec = { animSpec }
+    ) { visible ->
+        if (visible) 1f else 0f
+    }
 
-    val rotate by animateFloatAsState (
-        targetValue = if (isTextVisible) 180f else 0f,
-        animationSpec = animSpec,
-        label = "rotate"
-    )
-    val zIndex by animateFloatAsState(
-        targetValue = if (isTextVisible) -1f else 2f,
-        animationSpec = animSpec,
-        label = "zIndex"
-    )
-    val offset by animateDpAsState(
-        targetValue = if (isTextVisible) 15.dp else 0.dp,
-        label = "offset"
-    )
+    val rotate by transition.animateFloat(
+        label = "rotate",
+        transitionSpec = { animSpec }
+    ) { visible ->
+        if (visible) 180f else 0f
+    }
+
+    val zIndex by transition.animateFloat(
+        label = "zIndex",
+        transitionSpec = { animSpec }
+    ) { visible ->
+        if (visible) -5f else 5f
+    }
+
+    val offset by transition.animateDp(
+        label = "offset",
+        transitionSpec = { animDpSpec }
+    ) { visible ->
+        if (visible) 20.dp else 0.dp
+    }
+
+    val textElevation by transition.animateDp(
+        label = "textElevation",
+        transitionSpec = { animDpSpec }
+    ) { visible ->
+        if (visible) 7.dp else 0.dp
+    }
+
+    val imageElevation by transition.animateDp(
+        label = "imageElevation",
+        transitionSpec = { animDpSpec }
+    ) { visible ->
+        if (visible) 0.dp else 7.dp
+    }
 
     Box(
         modifier = Modifier
             .width(200.dp)
             .aspectRatio(0.75f)
-            .zIndex(1f)
             .noRippleClickable { isTextVisible = !isTextVisible }
     ) {
         ImageCard(
-            isTextVisible = isTextVisible,
+            elevation = imageElevation,
             modifier = Modifier
+                .fillMaxSize()
                 .zIndex(zIndex)
-                .offset(offset,offset)
+                .offset(offset, offset)
                 .graphicsLayer {
                     rotationY = rotate
                     cameraDistance = 16 * density
                 }
         )
         TextCard(
-            isTextVisible = isTextVisible,
-            textAlpha = textAlpha
+            elevation = textElevation,
+            textAlpha = textAlpha,
+            modifier = Modifier
+                .fillMaxSize()
+                .zIndex(1f)
         )
     }
 }
 
 @Composable
 private fun TextCard(
-    isTextVisible: Boolean,
+    elevation: Dp,
     textAlpha: Float,
     modifier: Modifier = Modifier
 ){
     Card(
-        modifier = modifier,
+        modifier = modifier.shadow(
+            elevation = elevation,
+            shape = RoundedCornerShape(
+                topStart = 80.dp,
+                topEnd = 8.dp,
+                bottomStart = 8.dp,
+                bottomEnd = 80.dp
+            )
+        ),
         shape = RoundedCornerShape(
             topStart = 80.dp,
             topEnd = 8.dp,
@@ -102,19 +144,14 @@ private fun TextCard(
             bottomEnd = 80.dp
         ),
         colors = CardDefaults.cardColors(
-            containerColor = Color.Magenta
+            containerColor = Color(255,90,140)
         )
     ){
         Text(
-            text = "asdfasldkfalskdjfhasdkfja;lsdjf;alksdfj;laks" +
-                    "djf;alksjdflksjdfl;akjsdfasdfjalksjdfhalksdhfakldshfaklsjdfakjsdflakjsas" +
-                    "askdjfalksdhfalksdhflakdsfhlaksdhflakjdsfhalkjsdfalsdjkfasd" +
-                    "alksjdfhlaksjdalksdfhlaksdhfaksjdfhlaksdflakjdfalkjsdfh" +
-                    "alksdjfhalksdjfhalskdjfalksjdflakjsdfhlkajdfakjd" +
-                    "alksjdfhaskljdfhalksjfalksdj",
-            modifier = modifier
-                .alpha(textAlpha)
-                .fillMaxSize(),
+            text = "마루는강쥐".repeat(80),
+            modifier = Modifier
+                .fillMaxSize()
+                .alpha(textAlpha),
             color = Color.White
         )
 
@@ -124,11 +161,19 @@ private fun TextCard(
 
 @Composable
 private fun ImageCard(
-    isTextVisible: Boolean,
+    elevation: Dp,
     modifier: Modifier = Modifier
 ){
     Card(
-        modifier = modifier,
+        modifier = modifier.shadow(
+            elevation = elevation,
+            shape = RoundedCornerShape(
+                topStart = 8.dp,
+                topEnd = 80.dp,
+                bottomStart = 80.dp,
+                bottomEnd = 8.dp
+            )
+        ),
         shape = RoundedCornerShape(
             topStart = 8.dp,
             topEnd = 80.dp,

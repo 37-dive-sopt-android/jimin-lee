@@ -23,6 +23,7 @@ import com.sopt.dive.R
 @Composable
 fun CardFlip() {
     var isFlipped by remember { mutableStateOf(false) }
+
     val rotation by animateFloatAsState(
         targetValue = if (isFlipped) 180f else 0f,
         animationSpec = tween(
