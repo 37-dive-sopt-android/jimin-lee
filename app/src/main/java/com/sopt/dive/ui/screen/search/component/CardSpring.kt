@@ -5,6 +5,7 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,8 +22,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -94,6 +97,22 @@ fun CardSpring() {
         if (visible) 0.dp else 7.dp
     }
 
+    val changeImageElevation = if (rotate <= 20f) imageElevation else 0.dp
+
+    val textShape = RoundedCornerShape(
+        topStart = 80.dp,
+        topEnd = 8.dp,
+        bottomStart = 8.dp,
+        bottomEnd = 80.dp
+    )
+
+    val imageShape = RoundedCornerShape(
+        topStart = 8.dp,
+        topEnd = 80.dp,
+        bottomStart = 80.dp,
+        bottomEnd = 8.dp
+    )
+
     Box(
         modifier = Modifier
             .width(200.dp)
@@ -101,51 +120,44 @@ fun CardSpring() {
             .noRippleClickable { isTextVisible = !isTextVisible }
     ) {
         ImageCard(
-            elevation = imageElevation,
             modifier = Modifier
                 .fillMaxSize()
                 .zIndex(zIndex)
                 .offset(offset, offset)
+                .shadow(
+                    elevation = changeImageElevation,
+                    shape = imageShape
+                )
+                .clip(imageShape)
                 .graphicsLayer {
                     rotationY = rotate
                     cameraDistance = 16 * density
                 }
         )
         TextCard(
-            elevation = textElevation,
             textAlpha = textAlpha,
             modifier = Modifier
                 .fillMaxSize()
                 .zIndex(1f)
+                .shadow(
+                    elevation = textElevation,
+                    shape = textShape
+                )
+                .background(
+                    color = Color(255,90,140),
+                    shape = textShape
+                )
         )
     }
 }
 
 @Composable
 private fun TextCard(
-    elevation: Dp,
     textAlpha: Float,
     modifier: Modifier = Modifier
 ){
-    Card(
-        modifier = modifier.shadow(
-            elevation = elevation,
-            shape = RoundedCornerShape(
-                topStart = 80.dp,
-                topEnd = 8.dp,
-                bottomStart = 8.dp,
-                bottomEnd = 80.dp
-            )
-        ),
-        shape = RoundedCornerShape(
-            topStart = 80.dp,
-            topEnd = 8.dp,
-            bottomStart = 8.dp,
-            bottomEnd = 80.dp
-        ),
-        colors = CardDefaults.cardColors(
-            containerColor = Color(255,90,140)
-        )
+    Box(
+        modifier = modifier
     ){
         Text(
             text = "마루는강쥐".repeat(80),
@@ -154,32 +166,15 @@ private fun TextCard(
                 .alpha(textAlpha),
             color = Color.White
         )
-
     }
 }
 
-
 @Composable
 private fun ImageCard(
-    elevation: Dp,
     modifier: Modifier = Modifier
 ){
-    Card(
-        modifier = modifier.shadow(
-            elevation = elevation,
-            shape = RoundedCornerShape(
-                topStart = 8.dp,
-                topEnd = 80.dp,
-                bottomStart = 80.dp,
-                bottomEnd = 8.dp
-            )
-        ),
-        shape = RoundedCornerShape(
-            topStart = 8.dp,
-            topEnd = 80.dp,
-            bottomStart = 80.dp,
-            bottomEnd = 8.dp
-        )
+    Box(
+        modifier = modifier
     ){
         Image(
             painter = painterResource(R.drawable.card_back),
