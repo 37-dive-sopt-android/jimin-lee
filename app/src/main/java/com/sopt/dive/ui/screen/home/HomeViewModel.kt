@@ -54,7 +54,7 @@ class HomeViewModel : ViewModel() {
             HomeUiState(
                 img = R.drawable.profile,
                 name = "동동사",
-                message = "",
+                message = null,
                 birth = HomeListType.Birth.NONE,
                 content = HomeListType.Content.NONE,
                 etc = HomeListType.Etc.None
@@ -78,7 +78,7 @@ class HomeViewModel : ViewModel() {
             HomeUiState(
                 img = R.drawable.profile,
                 name = "동동칠",
-                message = "",
+                message = null,
                 birth = HomeListType.Birth.BIRTH,
                 content = HomeListType.Content.NONE,
                 etc = HomeListType.Etc.Gift
@@ -86,7 +86,7 @@ class HomeViewModel : ViewModel() {
             HomeUiState(
                 img = R.drawable.profile,
                 name = "동동팔",
-                message = "",
+                message = null,
                 birth = HomeListType.Birth.NONE,
                 content = HomeListType.Content.NONE,
                 etc = HomeListType.Etc.None
@@ -102,7 +102,7 @@ class HomeViewModel : ViewModel() {
             HomeUiState(
                 img = R.drawable.profile,
                 name = "일동동",
-                message = "",
+                message = null,
                 birth = HomeListType.Birth.NONE,
                 content = HomeListType.Content.NONE,
                 etc = HomeListType.Etc.Music("Shopper - 아이유")
