@@ -36,7 +36,7 @@ import com.sopt.dive.ui.screen.home.type.HomeListType
 fun HomeItem (
     img: Int,
     name: String,
-    message: String,
+    message: String?,
     birth: HomeListType.Birth,
     content: HomeListType.Content,
     etc: HomeListType.Etc,
@@ -60,7 +60,7 @@ fun HomeItem (
 
         HomeNameItem(
             name = name,
-            message = message,
+            message = message.orEmpty(),
             birth = birth,
             content = content
         )
