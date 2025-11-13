@@ -57,16 +57,14 @@ fun SignUpScreen(
 
     val userInfo = RequestSignUpDto(userId, userPw, userNickname, userEmail, userAge.toIntOrNull() ?: 0)
 
-    LaunchedEffect(isSignupSuccess) {
-        isSignupSuccess?.let { state ->
-            if (state.success) {
-                Toast.makeText(context, R.string.success_signup, Toast.LENGTH_SHORT).show()
-                navigateToLogin()
-            } else {
-                Toast.makeText(context, R.string.fail_existed_username, Toast.LENGTH_SHORT).show()
-            }
-            viewModel.resetSignUp()
+    isSignupSuccess?.let { state ->
+        if (state.success) {
+            Toast.makeText(context, R.string.success_signup, Toast.LENGTH_SHORT).show()
+            navigateToLogin()
+        } else {
+            Toast.makeText(context, R.string.fail_existed_username, Toast.LENGTH_SHORT).show()
         }
+        viewModel.resetSignUp()
     }
 
     Column (
