@@ -36,7 +36,8 @@ fun MyScreen(
     val userId = userInfo.id
     val userPw = userInfo.pw
     val userNickname = userInfo.nickname
-    val userMbti = userInfo.mbti
+    val userEmail = userInfo.email
+    val userAge = userInfo.age
 
     Column (
         modifier = Modifier
@@ -81,8 +82,12 @@ fun MyScreen(
             infoContent = userNickname
         )
         Info(
-            infoName = stringResource(R.string.fieldname_mbti),
-            infoContent = userMbti
+            infoName = stringResource(R.string.fieldname_email),
+            infoContent = userEmail
+        )
+        Info(
+            infoName = stringResource(R.string.fieldname_age),
+            infoContent = userAge
         )
     }
 }

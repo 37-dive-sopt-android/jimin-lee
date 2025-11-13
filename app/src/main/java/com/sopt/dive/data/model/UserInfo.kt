@@ -4,5 +4,6 @@ data class UserInfo(
     val id: String,
     val pw: String,
     val nickname: String,
-    val mbti: String
+    val email: String,
+    val age: String
 )

@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -30,8 +29,6 @@ import com.sopt.dive.ui.component.CustomButton
 import com.sopt.dive.ui.component.CustomTextField
 import retrofit2.Response.success
 
-private val MBTI_PATTERN = Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\$")
-
 @Composable
 fun SignUpScreen(
     viewModel: SignUpViewModel = viewModel(),
@@ -47,21 +44,18 @@ fun SignUpScreen(
     var userId by rememberSaveable { mutableStateOf("") }
     var userPw by rememberSaveable { mutableStateOf("") }
     var userNickname by rememberSaveable { mutableStateOf("") }
-    var userMbti by rememberSaveable { mutableStateOf("") }
+    var userEmail by rememberSaveable { mutableStateOf("") }
+    var userAge by rememberSaveable { mutableStateOf("") }
 
-    val isIdValid = userId.length in 6..10
-    val isPwValid = userPw.length in 8..12
-    val isNickValid = userNickname.isNotBlank()
-    val isMbtiValid = userMbti.matches(MBTI_PATTERN)
+    val idError = if (userId.isNotBlank()) SignUpValidator.validateId(userId) ?: "" else ""
+    val pwError = if (userPw.isNotBlank()) SignUpValidator.validatePw(userPw) ?: "" else ""
+    val nickError = if (userNickname.isNotBlank()) SignUpValidator.validateNickname(userNickname) ?: "" else ""
+    val emailError = if (userEmail.isNotBlank()) SignUpValidator.validateEmail(userEmail) ?: "" else ""
+    val ageError = if (userAge.isNotBlank()) SignUpValidator.validateAge(userAge.toIntOrNull() ?: 0) ?: "" else ""
 
-    val idError = if (userId.isNotEmpty() && !isIdValid) stringResource(R.string.error_message_id) else ""
-    val pwError = if (userPw.isNotEmpty() && !isPwValid) stringResource(R.string.error_message_pw) else ""
-    val nickError = if (userNickname.isNotEmpty() && !isNickValid) stringResource(R.string.error_message_nickname) else ""
-    val mbtiError = if (userMbti.isNotEmpty() && !isMbtiValid) stringResource(R.string.error_message_mbti) else ""
+    val isSignUpValid = SignUpValidator.validateAll(userId,userPw,userNickname,userEmail,userAge.toIntOrNull() ?: 0)
 
-    val isSignUpValid = isIdValid && isPwValid && isNickValid && isMbtiValid
-
-    val userInfo = RequestSignUpDto(userId, userPw, userNickname, userMbti, 25)
+    val userInfo = RequestSignUpDto(userId, userPw, userNickname, userEmail, userAge.toIntOrNull() ?: 0)
 
     LaunchedEffect(isSignupSuccess) {
         isSignupSuccess?.let { state ->
@@ -109,11 +103,18 @@ fun SignUpScreen(
             error = nickError
         )
         CustomTextField(
-            fieldName = stringResource(R.string.fieldname_mbti),
-            placeholder = stringResource(R.string.placeholder_mbti),
-            text = userMbti,
-            onTextChange = { userMbti = it },
-            error = mbtiError
+            fieldName = stringResource(R.string.fieldname_email),
+            placeholder = stringResource(R.string.placeholder_email),
+            text = userEmail,
+            onTextChange = { userEmail = it },
+            error = emailError
+        )
+        CustomTextField(
+            fieldName = stringResource(R.string.fieldname_age),
+            placeholder = stringResource(R.string.placeholder_age),
+            text = userAge,
+            onTextChange = { userAge = it },
+            error = ageError
         )
 
         Spacer(modifier.weight(1f))
