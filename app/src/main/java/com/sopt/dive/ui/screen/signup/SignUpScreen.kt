@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -19,21 +21,28 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
+import com.sopt.dive.data.dto.request.signup.RequestSignUpDto
 import com.sopt.dive.data.local.SharedPreference
 import com.sopt.dive.ui.component.CustomButton
 import com.sopt.dive.ui.component.CustomTextField
+import retrofit2.Response.success
 
-private val MBTI_PATTERN = Regex("^[a-zA-Z]{4}$")
+private val MBTI_PATTERN = Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\$")
 
 @Composable
 fun SignUpScreen(
+    viewModel: SignUpViewModel = viewModel(),
     navigateToLogin: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
+    val signupState = viewModel.signupState.collectAsStateWithLifecycle()
+    var isSignupSuccess = signupState.value
+
     val context = LocalContext.current
-    val prefs = SharedPreference(context)
 
     var userId by rememberSaveable { mutableStateOf("") }
     var userPw by rememberSaveable { mutableStateOf("") }
@@ -51,6 +60,20 @@ fun SignUpScreen(
     val mbtiError = if (userMbti.isNotEmpty() && !isMbtiValid) stringResource(R.string.error_message_mbti) else ""
 
     val isSignUpValid = isIdValid && isPwValid && isNickValid && isMbtiValid
+
+    val userInfo = RequestSignUpDto(userId, userPw, userNickname, userMbti, 25)
+
+    LaunchedEffect(isSignupSuccess) {
+        isSignupSuccess?.let { state ->
+            if (state.success) {
+                Toast.makeText(context, R.string.success_signup, Toast.LENGTH_SHORT).show()
+                navigateToLogin()
+            } else {
+                Toast.makeText(context, R.string.fail_existed_username, Toast.LENGTH_SHORT).show()
+            }
+            viewModel.resetSignUp()
+        }
+    }
 
     Column (
         modifier = modifier.padding(top = 20.dp),
@@ -100,21 +123,10 @@ fun SignUpScreen(
             containerColor = Color.Black,
             contentColor = Color.White,
             onClick = {
-                if (isSignUpValid) {
-                    prefs.saveUserInfo(userId, userPw, userNickname, userMbti)
-                    navigateToLogin()
-                    Toast.makeText(
-                        context,
-                        context.getString(R.string.success_signup),
-                        Toast.LENGTH_SHORT
-                    ).show()
-
+                if(isSignUpValid) {
+                    viewModel.postSignUp(userInfo)
                 } else {
-                    Toast.makeText(
-                        context,
-                        context.getString(R.string.fail_signup),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(context,R.string.fail_signup,Toast.LENGTH_SHORT).show()
                 }
             }
         )

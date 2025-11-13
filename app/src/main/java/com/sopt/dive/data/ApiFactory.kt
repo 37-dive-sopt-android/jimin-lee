@@ -27,7 +27,7 @@ object ApiFactory {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)
-            .addConverterFactory(Json.asConverterFactory("/".toMediaType()))
+            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
             .build()
     }
 
