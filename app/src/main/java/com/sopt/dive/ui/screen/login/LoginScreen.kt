@@ -26,6 +26,7 @@ import com.sopt.dive.R
 import com.sopt.dive.ui.component.CustomButton
 import com.sopt.dive.ui.component.CustomTextField
 import com.sopt.dive.data.dto.request.login.RequestLoginDto
+import com.sopt.dive.data.local.SharedPreference
 
 @Composable
 fun LoginScreen(
@@ -35,6 +36,7 @@ fun LoginScreen(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
+    val sharedPref = SharedPreference(context)
 
     val loginState = viewModel.loginState.collectAsStateWithLifecycle()
     val isLoginSuccess = loginState.value
@@ -46,6 +48,7 @@ fun LoginScreen(
 
     isLoginSuccess?.let { state ->
         if (state.success) {
+            sharedPref.saveUserId(state.data?.userId ?: 0L)
             Toast.makeText(context, R.string.success_login, Toast.LENGTH_SHORT).show()
             navigateToMain()
         } else {

@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -19,25 +21,40 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
 import com.sopt.dive.data.local.SharedPreference
+import com.sopt.dive.ui.screen.my.MyViewModel
 import com.sopt.dive.ui.screen.my.component.Info
 
 @Composable
 fun MyScreen(
+    viewModel: MyViewModel = viewModel(),
     innerPadding: PaddingValues
 ) {
+    val myState by viewModel.myState.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
 
     val sharedPref = SharedPreference(context)
 
-    val userInfo = sharedPref.getUserInfo()
-    val userId = userInfo.id
-    val userPw = userInfo.pw
-    val userNickname = userInfo.nickname
-    val userEmail = userInfo.email
-    val userAge = userInfo.age
+    val userInfo = sharedPref.getUserId()
+    val userId = userInfo.userId
+    viewModel.getUserData(userId)
+
+    val userId1 = myState?.data?.username ?: ""
+    val userNickname = myState?.data?.name ?: ""
+    val userEmail = myState?.data?.email ?: ""
+    val userAge = myState?.data?.age ?: 0
+
+    /*val userInfo1 = sharedPref.getUserInfo()
+    val userId1 = userInfo1.id
+    val userPw = userInfo1.pw
+    val userNickname = userInfo1.nickname
+    val userEmail = userInfo1.email
+    val userAge = userInfo1.age*/
+
 
     Column (
         modifier = Modifier
@@ -71,11 +88,7 @@ fun MyScreen(
 
         Info(
             infoName = stringResource(R.string.fieldname_id),
-            infoContent = userId
-        )
-        Info(
-            infoName = stringResource(R.string.fieldname_pw),
-            infoContent = userPw
+            infoContent = userId1
         )
         Info(
             infoName = stringResource(R.string.fieldname_nickname),
@@ -87,7 +100,7 @@ fun MyScreen(
         )
         Info(
             infoName = stringResource(R.string.fieldname_age),
-            infoContent = userAge
+            infoContent = userAge.toString()
         )
     }
 }

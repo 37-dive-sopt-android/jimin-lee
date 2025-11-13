@@ -31,6 +31,9 @@ class LoginViewModel: ViewModel() {
                 ) {
                     if (response.isSuccessful) {
                         _loginState.value = response.body()
+                        _loginState.value?.let{
+                            Log.d("login","${it.data?.userId}")
+                        }
                     } else {
                         val errorCode = response.code().toString()
                         val errorMessage = response.message()
