@@ -10,7 +10,8 @@
     <!--fieldname-->
     <string name="fieldname_id">ID</string>
     <string name="fieldname_pw">PW</string>
-    <string name="fieldname_nickname">NICKNAME</string>
+    <string name="fieldname_username">USERNAME</string>
+    <string name="fieldname_name">NAME</string>
     <string name="fieldname_email">EMAIL</string>
     <string name="fieldname_age">AGE</string>
 
@@ -21,7 +22,7 @@
     <!--placeholder-->
     <string name="placeholder_id">아이디를 입력해주세요</string>
     <string name="placeholder_pw">비밀번호를 입력해주세요</string>
-    <string name="placeholder_nickname">닉네임을 입력해주세요</string>
+    <string name="placeholder_name">이름을 입력해주세요</string>
     <string name="placeholder_email">이메일을 입력해주세요</string>
     <string name="placeholder_age">나이를 입력해주세요</string>
 

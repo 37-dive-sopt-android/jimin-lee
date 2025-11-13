@@ -41,21 +41,21 @@ fun SignUpScreen(
 
     val context = LocalContext.current
 
-    var userId by rememberSaveable { mutableStateOf("") }
+    var userUName by rememberSaveable { mutableStateOf("") }
     var userPw by rememberSaveable { mutableStateOf("") }
-    var userNickname by rememberSaveable { mutableStateOf("") }
+    var userName by rememberSaveable { mutableStateOf("") }
     var userEmail by rememberSaveable { mutableStateOf("") }
     var userAge by rememberSaveable { mutableStateOf("") }
 
-    val idError = if (userId.isNotBlank()) SignUpValidator.validateId(userId) ?: "" else ""
+    val idError = if (userUName.isNotBlank()) SignUpValidator.validateId(userUName) ?: "" else ""
     val pwError = if (userPw.isNotBlank()) SignUpValidator.validatePw(userPw) ?: "" else ""
-    val nickError = if (userNickname.isNotBlank()) SignUpValidator.validateNickname(userNickname) ?: "" else ""
+    val nickError = if (userName.isNotBlank()) SignUpValidator.validateNickname(userName) ?: "" else ""
     val emailError = if (userEmail.isNotBlank()) SignUpValidator.validateEmail(userEmail) ?: "" else ""
     val ageError = if (userAge.isNotBlank()) SignUpValidator.validateAge(userAge.toIntOrNull() ?: 0) ?: "" else ""
 
-    val isSignUpValid = SignUpValidator.validateAll(userId,userPw,userNickname,userEmail,userAge.toIntOrNull() ?: 0)
+    val isSignUpValid = SignUpValidator.validateAll(userUName,userPw,userName,userEmail,userAge.toIntOrNull() ?: 0)
 
-    val userInfo = RequestSignUpDto(userId, userPw, userNickname, userEmail, userAge.toIntOrNull() ?: 0)
+    val userInfo = RequestSignUpDto(userUName, userPw, userName, userEmail, userAge.toIntOrNull() ?: 0)
 
     isSignupSuccess?.let { state ->
         if (state.success) {
@@ -81,8 +81,8 @@ fun SignUpScreen(
         CustomTextField(
             fieldName = stringResource(R.string.fieldname_id),
             placeholder = stringResource(R.string.placeholder_id),
-            text = userId,
-            onTextChange = { userId = it },
+            text = userUName,
+            onTextChange = { userUName = it },
             error = idError
         )
         CustomTextField(
@@ -94,10 +94,10 @@ fun SignUpScreen(
             error = pwError
         )
         CustomTextField(
-            fieldName = stringResource(R.string.fieldname_nickname),
-            placeholder = stringResource(R.string.placeholder_nickname),
-            text = userNickname,
-            onTextChange = { userNickname = it },
+            fieldName = stringResource(R.string.fieldname_name),
+            placeholder = stringResource(R.string.placeholder_name),
+            text = userName,
+            onTextChange = { userName = it },
             error = nickError
         )
         CustomTextField(

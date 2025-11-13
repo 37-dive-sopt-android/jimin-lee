@@ -36,24 +36,16 @@ fun MyScreen(
     val myState by viewModel.myState.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
-
     val sharedPref = SharedPreference(context)
 
     val userInfo = sharedPref.getUserId()
-    val userId = userInfo.userId
-    viewModel.getUserData(userId)
+    val userPathId = userInfo.userId
+    viewModel.getUserData(userPathId)
 
-    val userId1 = myState?.data?.username ?: ""
-    val userNickname = myState?.data?.name ?: ""
+    val userUName = myState?.data?.username ?: ""
+    val userName = myState?.data?.name ?: ""
     val userEmail = myState?.data?.email ?: ""
     val userAge = myState?.data?.age ?: 0
-
-    /*val userInfo1 = sharedPref.getUserInfo()
-    val userId1 = userInfo1.id
-    val userPw = userInfo1.pw
-    val userNickname = userInfo1.nickname
-    val userEmail = userInfo1.email
-    val userAge = userInfo1.age*/
 
 
     Column (
@@ -73,13 +65,13 @@ fun MyScreen(
                     .clip(CircleShape)
             )
             Text(
-                text = userNickname,
+                text = userName,
                 modifier = Modifier.padding(start = 20.dp),
                 fontSize = 20.sp
             )
         }
         Text(
-            text = "안녕하세요 ${userNickname}입니다",
+            text = "안녕하세요 ${userName}입니다",
             modifier = Modifier.padding(vertical = 10.dp),
             fontSize = 20.sp
         )
@@ -88,11 +80,7 @@ fun MyScreen(
 
         Info(
             infoName = stringResource(R.string.fieldname_id),
-            infoContent = userId1
-        )
-        Info(
-            infoName = stringResource(R.string.fieldname_nickname),
-            infoContent = userNickname
+            infoContent = userUName
         )
         Info(
             infoName = stringResource(R.string.fieldname_email),
