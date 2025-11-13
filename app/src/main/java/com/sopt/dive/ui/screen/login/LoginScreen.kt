@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -19,27 +20,39 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
-import com.sopt.dive.data.local.SharedPreference
 import com.sopt.dive.ui.component.CustomButton
 import com.sopt.dive.ui.component.CustomTextField
+import com.sopt.dive.data.dto.request.login.RequestLoginDto
 
 @Composable
 fun LoginScreen(
+    viewModel: LoginViewModel = viewModel(),
     navigateToMain: () -> Unit,
     navigateToSignUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-
     val context = LocalContext.current
 
-    val sharedPref = SharedPreference(context)
-    val userInfo = sharedPref.getUserInfo()
-    val userId = userInfo.id
-    val userPw = userInfo.pw
+    val loginState = viewModel.loginState.collectAsStateWithLifecycle()
+    val isLoginSuccess = loginState.value
 
     var loginId by rememberSaveable { mutableStateOf("") }
     var loginPw by rememberSaveable { mutableStateOf("") }
+
+    val loginInfo = RequestLoginDto(loginId, loginPw)
+
+    isLoginSuccess?.let { state ->
+        if (state.success) {
+            Toast.makeText(context, R.string.success_login, Toast.LENGTH_SHORT).show()
+            navigateToMain()
+        } else {
+            Toast.makeText(context, R.string.fail_incorrect_login, Toast.LENGTH_SHORT).show()
+        }
+        viewModel.resetLogin()
+    }
 
     Column (
         modifier = modifier
@@ -77,19 +90,13 @@ fun LoginScreen(
             containerColor = Color.Black,
             contentColor = Color.White,
             onClick = {
-                when {
-                    loginId.isBlank() || loginPw.isBlank() -> {
-                        Toast.makeText(context, context.getString(R.string.fail_blank_login), Toast.LENGTH_SHORT).show()
-                    }
-                    loginId == userId && loginPw == userPw -> {
-                        navigateToMain()
-                        Toast.makeText(context, context.getString(R.string.success_login), Toast.LENGTH_SHORT).show()
-                    }
-                    else -> {
-                        Toast.makeText(context, context.getString(R.string.fail_incorrect_login), Toast.LENGTH_SHORT).show()
-                    }
+                if (loginId.isBlank() || loginPw.isBlank()) {
+                    Toast.makeText(context, context.getString(R.string.fail_blank_login), Toast.LENGTH_SHORT).show()
+                } else {
+                    viewModel.postLogin(loginInfo)
                 }
-            })
+            }
+        )
         CustomButton (
             buttonName = stringResource(R.string.button_signup),
             containerColor = Color.Transparent,

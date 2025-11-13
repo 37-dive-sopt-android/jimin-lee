@@ -8,7 +8,7 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface LoginService {
-    @POST("/auth/login")
+    @POST("/api/v1/auth/login")
     fun postLogin(
         @Body requestLoginDto: RequestLoginDto
     ): Call<BaseResponse<ResponseLoginDto>>
