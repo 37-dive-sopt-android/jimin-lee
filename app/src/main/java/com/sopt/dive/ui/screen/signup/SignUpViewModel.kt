@@ -3,8 +3,8 @@ package com.sopt.dive.ui.screen.signup
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sopt.dive.data.ServicePool
-import com.sopt.dive.data.UiState
+import com.sopt.dive.data.network.ServicePool
+import com.sopt.dive.ui.common.UiState
 import com.sopt.dive.data.dto.request.signup.RequestSignUpDto
 import com.sopt.dive.data.dto.response.BaseResponse
 import com.sopt.dive.data.dto.signup.ResponseSignUpDto

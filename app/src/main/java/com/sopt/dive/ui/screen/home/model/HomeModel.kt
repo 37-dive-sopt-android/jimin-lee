@@ -2,7 +2,7 @@ package com.sopt.dive.ui.screen.home.model
 
 import com.sopt.dive.ui.screen.home.type.HomeListType
 
-data class HomeUiState(
+data class HomeModel(
     val img: String,
     val name: String,
     val message: String?,

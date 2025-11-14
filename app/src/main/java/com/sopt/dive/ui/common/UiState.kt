@@ -1,4 +1,4 @@
-package com.sopt.dive.data
+package com.sopt.dive.ui.common
 
 sealed interface UiState<out T> {
     data class Success<T>(val data: T) : UiState<T>

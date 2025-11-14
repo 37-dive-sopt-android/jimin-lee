@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
-import com.sopt.dive.data.UiState
+import com.sopt.dive.ui.common.UiState
 import com.sopt.dive.data.dto.request.signup.RequestSignUpDto
 import com.sopt.dive.data.local.SharedPreference
 import com.sopt.dive.ui.component.CustomButton

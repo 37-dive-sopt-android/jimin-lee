@@ -21,9 +21,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
-import com.sopt.dive.data.UiState
+import com.sopt.dive.ui.common.UiState
 import com.sopt.dive.ui.screen.home.component.HomeItem
-import com.sopt.dive.ui.screen.home.model.HomeUiState
+import com.sopt.dive.ui.screen.home.model.HomeModel
 import com.sopt.dive.ui.screen.home.type.HomeListType
 
 @Composable
@@ -65,7 +65,7 @@ private fun LoadingHomeScreen(
 @Composable
 private fun SuccessHomeScreen(
     innerPadding: PaddingValues,
-    homeList: List<HomeUiState>
+    homeList: List<HomeModel>
 ) {
     Column (
         modifier = Modifier

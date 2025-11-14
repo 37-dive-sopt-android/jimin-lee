@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlin.getValue
-import com.sopt.dive.data.ServicePool
-import com.sopt.dive.data.UiState
+import com.sopt.dive.data.network.ServicePool
+import com.sopt.dive.ui.common.UiState
 import com.sopt.dive.data.dto.response.BaseResponse
 import com.sopt.dive.data.dto.my.ResponseUserDataDto
 import kotlinx.coroutines.flow.MutableStateFlow
