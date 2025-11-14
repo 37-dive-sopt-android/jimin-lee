@@ -2,52 +2,39 @@ package com.sopt.dive.ui.screen.my
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlin.getValue
 import com.sopt.dive.data.ServicePool
-import com.sopt.dive.data.dto.request.login.RequestLoginDto
+import com.sopt.dive.data.UiState
 import com.sopt.dive.data.dto.response.BaseResponse
 import com.sopt.dive.data.dto.my.ResponseUserDataDto
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.launch
 
 
 class MyViewModel: ViewModel() {
 
     private val myService by lazy { ServicePool.myService }
 
-    private val _myState = MutableStateFlow<BaseResponse<ResponseUserDataDto>?>(null)
-    val myState: StateFlow<BaseResponse<ResponseUserDataDto>?> = _myState.asStateFlow()
+    private val _myState = MutableStateFlow<UiState<BaseResponse<ResponseUserDataDto>?>>(UiState.Loading)
+    val myState: StateFlow<UiState<BaseResponse<ResponseUserDataDto>?>> = _myState.asStateFlow()
 
     fun getUserData(id: Long) {
-        myService.getUserData(id).enqueue(
-            object : Callback<BaseResponse<ResponseUserDataDto>> {
-                override fun onResponse(
-                    call: Call<BaseResponse<ResponseUserDataDto>>,
-                    response: Response<BaseResponse<ResponseUserDataDto>>
-                ) {
-                    if (response.isSuccessful) {
-                        _myState.value = response.body()
-                        Log.d("login_my","${id}")
-                    } else {
-                        val errorCode = response.code().toString()
-                        val errorMessage = response.message()
-                        _myState.value = BaseResponse(false, errorCode, errorMessage, null)
-                        Log.e("error", errorMessage.toString())
-                    }
+        viewModelScope.launch {
+            _myState.value = UiState.Loading
+            try {
+                val response = myService.getUserData(id)
+                if (response.isSuccessful) {
+                    _myState.value = UiState.Success(response.body())
+                } else {
+                    _myState.value = UiState.Failure("${response.code()} ${response.message()}")
+                    Log.e("error", "${response.code()} ${response.message()}")
                 }
-                override fun onFailure(call: Call<BaseResponse<ResponseUserDataDto>?>, t: Throwable) {
-                    Log.e("failure", t.message.toString())
-                }
+            } catch (e: Exception) {
+                _myState.value = UiState.Failure(e.message ?: "Unknown error")
             }
-        )
+        }
     }
-
-    /*fun resetUserData() {
-        _myState.value = null
-    }*/
-
 }
