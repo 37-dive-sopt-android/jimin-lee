@@ -52,11 +52,11 @@ fun MyScreen(
 
     when (val state = myState) {
         is UiState.Loading -> {
-            LoadingHomeScreen(innerPadding)
+            LoadingMyScreen(innerPadding)
         }
         is UiState.Success -> {
             val user = state.data?.data
-            SuccessHomeScreen(
+            SuccessMyScreen(
                 userUName = user?.username ?: "",
                 userName = user?.name ?: "",
                 userEmail = user?.email ?: "",
@@ -71,7 +71,7 @@ fun MyScreen(
 }
 
 @Composable
-private fun LoadingHomeScreen(
+private fun LoadingMyScreen(
     innerPadding: PaddingValues
 ) {
     Column(
@@ -86,7 +86,7 @@ private fun LoadingHomeScreen(
 }
 
 @Composable
-private fun SuccessHomeScreen (
+private fun SuccessMyScreen (
     userName: String,
     userUName: String,
     userEmail: String,
