@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
+import com.sopt.dive.data.UiState
 import com.sopt.dive.data.dto.request.signup.RequestSignUpDto
 import com.sopt.dive.data.local.SharedPreference
 import com.sopt.dive.ui.component.CustomButton
@@ -57,14 +58,26 @@ fun SignUpScreen(
 
     val userInfo = RequestSignUpDto(userUName, userPw, userName, userEmail, userAge.toIntOrNull() ?: 0)
 
-    isSignupSuccess?.let { state ->
-        if (state.success) {
-            Toast.makeText(context, R.string.success_signup, Toast.LENGTH_SHORT).show()
-            navigateToLogin()
-        } else {
-            Toast.makeText(context, R.string.fail_existed_username, Toast.LENGTH_SHORT).show()
+    LaunchedEffect(isSignupSuccess) {
+        when (val state = isSignupSuccess) {
+            is UiState.Loading -> {}
+            is UiState.Success -> {
+                val response = state.data
+                response?.let {
+                    if (response.success && response.data != null) {
+                        Toast.makeText(context, R.string.success_signup, Toast.LENGTH_SHORT).show()
+                        navigateToLogin()
+                    } else {
+                        Toast.makeText(context, R.string.fail_existed_username, Toast.LENGTH_SHORT).show()
+                    }
+                    viewModel.resetSignUp()
+                }
+            }
+            is UiState.Failure -> {
+                Toast.makeText(context, R.string.fail_existed_username, Toast.LENGTH_SHORT).show()
+                //viewModel.resetSignUp()
+            }
         }
-        viewModel.resetSignUp()
     }
 
     Column (

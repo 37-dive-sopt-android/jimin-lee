@@ -36,7 +36,7 @@
     <!--signup-->
     <string name="success_signup">회원가입에 성공했습니다</string>
     <string name="fail_signup">올바른 회원 정보를 입력해주세요</string>
-    <string name="fail_existed_username">이미 존재하는 사용자명입니다.</string>
+    <string name="fail_existed_username">이미 존재하는 ID입니다.</string>
 
     <!--login-->
     <string name="success_login">로그인에 성공했습니다</string>

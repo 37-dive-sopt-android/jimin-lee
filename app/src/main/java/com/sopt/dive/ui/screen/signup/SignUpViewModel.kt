@@ -2,49 +2,43 @@ package com.sopt.dive.ui.screen.signup
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.sopt.dive.data.ServicePool
+import com.sopt.dive.data.UiState
 import com.sopt.dive.data.dto.request.signup.RequestSignUpDto
 import com.sopt.dive.data.dto.response.BaseResponse
 import com.sopt.dive.data.dto.signup.ResponseSignUpDto
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.launch
 import kotlin.getValue
 
 class SignUpViewModel: ViewModel() {
 
     private val signupService by lazy { ServicePool.signupService }
 
-    private val _signupState = MutableStateFlow<BaseResponse<ResponseSignUpDto>?>(null)
-    val signupState: StateFlow<BaseResponse<ResponseSignUpDto>?> = _signupState.asStateFlow()
+    private val _signupState = MutableStateFlow<UiState<BaseResponse<ResponseSignUpDto>?>>(UiState.Loading)
+    val signupState: StateFlow<UiState<BaseResponse<ResponseSignUpDto>?>> = _signupState.asStateFlow()
 
     fun postSignUp(request: RequestSignUpDto) {
-        signupService.postSignUp(request).enqueue(
-            object : Callback<BaseResponse<ResponseSignUpDto>> {
-                override fun onResponse(
-                    call: Call<BaseResponse<ResponseSignUpDto>>,
-                    response: Response<BaseResponse<ResponseSignUpDto>>
-                ) {
-                    if (response.isSuccessful) {
-                        _signupState.value = response.body()
-                    } else {
-                        val errorCode = response.code().toString()
-                        val errorMessage = response.message()
-                        _signupState.value = BaseResponse(false, errorCode, errorMessage, null)
-                        Log.e("error", errorMessage.toString())
-                    }
+        viewModelScope.launch {
+            _signupState.value = UiState.Loading
+            try {
+                val response = signupService.postSignUp(request)
+                if (response.isSuccessful) {
+                    _signupState.value = UiState.Success(response.body())
+                } else {
+                    _signupState.value = UiState.Failure("${response.code()} ${response.message()}")
+                    Log.e("error", "${response.code()} ${response.message()}")
                 }
-                override fun onFailure(call: Call<BaseResponse<ResponseSignUpDto>?>, t: Throwable) {
-                    Log.e("failure", t.message.toString())
-                }
+            } catch (e: Exception) {
+                _signupState.value = UiState.Failure(e.message ?: "${e.message}")
             }
-        )
+        }
     }
 
     fun resetSignUp() {
-        _signupState.value = null
+        _signupState.value = UiState.Loading
     }
 }
