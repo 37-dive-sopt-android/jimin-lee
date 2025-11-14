@@ -2,7 +2,6 @@ package com.sopt.dive.data.local
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.sopt.dive.data.model.UserInfo
 import com.sopt.dive.data.dto.login.ResponseLoginDto
 
 class SharedPreference(context: Context) {

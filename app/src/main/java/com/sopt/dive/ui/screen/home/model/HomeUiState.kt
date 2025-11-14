@@ -3,7 +3,7 @@ package com.sopt.dive.ui.screen.home.model
 import com.sopt.dive.ui.screen.home.type.HomeListType
 
 data class HomeUiState(
-    val img: Int,
+    val img: String,
     val name: String,
     val message: String?,
     val birth: HomeListType.Birth,

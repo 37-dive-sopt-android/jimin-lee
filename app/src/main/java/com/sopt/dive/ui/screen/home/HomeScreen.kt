@@ -20,6 +20,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
 import com.sopt.dive.ui.screen.home.component.HomeItem
+import com.sopt.dive.ui.screen.home.type.HomeListType
 
 @Composable
 fun HomeScreen(
@@ -27,7 +28,8 @@ fun HomeScreen(
     viewModel: HomeViewModel = viewModel()
 ) {
 
-    val homeUiState by viewModel.homeUiState.collectAsStateWithLifecycle()
+    val homeState by viewModel.homeState.collectAsStateWithLifecycle()
+
 
     Column (
         modifier = Modifier
@@ -47,14 +49,14 @@ fun HomeScreen(
                     fontWeight = FontWeight.Bold
                 )
             }
-            items(homeUiState) { item ->
+            items(homeState) { item ->
                 HomeItem(
-                    img = item.img,
-                    name = item.name,
-                    message = item.message,
-                    birth = item.birth,
-                    content = item.content,
-                    etc = item.etc
+                    img = item?.img ?: "",
+                    name = item?.name ?: "",
+                    message = item?.message,
+                    birth = item?.birth ?: HomeListType.Birth.NONE,
+                    content = item?.content ?: HomeListType.Content.NONE,
+                    etc = item?.etc ?: HomeListType.Etc.None
                 )
             }
         }

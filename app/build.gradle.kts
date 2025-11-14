@@ -24,6 +24,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "BASE_URL", properties["base.url"].toString())
+        buildConfigField("String", "BASE_URL2", properties["base.url2"].toString())
     }
 
     buildTypes {
@@ -75,4 +76,6 @@ dependencies {
     implementation(libs.okhttp.logging)
 
     implementation("androidx.compose.material:material-icons-extended")
+
+    implementation(libs.coil.compose)
 }
