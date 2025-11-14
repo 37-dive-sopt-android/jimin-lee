@@ -33,7 +33,7 @@ class MyViewModel: ViewModel() {
                     Log.e("error", "${response.code()} ${response.message()}")
                 }
             } catch (e: Exception) {
-                _myState.value = UiState.Failure(e.message ?: "Unknown error")
+                _myState.value = UiState.Failure(e.message ?: "${e.message}")
             }
         }
     }

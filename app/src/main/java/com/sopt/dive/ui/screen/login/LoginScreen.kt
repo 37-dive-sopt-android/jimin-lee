@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
+import com.sopt.dive.data.UiState
 import com.sopt.dive.ui.component.CustomButton
 import com.sopt.dive.ui.component.CustomTextField
 import com.sopt.dive.data.dto.request.login.RequestLoginDto
@@ -46,15 +47,27 @@ fun LoginScreen(
 
     val loginInfo = RequestLoginDto(loginId, loginPw)
 
-    isLoginSuccess?.let { state ->
-        if (state.success) {
-            sharedPref.saveUserId(state.data?.userId ?: 0L)
-            Toast.makeText(context, R.string.success_login, Toast.LENGTH_SHORT).show()
-            navigateToMain()
-        } else {
-            Toast.makeText(context, R.string.fail_incorrect_login, Toast.LENGTH_SHORT).show()
+    LaunchedEffect(isLoginSuccess) {
+        when (val state = isLoginSuccess) {
+            is UiState.Loading -> {}
+            is UiState.Success -> {
+                val response = state.data
+                response?.let {
+                    if (response.success && response.data != null) {
+                        sharedPref.saveUserId(response.data.userId)
+                        Toast.makeText(context, R.string.success_login, Toast.LENGTH_SHORT).show()
+                        navigateToMain()
+                    } else {
+                        Toast.makeText(context, R.string.fail_incorrect_login, Toast.LENGTH_SHORT).show()
+                    }
+                    viewModel.resetLogin()
+                }
+            }
+            is UiState.Failure -> {
+                Toast.makeText(context, R.string.fail_incorrect_login, Toast.LENGTH_SHORT).show()
+                viewModel.resetLogin()
+            }
         }
-        viewModel.resetLogin()
     }
 
     Column (

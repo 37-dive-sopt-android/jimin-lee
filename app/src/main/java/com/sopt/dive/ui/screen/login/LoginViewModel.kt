@@ -2,54 +2,44 @@ package com.sopt.dive.ui.screen.login
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlin.getValue
 import com.sopt.dive.data.ServicePool
+import com.sopt.dive.data.UiState
 import com.sopt.dive.data.dto.request.login.RequestLoginDto
 import com.sopt.dive.data.dto.response.BaseResponse
 import com.sopt.dive.data.dto.login.ResponseLoginDto
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-
+import kotlinx.coroutines.launch
 
 class LoginViewModel: ViewModel() {
 
     private val loginService by lazy { ServicePool.loginService }
 
-    private val _loginState = MutableStateFlow<BaseResponse<ResponseLoginDto>?>(null)
-    val loginState: StateFlow<BaseResponse<ResponseLoginDto>?> = _loginState.asStateFlow()
+    private val _loginState = MutableStateFlow<UiState<BaseResponse<ResponseLoginDto>?>>(UiState.Loading)
+    val loginState: StateFlow<UiState<BaseResponse<ResponseLoginDto>?>> = _loginState.asStateFlow()
 
     fun postLogin(request: RequestLoginDto) {
-        loginService.postLogin(request).enqueue(
-            object : Callback<BaseResponse<ResponseLoginDto>> {
-                override fun onResponse(
-                    call: Call<BaseResponse<ResponseLoginDto>>,
-                    response: Response<BaseResponse<ResponseLoginDto>>
-                ) {
-                    if (response.isSuccessful) {
-                        _loginState.value = response.body()
-                        _loginState.value?.let{
-                            Log.d("login","${it.data?.userId}")
-                        }
-                    } else {
-                        val errorCode = response.code().toString()
-                        val errorMessage = response.message()
-                        _loginState.value = BaseResponse(false, errorCode, errorMessage, null)
-                        Log.e("error", errorMessage.toString())
-                    }
+        viewModelScope.launch {
+            _loginState.value = UiState.Loading
+            try {
+                val response = loginService.postLogin(request)
+                if (response.isSuccessful) {
+                    _loginState.value = UiState.Success(response.body())
+                } else {
+                    _loginState.value = UiState.Failure("${response.code()} ${response.message()}")
+                    Log.e("error", "${response.code()} ${response.message()}")
                 }
-                override fun onFailure(call: Call<BaseResponse<ResponseLoginDto>?>, t: Throwable) {
-                    Log.e("failure", t.message.toString())
-                }
+            } catch (e: Exception) {
+                _loginState.value = UiState.Failure(e.message ?: "${e.message}")
             }
-        )
+        }
     }
 
     fun resetLogin() {
-        _loginState.value = null
+        _loginState.value = UiState.Loading
     }
 
 }
