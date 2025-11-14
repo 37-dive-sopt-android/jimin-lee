@@ -37,9 +37,4 @@ class LoginViewModel: ViewModel() {
             }
         }
     }
-
-    fun resetLogin() {
-        _loginState.value = UiState.Loading
-    }
-
 }

@@ -70,12 +70,10 @@ fun SignUpScreen(
                     } else {
                         Toast.makeText(context, R.string.fail_existed_username, Toast.LENGTH_SHORT).show()
                     }
-                    viewModel.resetSignUp()
                 }
             }
             is UiState.Failure -> {
                 Toast.makeText(context, R.string.fail_existed_username, Toast.LENGTH_SHORT).show()
-                //viewModel.resetSignUp()
             }
         }
     }

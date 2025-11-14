@@ -60,12 +60,10 @@ fun LoginScreen(
                     } else {
                         Toast.makeText(context, R.string.fail_incorrect_login, Toast.LENGTH_SHORT).show()
                     }
-                    viewModel.resetLogin()
                 }
             }
             is UiState.Failure -> {
                 Toast.makeText(context, R.string.fail_incorrect_login, Toast.LENGTH_SHORT).show()
-                viewModel.resetLogin()
             }
         }
     }

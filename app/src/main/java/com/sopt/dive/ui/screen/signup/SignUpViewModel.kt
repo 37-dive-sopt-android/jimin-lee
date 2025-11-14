@@ -37,8 +37,4 @@ class SignUpViewModel: ViewModel() {
             }
         }
     }
-
-    fun resetSignUp() {
-        _signupState.value = UiState.Loading
-    }
 }
