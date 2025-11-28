@@ -37,8 +37,8 @@ import com.sopt.dive.ui.screen.my.component.Info
 
 @Composable
 fun MyScreen(
+    innerPadding: PaddingValues,
     viewModel: MyViewModel = viewModel(),
-    innerPadding: PaddingValues
 ) {
     val myState by viewModel.myState.collectAsStateWithLifecycle()
 

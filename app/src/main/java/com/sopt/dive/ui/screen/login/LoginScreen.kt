@@ -31,10 +31,10 @@ import com.sopt.dive.data.local.SharedPreference
 
 @Composable
 fun LoginScreen(
-    viewModel: LoginViewModel = viewModel(),
     navigateToMain: () -> Unit,
     navigateToSignUp: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: LoginViewModel = viewModel(),
 ) {
     val context = LocalContext.current
     val sharedPref = SharedPreference(context)

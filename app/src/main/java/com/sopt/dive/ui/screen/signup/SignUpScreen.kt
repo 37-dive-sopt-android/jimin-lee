@@ -32,9 +32,9 @@ import retrofit2.Response.success
 
 @Composable
 fun SignUpScreen(
-    viewModel: SignUpViewModel = viewModel(),
     navigateToLogin: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: SignUpViewModel = viewModel(),
 ) {
 
     val signupState = viewModel.signupState.collectAsStateWithLifecycle()
