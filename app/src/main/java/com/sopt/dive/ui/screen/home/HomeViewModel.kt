@@ -34,12 +34,13 @@ class HomeViewModel : ViewModel() {
                     val followerList =
                         response.body()?.data?.map { item ->
                             HomeModel(
-                            img = item.avatar,
-                            name = "${item.firstName} ${item.lastName}",
-                            message = item.email,
-                            birth = HomeListType.Birth.NONE,
-                            content = HomeListType.Content.Exist,
-                            etc = HomeListType.Etc.None
+                                id = item.id,
+                                img = item.avatar,
+                                name = "${item.firstName} ${item.lastName}",
+                                message = item.email,
+                                birth = HomeListType.Birth.NONE,
+                                content = HomeListType.Content.Exist,
+                                etc = HomeListType.Etc.None
                         )
                     } ?: emptyList()
                     _homeState.value = UiState.Success(followerList)

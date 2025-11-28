@@ -10,6 +10,7 @@ activityCompose = "1.11.0"
 composeBom = "2024.09.00"
 androidxComposeNavigation = "2.8.9"
 coil = "2.4.0"
+room = "2.8.3"
 
 # Networking
 retrofit = "2.11.0"
@@ -34,6 +35,9 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxComposeNavigation" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
 # Network
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }

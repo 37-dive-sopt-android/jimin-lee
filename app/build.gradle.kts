@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
-    id("com.google.devtools.ksp")
 }
 
 val properties = Properties().apply {
@@ -71,7 +70,6 @@ dependencies {
     implementation(libs.androidx.compose.navigation)
     implementation(libs.kotlinx.serialization.json)
 
-    implementation(libs.kotlinx.serialization.json)
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.kotlin.serialization)
     implementation(libs.okhttp.logging)
@@ -79,4 +77,5 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
 
     implementation(libs.coil.compose)
+
 }
