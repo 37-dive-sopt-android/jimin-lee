@@ -9,11 +9,13 @@ import com.sopt.dive.ui.common.UiState
 import com.sopt.dive.data.dto.request.login.RequestLoginDto
 import com.sopt.dive.data.dto.response.BaseResponse
 import com.sopt.dive.data.dto.login.ResponseLoginDto
+import com.sopt.dive.data.dto.request.signup.RequestSignUpDto
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.serialization.SerialName
 
 class LoginViewModel: ViewModel() {
 
@@ -34,9 +36,14 @@ class LoginViewModel: ViewModel() {
     }
 
 
-    fun postLogin(request: RequestLoginDto) {
+    fun postLogin() {
         viewModelScope.launch {
             _loginState.value = UiState.Loading
+            val loginInfo = _loginInfo.value
+            val request = RequestLoginDto(
+                username = loginInfo.loginId,
+                password = loginInfo.loginPw,
+            )
             try {
                 val response = loginService.postLogin(request)
                 if (response.isSuccessful) {
