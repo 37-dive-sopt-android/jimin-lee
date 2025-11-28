@@ -16,7 +16,7 @@ import kotlin.getValue
 
 class SignUpViewModel: ViewModel() {
 
-    private val signupService by lazy { ServicePool.signupService }
+    private val signupService by lazy { ServicePool.authService }
 
     private val _signupState = MutableStateFlow<UiState<BaseResponse<ResponseSignUpDto>?>>(UiState.Loading)
     val signupState: StateFlow<UiState<BaseResponse<ResponseSignUpDto>?>> = _signupState.asStateFlow()

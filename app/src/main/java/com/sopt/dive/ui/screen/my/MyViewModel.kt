@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 class MyViewModel: ViewModel() {
 
-    private val myService by lazy { ServicePool.myService }
+    private val myService by lazy { ServicePool.authService }
 
     private val _myState = MutableStateFlow<UiState<BaseResponse<ResponseUserDataDto>?>>(UiState.Loading)
     val myState: StateFlow<UiState<BaseResponse<ResponseUserDataDto>?>> = _myState.asStateFlow()

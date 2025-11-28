@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel: ViewModel() {
 
-    private val loginService by lazy { ServicePool.loginService }
+    private val loginService by lazy { ServicePool.authService }
 
     private val _loginState = MutableStateFlow<UiState<BaseResponse<ResponseLoginDto>?>>(UiState.Loading)
     val loginState: StateFlow<UiState<BaseResponse<ResponseLoginDto>?>> = _loginState.asStateFlow()
