@@ -39,11 +39,14 @@ fun LoginScreen(
     val context = LocalContext.current
     val sharedPref = SharedPreference(context)
 
-    val loginState = viewModel.loginState.collectAsStateWithLifecycle()
-    val isLoginSuccess = loginState.value
+    val loginState by viewModel.loginState.collectAsStateWithLifecycle()
+    val loginInfoState by viewModel.loginInfo.collectAsStateWithLifecycle()
 
-    var loginId by rememberSaveable { mutableStateOf("") }
-    var loginPw by rememberSaveable { mutableStateOf("") }
+    val isLoginSuccess = loginState
+
+
+    val loginId = loginInfoState.loginId
+    val loginPw = loginInfoState.loginPw
 
     val loginInfo = RequestLoginDto(loginId, loginPw)
 
@@ -86,13 +89,13 @@ fun LoginScreen(
                 fieldName = stringResource(R.string.fieldname_id),
                 placeholder = stringResource(R.string.placeholder_id),
                 text = loginId,
-                onTextChange = {loginId = it}
+                onTextChange = viewModel::updateLoginId
             )
             CustomTextField(
                 fieldName = stringResource(R.string.fieldname_pw),
                 placeholder = stringResource(R.string.placeholder_pw),
                 text = loginPw,
-                onTextChange = {loginPw = it},
+                onTextChange = viewModel::updateLoginPw,
                 isPassword = true
             )
         }

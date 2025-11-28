@@ -12,6 +12,7 @@ import com.sopt.dive.data.dto.login.ResponseLoginDto
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class LoginViewModel: ViewModel() {
@@ -20,6 +21,18 @@ class LoginViewModel: ViewModel() {
 
     private val _loginState = MutableStateFlow<UiState<BaseResponse<ResponseLoginDto>?>>(UiState.Loading)
     val loginState: StateFlow<UiState<BaseResponse<ResponseLoginDto>?>> = _loginState.asStateFlow()
+
+    private val _loginInfo = MutableStateFlow(LoginUiState())
+    val loginInfo: StateFlow<LoginUiState> = _loginInfo.asStateFlow()
+
+    fun updateLoginId(id: String) {
+        _loginInfo.update { it.copy(loginId = id) }
+    }
+
+    fun updateLoginPw(pw: String) {
+        _loginInfo.update { it.copy(loginPw = pw) }
+    }
+
 
     fun postLogin(request: RequestLoginDto) {
         viewModelScope.launch {
