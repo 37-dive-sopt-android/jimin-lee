@@ -89,12 +89,12 @@ private fun SuccessHomeScreen(
             }
             items(homeList) { item ->
                 HomeItem(
-                    img = item?.img ?: "",
-                    name = item?.name ?: "",
-                    message = item?.message,
-                    birth = item?.birth ?: HomeListType.Birth.NONE,
-                    content = item?.content ?: HomeListType.Content.NONE,
-                    etc = item?.etc ?: HomeListType.Etc.None
+                    img = item.img,
+                    name = item.name,
+                    message = item.message,
+                    birth = item.birth,
+                    content = item.content,
+                    etc = item.etc
                 )
             }
         }
