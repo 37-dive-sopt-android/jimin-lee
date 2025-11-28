@@ -11,6 +11,7 @@ import androidx.navigation.navOptions
 import com.sopt.dive.data.route.Home
 import com.sopt.dive.data.route.Login
 import com.sopt.dive.data.route.SignUp
+import com.sopt.dive.ui.screen.login.LoginRoute
 import com.sopt.dive.ui.screen.login.LoginScreen
 
 
@@ -19,7 +20,7 @@ fun NavGraphBuilder.loginNavGraph(
     innerPadding: PaddingValues
 ){
     composable<Login> {
-        LoginScreen(
+        LoginRoute(
             navigateToMain = {
                 navController.navigate(
                     route = Home,

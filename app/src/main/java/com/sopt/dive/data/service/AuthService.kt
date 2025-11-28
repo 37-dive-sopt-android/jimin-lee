@@ -6,7 +6,6 @@ import com.sopt.dive.data.dto.request.login.RequestLoginDto
 import com.sopt.dive.data.dto.request.signup.RequestSignUpDto
 import com.sopt.dive.data.dto.response.BaseResponse
 import com.sopt.dive.data.dto.signup.ResponseSignUpDto
-import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -17,16 +16,16 @@ interface AuthService {
     @POST("users")
     suspend fun postSignUp(
         @Body requestSignUpDto: RequestSignUpDto
-    ): Response<BaseResponse<ResponseSignUpDto>>
+    ): BaseResponse<ResponseSignUpDto>
 
     @POST("auth/login")
     suspend fun postLogin(
         @Body requestLoginDto: RequestLoginDto
-    ): Response<BaseResponse<ResponseLoginDto>>
+    ): BaseResponse<ResponseLoginDto>
 
     @GET("users/{id}")
     suspend fun getUserData(
         @Path("id") id: Long
-    ): Response<BaseResponse<ResponseUserDataDto>>
+    ): BaseResponse<ResponseUserDataDto>
 
 }

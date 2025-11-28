@@ -32,61 +32,47 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
 import com.sopt.dive.ui.common.UiState
 import com.sopt.dive.data.local.SharedPreference
-import com.sopt.dive.ui.screen.my.MyViewModel
+import com.sopt.dive.ui.screen.LoadingScreen
 import com.sopt.dive.ui.screen.my.component.Info
 
 @Composable
-fun MyScreen(
+fun MyRoute(
     innerPadding: PaddingValues,
     viewModel: MyViewModel = viewModel(),
 ) {
-    val myState by viewModel.myState.collectAsStateWithLifecycle()
-
     val context = LocalContext.current
+
     val sharedPref = SharedPreference(context)
     val userPathId by rememberSaveable { mutableStateOf(sharedPref.getUserId().userId) }
+
+    val myState by viewModel.myState.collectAsStateWithLifecycle()
 
     LaunchedEffect(userPathId) {
         viewModel.getUserData(userPathId)
     }
 
     when (val state = myState) {
-        is UiState.Loading -> {
-            LoadingMyScreen(innerPadding)
-        }
         is UiState.Success -> {
-            val user = state.data?.data
-            SuccessMyScreen(
-                userUName = user?.username ?: "",
-                userName = user?.name ?: "",
-                userEmail = user?.email ?: "",
-                userAge = user?.age ?: 0,
+            val user = state.data
+            MyScreen(
+                userUName = user.username,
+                userName = user.name,
+                userEmail = user.email,
+                userAge = user.age,
                 innerPadding = innerPadding
             )
         }
         is UiState.Failure -> {
             Toast.makeText(context, "내 정보를 불러올 수 없습니다.", Toast.LENGTH_SHORT).show()
         }
+        is UiState.Loading -> {
+            LoadingScreen(innerPadding)
+        }
     }
 }
 
 @Composable
-private fun LoadingMyScreen(
-    innerPadding: PaddingValues
-) {
-    Column(
-        modifier = Modifier
-            .padding(innerPadding)
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        CircularProgressIndicator()
-    }
-}
-
-@Composable
-private fun SuccessMyScreen (
+private fun MyScreen (
     userName: String,
     userUName: String,
     userEmail: String,

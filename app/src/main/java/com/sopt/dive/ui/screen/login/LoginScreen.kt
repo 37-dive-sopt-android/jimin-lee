@@ -9,9 +9,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,45 +23,64 @@ import com.sopt.dive.R
 import com.sopt.dive.ui.common.UiState
 import com.sopt.dive.ui.component.CustomButton
 import com.sopt.dive.ui.component.CustomTextField
-import com.sopt.dive.data.dto.request.login.RequestLoginDto
 import com.sopt.dive.data.local.SharedPreference
 
 @Composable
-fun LoginScreen(
+fun LoginRoute(
     navigateToMain: () -> Unit,
     navigateToSignUp: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = viewModel(),
 ) {
     val context = LocalContext.current
-    val sharedPref = SharedPreference(context)
 
     val loginState by viewModel.loginState.collectAsStateWithLifecycle()
     val loginInfoState by viewModel.loginInfo.collectAsStateWithLifecycle()
 
-    val loginId = loginInfoState.loginId
-    val loginPw = loginInfoState.loginPw
-
-    LaunchedEffect(loginState) {
-        when (val state = loginState) {
-            is UiState.Loading -> {}
-            is UiState.Success -> {
+    when (val state = loginState) {
+        is UiState.Success -> {
+            LaunchedEffect(state) {
                 val response = state.data
-                response?.let {
-                    if (response.success && response.data != null) {
-                        sharedPref.saveUserId(response.data.userId)
-                        Toast.makeText(context, R.string.success_login, Toast.LENGTH_SHORT).show()
-                        navigateToMain()
-                    } else {
-                        Toast.makeText(context, R.string.fail_incorrect_login, Toast.LENGTH_SHORT).show()
-                    }
+                response?.let { userId ->
+                    SharedPreference(context).saveUserId(response.userId)
+                    Toast.makeText(context, R.string.success_login, Toast.LENGTH_SHORT).show()
+                    navigateToMain()
                 }
             }
-            is UiState.Failure -> {
-                Toast.makeText(context, R.string.fail_incorrect_login, Toast.LENGTH_SHORT).show()
-            }
+        }
+
+        is UiState.Failure -> {
+            Toast.makeText(context, R.string.fail_incorrect_login, Toast.LENGTH_SHORT).show()
+        }
+
+        is UiState.Loading -> {
+
         }
     }
+
+    LoginScreen(
+        loginId = loginInfoState.loginId,
+        loginPw = loginInfoState.loginPw,
+        onLoginIdChange = viewModel::updateLoginId,
+        onLoginPwChange = viewModel::updateLoginPw,
+        onLoginClick = viewModel::postLogin,
+        navigateToSignUp = navigateToSignUp,
+        modifier = modifier
+
+    )
+}
+
+@Composable
+fun LoginScreen(
+    loginId: String,
+    loginPw: String,
+    onLoginIdChange: (String) -> Unit,
+    onLoginPwChange: (String) -> Unit,
+    onLoginClick: () -> Unit,
+    navigateToSignUp: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val context = LocalContext.current
 
     Column (
         modifier = modifier
@@ -84,13 +100,13 @@ fun LoginScreen(
                 fieldName = stringResource(R.string.fieldname_id),
                 placeholder = stringResource(R.string.placeholder_id),
                 text = loginId,
-                onTextChange = viewModel::updateLoginId
+                onTextChange = onLoginIdChange
             )
             CustomTextField(
                 fieldName = stringResource(R.string.fieldname_pw),
                 placeholder = stringResource(R.string.placeholder_pw),
                 text = loginPw,
-                onTextChange = viewModel::updateLoginPw,
+                onTextChange = onLoginPwChange,
                 isPassword = true
             )
         }
@@ -104,18 +120,14 @@ fun LoginScreen(
             onClick = {
                 if (loginId.isBlank() || loginPw.isBlank()) {
                     Toast.makeText(context, context.getString(R.string.fail_blank_login), Toast.LENGTH_SHORT).show()
-                } else {
-                    viewModel.postLogin()
-                }
+                } else onLoginClick()
             }
         )
         CustomButton (
             buttonName = stringResource(R.string.button_signup),
             containerColor = Color.Transparent,
             contentColor = Color.Gray,
-            onClick = {
-                navigateToSignUp()
-            }
+            onClick = navigateToSignUp
         )
     }
 }

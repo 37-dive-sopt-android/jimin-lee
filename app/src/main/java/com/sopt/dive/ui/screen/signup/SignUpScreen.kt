@@ -9,9 +9,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,43 +21,81 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
 import com.sopt.dive.ui.common.UiState
-import com.sopt.dive.data.dto.request.signup.RequestSignUpDto
-import com.sopt.dive.data.local.SharedPreference
 import com.sopt.dive.ui.component.CustomButton
 import com.sopt.dive.ui.component.CustomTextField
-import retrofit2.Response.success
 
 @Composable
-fun SignUpScreen(
+fun SignUpRoute(
     navigateToLogin: () -> Unit,
-    modifier: Modifier = Modifier,
     viewModel: SignUpViewModel = viewModel(),
+    modifier: Modifier = Modifier,
+
 ) {
+    val context = LocalContext.current
 
     val signupState by viewModel.signupState.collectAsStateWithLifecycle()
     val signupInfo by viewModel.signupInfo.collectAsStateWithLifecycle()
 
+    when (val state = signupState) {
+        is UiState.Success -> {
+            LaunchedEffect(signupState) {
+                val response = state.data
+                response?.let {
+                    Toast.makeText(context, R.string.success_signup, Toast.LENGTH_SHORT).show()
+                    navigateToLogin()
+                }
+            }
+        }
+        is UiState.Failure -> {
+            Toast.makeText(context, R.string.fail_existed_username, Toast.LENGTH_SHORT).show()
+        }
+        is UiState.Loading -> {
+        }
+    }
+
+    SignUpScreen(
+        state = signupInfo,
+        onUserUNameChange = viewModel::onUserUNameChange,
+        onUserPwChange = viewModel::onUserPwChange,
+        onUserNameChange = viewModel::onUserNameChange,
+        onUserEmailChange = viewModel::onUserEmailChange,
+        onUserAgeChange = viewModel::onUserAgeChange,
+        onSignupClick = viewModel::postSignUp,
+        modifier = modifier
+
+    )
+}
+
+@Composable
+fun SignUpScreen(
+    state: SignUpUiState,
+    onUserUNameChange: (String) -> Unit,
+    onUserPwChange: (String) -> Unit,
+    onUserNameChange: (String) -> Unit,
+    onUserEmailChange: (String) -> Unit,
+    onUserAgeChange: (String) -> Unit,
+    onSignupClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+
+
     val context = LocalContext.current
 
-    LaunchedEffect(signupState) {
+    /*LaunchedEffect(signupState) {
         when (val state = signupState) {
             is UiState.Loading -> {}
             is UiState.Success -> {
                 val response = state.data
                 response?.let {
-                    if (response.success && response.data != null) {
-                        Toast.makeText(context, R.string.success_signup, Toast.LENGTH_SHORT).show()
-                        navigateToLogin()
-                    } else {
-                        Toast.makeText(context, R.string.fail_existed_username, Toast.LENGTH_SHORT).show()
-                    }
+                    Toast.makeText(context, R.string.success_signup, Toast.LENGTH_SHORT).show()
+                    navigateToLogin()
                 }
             }
             is UiState.Failure -> {
                 Toast.makeText(context, R.string.fail_existed_username, Toast.LENGTH_SHORT).show()
             }
         }
-    }
+    }*/
 
     Column (
         modifier = modifier.padding(top = 20.dp),
@@ -76,38 +111,38 @@ fun SignUpScreen(
         CustomTextField(
             fieldName = stringResource(R.string.fieldname_id),
             placeholder = stringResource(R.string.placeholder_id),
-            text = signupInfo.userUName,
-            onTextChange = viewModel::onUserUNameChange,
-            error = signupInfo.idError
+            text = state.userUName,
+            onTextChange = onUserUNameChange,
+            error = state.idError
         )
         CustomTextField(
             fieldName = stringResource(R.string.fieldname_pw),
             placeholder = stringResource(R.string.placeholder_pw),
-            text = signupInfo.userPw,
-            onTextChange = viewModel::onUserPwChange,
+            text = state.userPw,
+            onTextChange = onUserPwChange,
             isPassword = true,
-            error = signupInfo.pwError
+            error = state.pwError
         )
         CustomTextField(
             fieldName = stringResource(R.string.fieldname_name),
             placeholder = stringResource(R.string.placeholder_name),
-            text = signupInfo.userName,
-            onTextChange = viewModel::onUserNameChange,
-            error = signupInfo.nickError
+            text = state.userName,
+            onTextChange = onUserNameChange,
+            error = state.nickError
         )
         CustomTextField(
             fieldName = stringResource(R.string.fieldname_email),
             placeholder = stringResource(R.string.placeholder_email),
-            text = signupInfo.userEmail,
-            onTextChange = viewModel::onUserEmailChange,
-            error = signupInfo.emailError
+            text = state.userEmail,
+            onTextChange = onUserEmailChange,
+            error = state.emailError
         )
         CustomTextField(
             fieldName = stringResource(R.string.fieldname_age),
             placeholder = stringResource(R.string.placeholder_age),
-            text = signupInfo.userAge,
-            onTextChange = viewModel::onUserAgeChange,
-            error = signupInfo.ageError
+            text = state.userAge,
+            onTextChange = onUserAgeChange,
+            error = state.ageError
         )
 
         Spacer(modifier.weight(1f))
@@ -116,7 +151,7 @@ fun SignUpScreen(
             buttonName = stringResource(R.string.button_signup),
             containerColor = Color.Black,
             contentColor = Color.White,
-            onClick = viewModel::postSignUp
+            onClick = onSignupClick
         )
     }
 }
