@@ -10,14 +10,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navOptions
 import com.sopt.dive.data.route.Login
 import com.sopt.dive.data.route.SignUp
-import com.sopt.dive.ui.screen.signup.SignUpScreen
+import com.sopt.dive.ui.screen.signup.SignUpRoute
 
 fun NavGraphBuilder.signupNavGraph(
     navController: NavController,
     innerPadding: PaddingValues
 ) {
     composable<SignUp> {
-        SignUpScreen(
+        SignUpRoute(
             navigateToLogin = {
                 navController.navigate(
                     route = Login,
