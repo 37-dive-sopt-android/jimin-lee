@@ -29,6 +29,6 @@ fun ResponseHomeDataDto.toModel() =
         name = "${this.firstName} ${this.lastName}",
         message = this.email,
         birth = HomeListType.Birth.NONE,
-        content = HomeListType.Content.NONE,
+        content = HomeListType.Content.Exist,
         etc = HomeListType.Etc.None
     )

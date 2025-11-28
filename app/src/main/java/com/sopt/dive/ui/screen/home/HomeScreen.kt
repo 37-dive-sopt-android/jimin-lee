@@ -39,10 +39,11 @@ fun HomeScreen(
             LoadingHomeScreen(innerPadding)
         }
         is UiState.Success -> {
-            val homeList = state.data
+            val homeList = state.data.data
             SuccessHomeScreen(
                 innerPadding = innerPadding,
-                homeList = homeList)
+                homeList = homeList
+            )
         }
         is UiState.Failure -> {}
     }
