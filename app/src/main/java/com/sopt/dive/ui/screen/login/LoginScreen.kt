@@ -104,8 +104,9 @@ fun LoginScreen(
             onClick = {
                 if (loginId.isBlank() || loginPw.isBlank()) {
                     Toast.makeText(context, context.getString(R.string.fail_blank_login), Toast.LENGTH_SHORT).show()
-                } else viewModel::postLogin
-
+                } else {
+                    viewModel.postLogin()
+                }
             }
         )
         CustomButton (
