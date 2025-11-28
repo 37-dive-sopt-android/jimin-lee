@@ -17,6 +17,12 @@ object ApiFactory {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
+    private fun openClient(interceptor: TokenInterceptor): OkHttpClient
+            = OkHttpClient.Builder().run {
+        addInterceptor(interceptor)
+        build()
+    }
+
     private val client = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
         .build()
@@ -33,7 +39,7 @@ object ApiFactory {
         val jsonConfig = Json { ignoreUnknownKeys = true }
         Retrofit.Builder()
             .baseUrl(BASE_URL2)
-            .client(client)
+            .client(openClient(TokenInterceptor()))
             .addConverterFactory(jsonConfig.asConverterFactory("application/json".toMediaType()))
             .build()
     }
