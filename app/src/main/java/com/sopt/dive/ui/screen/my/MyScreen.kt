@@ -55,7 +55,7 @@ fun MyScreen(
             LoadingMyScreen(innerPadding)
         }
         is UiState.Success -> {
-            val user = state.data?.data
+            val user = state.data
             SuccessMyScreen(
                 userUName = user?.username ?: "",
                 userName = user?.name ?: "",

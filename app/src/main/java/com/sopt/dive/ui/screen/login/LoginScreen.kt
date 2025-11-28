@@ -51,13 +51,9 @@ fun LoginScreen(
             is UiState.Success -> {
                 val response = state.data
                 response?.let {
-                    if (response.success && response.data != null) {
-                        sharedPref.saveUserId(response.data.userId)
-                        Toast.makeText(context, R.string.success_login, Toast.LENGTH_SHORT).show()
-                        navigateToMain()
-                    } else {
-                        Toast.makeText(context, R.string.fail_incorrect_login, Toast.LENGTH_SHORT).show()
-                    }
+                    sharedPref.saveUserId(response.userId)
+                    Toast.makeText(context, R.string.success_login, Toast.LENGTH_SHORT).show()
+                    navigateToMain()
                 }
             }
             is UiState.Failure -> {

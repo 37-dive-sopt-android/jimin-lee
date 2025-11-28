@@ -21,8 +21,8 @@ class SignUpViewModel: ViewModel() {
 
     private val signupService by lazy { ServicePool.authService }
 
-    private val _signupState = MutableStateFlow<UiState<BaseResponse<ResponseSignUpDto>?>>(UiState.Loading)
-    val signupState: StateFlow<UiState<BaseResponse<ResponseSignUpDto>?>> = _signupState.asStateFlow()
+    private val _signupState = MutableStateFlow<UiState<ResponseSignUpDto?>>(UiState.Loading)
+    val signupState: StateFlow<UiState<ResponseSignUpDto?>> = _signupState.asStateFlow()
 
     private val _signupInfo = MutableStateFlow(SignUpUiState())
     val signupInfo: StateFlow<SignUpUiState> = _signupInfo.asStateFlow()
@@ -67,11 +67,11 @@ class SignUpViewModel: ViewModel() {
             )
             try {
                 val response = signupService.postSignUp(request)
-                if (response.isSuccessful) {
-                    _signupState.value = UiState.Success(response.body())
+                if (response.success) {
+                    _signupState.value = UiState.Success(response.data)
                 } else {
-                    _signupState.value = UiState.Failure("${response.code()} ${response.message()}")
-                    Log.e("error", "${response.code()} ${response.message()}")
+                    _signupState.value = UiState.Failure("${response.code} ${response.message}")
+                    Log.e("error", "${response.code} ${response.message}")
                 }
             } catch (e: Exception) {
                 _signupState.value = UiState.Failure(e.message ?: "${e.message}")

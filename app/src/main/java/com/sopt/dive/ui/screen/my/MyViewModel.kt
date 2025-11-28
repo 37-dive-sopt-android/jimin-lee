@@ -18,19 +18,19 @@ class MyViewModel: ViewModel() {
 
     private val myService by lazy { ServicePool.authService }
 
-    private val _myState = MutableStateFlow<UiState<BaseResponse<ResponseUserDataDto>?>>(UiState.Loading)
-    val myState: StateFlow<UiState<BaseResponse<ResponseUserDataDto>?>> = _myState.asStateFlow()
+    private val _myState = MutableStateFlow<UiState<ResponseUserDataDto?>>(UiState.Loading)
+    val myState: StateFlow<UiState<ResponseUserDataDto?>> = _myState.asStateFlow()
 
     fun getUserData(id: Long) {
         viewModelScope.launch {
             _myState.value = UiState.Loading
             try {
                 val response = myService.getUserData(id)
-                if (response.isSuccessful) {
-                    _myState.value = UiState.Success(response.body())
+                if (response.success) {
+                    _myState.value = UiState.Success(response.data)
                 } else {
-                    _myState.value = UiState.Failure("${response.code()} ${response.message()}")
-                    Log.e("error", "${response.code()} ${response.message()}")
+                    _myState.value = UiState.Failure("${response.code} ${response.message}")
+                    Log.e("error", "${response.code} ${response.message}")
                 }
             } catch (e: Exception) {
                 _myState.value = UiState.Failure(e.message ?: "${e.message}")

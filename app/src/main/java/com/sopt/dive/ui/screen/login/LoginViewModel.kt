@@ -21,8 +21,8 @@ class LoginViewModel: ViewModel() {
 
     private val loginService by lazy { ServicePool.authService }
 
-    private val _loginState = MutableStateFlow<UiState<BaseResponse<ResponseLoginDto>?>>(UiState.Loading)
-    val loginState: StateFlow<UiState<BaseResponse<ResponseLoginDto>?>> = _loginState.asStateFlow()
+    private val _loginState = MutableStateFlow<UiState<ResponseLoginDto?>>(UiState.Loading)
+    val loginState: StateFlow<UiState<ResponseLoginDto?>> = _loginState.asStateFlow()
 
     private val _loginInfo = MutableStateFlow(LoginUiState())
     val loginInfo: StateFlow<LoginUiState> = _loginInfo.asStateFlow()
@@ -46,11 +46,11 @@ class LoginViewModel: ViewModel() {
             )
             try {
                 val response = loginService.postLogin(request)
-                if (response.isSuccessful) {
-                    _loginState.value = UiState.Success(response.body())
+                if (response.success) {
+                    _loginState.value = UiState.Success(response.data)
                 } else {
-                    _loginState.value = UiState.Failure("${response.code()} ${response.message()}")
-                    Log.e("error", "${response.code()} ${response.message()}")
+                    _loginState.value = UiState.Failure("${response.code} ${response.message}")
+                    Log.e("error", "${response.code} ${response.message}")
                 }
             } catch (e: Exception) {
                 _loginState.value = UiState.Failure(e.message ?: "${e.message}")

@@ -48,12 +48,8 @@ fun SignUpScreen(
             is UiState.Success -> {
                 val response = state.data
                 response?.let {
-                    if (response.success && response.data != null) {
-                        Toast.makeText(context, R.string.success_signup, Toast.LENGTH_SHORT).show()
-                        navigateToLogin()
-                    } else {
-                        Toast.makeText(context, R.string.fail_existed_username, Toast.LENGTH_SHORT).show()
-                    }
+                    Toast.makeText(context, R.string.success_signup, Toast.LENGTH_SHORT).show()
+                    navigateToLogin()
                 }
             }
             is UiState.Failure -> {
