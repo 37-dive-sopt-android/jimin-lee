@@ -10,8 +10,10 @@
     <!--fieldname-->
     <string name="fieldname_id">ID</string>
     <string name="fieldname_pw">PW</string>
-    <string name="fieldname_nickname">NICKNAME</string>
-    <string name="fieldname_mbti">MBTI</string>
+    <string name="fieldname_username">USERNAME</string>
+    <string name="fieldname_name">NAME</string>
+    <string name="fieldname_email">EMAIL</string>
+    <string name="fieldname_age">AGE</string>
 
     <!--button-->
     <string name="button_login">Welcome To SOPT</string>
@@ -20,18 +22,21 @@
     <!--placeholder-->
     <string name="placeholder_id">아이디를 입력해주세요</string>
     <string name="placeholder_pw">비밀번호를 입력해주세요</string>
-    <string name="placeholder_nickname">닉네임을 입력해주세요</string>
-    <string name="placeholder_mbti">MBTI를 입력해주세요</string>
+    <string name="placeholder_name">이름을 입력해주세요</string>
+    <string name="placeholder_email">이메일을 입력해주세요</string>
+    <string name="placeholder_age">나이를 입력해주세요</string>
 
     <!--error_message-->
-    <string name="error_message_id">아이디는 6~10글자로 입력해주세요</string>
-    <string name="error_message_pw">비밀번호는 8~12글자로 입력해주세요</string>
-    <string name="error_message_nickname">닉네임은 1글자 이상 입력해주세요 (공백만 입력 불가)</string>
-    <string name="error_message_mbti">MBTI는 4글자 영어로 입력해주세요</string>
+    <string name="error_message_id">아이디는 6~10자의 영문 대소문자와 숫자만 가능합니다</string>
+    <string name="error_message_pw">비밀번호는 8~12자, 영문 대소문자·숫자·특수문자를 각각 최소 1개 포함해야 합니다</string>
+    <string name="error_message_nickname">닉네임은 1자 이상의 영문 대소문자와 숫자만 가능합니다</string>
+    <string name="error_message_email">유효한 이메일 형식이어야 합니다.</string>
+    <string name="error_message_age">나이는 숫자만 입력 가능합니다.</string>
 
     <!--signup-->
     <string name="success_signup">회원가입에 성공했습니다</string>
     <string name="fail_signup">올바른 회원 정보를 입력해주세요</string>
+    <string name="fail_existed_username">이미 존재하는 ID입니다.</string>
 
     <!--login-->
     <string name="success_login">로그인에 성공했습니다</string>

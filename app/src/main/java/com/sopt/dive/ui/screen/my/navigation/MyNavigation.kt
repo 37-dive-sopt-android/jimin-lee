@@ -10,6 +10,6 @@ fun NavGraphBuilder.myNavGraph(
     innerPadding: PaddingValues
 ) {
     composable<My>{
-        MyScreen(innerPadding)
+        MyScreen(innerPadding = innerPadding)
     }
 }

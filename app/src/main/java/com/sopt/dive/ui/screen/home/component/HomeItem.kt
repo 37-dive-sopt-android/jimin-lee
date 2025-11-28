@@ -29,12 +29,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.sopt.dive.R
 import com.sopt.dive.ui.screen.home.type.HomeListType
 
 @Composable
 fun HomeItem (
-    img: Int,
+    img: String,
     name: String,
     message: String?,
     birth: HomeListType.Birth,
@@ -49,8 +50,8 @@ fun HomeItem (
             .padding(horizontal = 7.dp, vertical = 5.dp),
         verticalAlignment = Alignment.CenterVertically
     ){
-        Image(
-            painter = painterResource(img),
+        AsyncImage(
+            model = img,
             contentDescription = stringResource(R.string.main_profileimg),
             modifier = Modifier
                 .size(50.dp)
@@ -190,5 +191,5 @@ private fun HomeEtcItem (
 @Preview(showBackground = true)
 @Composable
 private fun HomeItemPreview() {
-    HomeItem(R.drawable.profile,"이지민", "", HomeListType.Birth.BIRTH, HomeListType.Content.NONE, HomeListType.Etc.Music("dsfsfsdfsd"))
+    HomeItem("R.drawable.profile","이지민", "", HomeListType.Birth.BIRTH, HomeListType.Content.NONE, HomeListType.Etc.Music("dsfsfsdfsd"))
 }

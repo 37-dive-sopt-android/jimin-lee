@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -19,38 +20,47 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
+import com.sopt.dive.ui.common.UiState
+import com.sopt.dive.data.dto.request.signup.RequestSignUpDto
 import com.sopt.dive.data.local.SharedPreference
 import com.sopt.dive.ui.component.CustomButton
 import com.sopt.dive.ui.component.CustomTextField
-
-private val MBTI_PATTERN = Regex("^[a-zA-Z]{4}$")
+import retrofit2.Response.success
 
 @Composable
 fun SignUpScreen(
     navigateToLogin: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: SignUpViewModel = viewModel(),
 ) {
 
+    val signupState by viewModel.signupState.collectAsStateWithLifecycle()
+    val signupInfo by viewModel.signupInfo.collectAsStateWithLifecycle()
+
     val context = LocalContext.current
-    val prefs = SharedPreference(context)
 
-    var userId by rememberSaveable { mutableStateOf("") }
-    var userPw by rememberSaveable { mutableStateOf("") }
-    var userNickname by rememberSaveable { mutableStateOf("") }
-    var userMbti by rememberSaveable { mutableStateOf("") }
-
-    val isIdValid = userId.length in 6..10
-    val isPwValid = userPw.length in 8..12
-    val isNickValid = userNickname.isNotBlank()
-    val isMbtiValid = userMbti.matches(MBTI_PATTERN)
-
-    val idError = if (userId.isNotEmpty() && !isIdValid) stringResource(R.string.error_message_id) else ""
-    val pwError = if (userPw.isNotEmpty() && !isPwValid) stringResource(R.string.error_message_pw) else ""
-    val nickError = if (userNickname.isNotEmpty() && !isNickValid) stringResource(R.string.error_message_nickname) else ""
-    val mbtiError = if (userMbti.isNotEmpty() && !isMbtiValid) stringResource(R.string.error_message_mbti) else ""
-
-    val isSignUpValid = isIdValid && isPwValid && isNickValid && isMbtiValid
+    LaunchedEffect(signupState) {
+        when (val state = signupState) {
+            is UiState.Loading -> {}
+            is UiState.Success -> {
+                val response = state.data
+                response?.let {
+                    if (response.success && response.data != null) {
+                        Toast.makeText(context, R.string.success_signup, Toast.LENGTH_SHORT).show()
+                        navigateToLogin()
+                    } else {
+                        Toast.makeText(context, R.string.fail_existed_username, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+            is UiState.Failure -> {
+                Toast.makeText(context, R.string.fail_existed_username, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
     Column (
         modifier = modifier.padding(top = 20.dp),
@@ -66,31 +76,38 @@ fun SignUpScreen(
         CustomTextField(
             fieldName = stringResource(R.string.fieldname_id),
             placeholder = stringResource(R.string.placeholder_id),
-            text = userId,
-            onTextChange = { userId = it },
-            error = idError
+            text = signupInfo.userUName,
+            onTextChange = viewModel::onUserUNameChange,
+            error = signupInfo.idError
         )
         CustomTextField(
             fieldName = stringResource(R.string.fieldname_pw),
             placeholder = stringResource(R.string.placeholder_pw),
-            text = userPw,
-            onTextChange = { userPw = it },
+            text = signupInfo.userPw,
+            onTextChange = viewModel::onUserPwChange,
             isPassword = true,
-            error = pwError
+            error = signupInfo.pwError
         )
         CustomTextField(
-            fieldName = stringResource(R.string.fieldname_nickname),
-            placeholder = stringResource(R.string.placeholder_nickname),
-            text = userNickname,
-            onTextChange = { userNickname = it },
-            error = nickError
+            fieldName = stringResource(R.string.fieldname_name),
+            placeholder = stringResource(R.string.placeholder_name),
+            text = signupInfo.userName,
+            onTextChange = viewModel::onUserNameChange,
+            error = signupInfo.nickError
         )
         CustomTextField(
-            fieldName = stringResource(R.string.fieldname_mbti),
-            placeholder = stringResource(R.string.placeholder_mbti),
-            text = userMbti,
-            onTextChange = { userMbti = it },
-            error = mbtiError
+            fieldName = stringResource(R.string.fieldname_email),
+            placeholder = stringResource(R.string.placeholder_email),
+            text = signupInfo.userEmail,
+            onTextChange = viewModel::onUserEmailChange,
+            error = signupInfo.emailError
+        )
+        CustomTextField(
+            fieldName = stringResource(R.string.fieldname_age),
+            placeholder = stringResource(R.string.placeholder_age),
+            text = signupInfo.userAge,
+            onTextChange = viewModel::onUserAgeChange,
+            error = signupInfo.ageError
         )
 
         Spacer(modifier.weight(1f))
@@ -99,24 +116,7 @@ fun SignUpScreen(
             buttonName = stringResource(R.string.button_signup),
             containerColor = Color.Black,
             contentColor = Color.White,
-            onClick = {
-                if (isSignUpValid) {
-                    prefs.saveUserInfo(userId, userPw, userNickname, userMbti)
-                    navigateToLogin()
-                    Toast.makeText(
-                        context,
-                        context.getString(R.string.success_signup),
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                } else {
-                    Toast.makeText(
-                        context,
-                        context.getString(R.string.fail_signup),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
+            onClick = viewModel::postSignUp
         )
     }
 }
