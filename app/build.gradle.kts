@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    id("com.google.devtools.ksp")
 }
 
 val properties = Properties().apply {
@@ -24,7 +25,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "BASE_URL", properties["base.url"].toString())
-        buildConfigField("String", "BASE_URL2", properties["base.url2"].toString())
+        buildConfigField("String", "OPEN_URL", properties["open.url"].toString())
     }
 
     buildTypes {

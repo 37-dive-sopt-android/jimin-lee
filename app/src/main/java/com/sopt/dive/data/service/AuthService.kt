@@ -14,17 +14,17 @@ import retrofit2.http.Path
 
 interface AuthService {
 
-    @POST("/api/v1/users")
+    @POST("users")
     suspend fun postSignUp(
         @Body requestSignUpDto: RequestSignUpDto
     ): Response<BaseResponse<ResponseSignUpDto>>
 
-    @POST("/api/v1/auth/login")
+    @POST("auth/login")
     suspend fun postLogin(
         @Body requestLoginDto: RequestLoginDto
     ): Response<BaseResponse<ResponseLoginDto>>
 
-    @GET("/api/v1/users/{id}")
+    @GET("users/{id}")
     suspend fun getUserData(
         @Path("id") id: Long
     ): Response<BaseResponse<ResponseUserDataDto>>

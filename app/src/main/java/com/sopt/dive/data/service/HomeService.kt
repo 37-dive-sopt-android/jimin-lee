@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface HomeService {
-    @GET("/api/users")
+    @GET("api/users")
     suspend fun getHomeList(
         @Query("page") page: Int,
         @Query("per_page") perPage: Int

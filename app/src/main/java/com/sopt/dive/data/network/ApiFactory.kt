@@ -11,7 +11,7 @@ import kotlin.getValue
 
 object ApiFactory {
     private const val BASE_URL: String = BuildConfig.BASE_URL
-    private const val BASE_URL2: String = BuildConfig.BASE_URL2
+    private const val OPEN_URL: String = BuildConfig.OPEN_URL
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
@@ -38,7 +38,7 @@ object ApiFactory {
     val retrofit2: Retrofit by lazy {
         val jsonConfig = Json { ignoreUnknownKeys = true }
         Retrofit.Builder()
-            .baseUrl(BASE_URL2)
+            .baseUrl(OPEN_URL)
             .client(openClient(TokenInterceptor()))
             .addConverterFactory(jsonConfig.asConverterFactory("application/json".toMediaType()))
             .build()
