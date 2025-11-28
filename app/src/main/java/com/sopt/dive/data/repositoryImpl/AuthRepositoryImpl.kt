@@ -1,11 +1,8 @@
 package com.sopt.dive.data.repositoryImpl
 
 import com.sopt.dive.data.datasource.AuthDataSource
-import com.sopt.dive.data.dto.login.ResponseLoginDto
-import com.sopt.dive.data.dto.my.ResponseUserDataDto
 import com.sopt.dive.data.dto.request.login.RequestLoginDto
 import com.sopt.dive.data.dto.request.signup.RequestSignUpDto
-import com.sopt.dive.data.dto.signup.ResponseSignUpDto
 import com.sopt.dive.data.model.LoginResponseModel
 import com.sopt.dive.data.model.SignUpResponseModel
 import com.sopt.dive.data.model.UserResponseModel

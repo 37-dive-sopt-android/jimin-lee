@@ -32,7 +32,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
 import com.sopt.dive.ui.common.UiState
 import com.sopt.dive.data.local.SharedPreference
-import com.sopt.dive.ui.screen.my.MyViewModel
 import com.sopt.dive.ui.screen.my.component.Info
 
 @Composable

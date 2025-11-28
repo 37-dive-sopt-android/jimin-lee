@@ -1,24 +1,16 @@
 package com.sopt.dive.ui.screen.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sopt.dive.data.datasourceImpl.AuthDataSourceImpl
 import com.sopt.dive.data.datasourceImpl.HomeDataSourceImpl
-import com.sopt.dive.data.network.ServicePool
 import com.sopt.dive.ui.common.UiState
-import com.sopt.dive.data.dto.response.home.ResponseHomeListDto
 import com.sopt.dive.data.model.HomeResponseModel
-import com.sopt.dive.data.repository.AuthRepository
 import com.sopt.dive.data.repository.HomeRepository
 import com.sopt.dive.data.repositoryImpl.HomeRepositoryImpl
-import com.sopt.dive.ui.screen.home.model.HomeModel
-import com.sopt.dive.ui.screen.home.type.HomeListType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlin.getValue
 
 class HomeViewModel : ViewModel() {
 

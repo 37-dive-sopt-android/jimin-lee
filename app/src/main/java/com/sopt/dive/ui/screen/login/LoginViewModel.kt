@@ -1,16 +1,10 @@
 package com.sopt.dive.ui.screen.login
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sopt.dive.data.datasourceImpl.AuthDataSourceImpl
-import kotlin.getValue
-import com.sopt.dive.data.network.ServicePool
 import com.sopt.dive.ui.common.UiState
 import com.sopt.dive.data.dto.request.login.RequestLoginDto
-import com.sopt.dive.data.dto.response.BaseResponse
-import com.sopt.dive.data.dto.login.ResponseLoginDto
-import com.sopt.dive.data.dto.request.signup.RequestSignUpDto
 import com.sopt.dive.data.model.LoginResponseModel
 import com.sopt.dive.data.repository.AuthRepository
 import com.sopt.dive.data.repositoryImpl.AuthRepositoryImpl

@@ -24,7 +24,6 @@ import com.sopt.dive.R
 import com.sopt.dive.ui.common.UiState
 import com.sopt.dive.ui.screen.home.component.HomeItem
 import com.sopt.dive.ui.screen.home.model.HomeModel
-import com.sopt.dive.ui.screen.home.type.HomeListType
 
 @Composable
 fun HomeScreen(

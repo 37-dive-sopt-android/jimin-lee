@@ -1,25 +1,18 @@
 package com.sopt.dive.ui.screen.signup
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sopt.dive.data.datasourceImpl.AuthDataSourceImpl
-import com.sopt.dive.data.network.ServicePool
 import com.sopt.dive.ui.common.UiState
 import com.sopt.dive.data.dto.request.signup.RequestSignUpDto
-import com.sopt.dive.data.dto.response.BaseResponse
-import com.sopt.dive.data.dto.signup.ResponseSignUpDto
 import com.sopt.dive.data.model.SignUpResponseModel
 import com.sopt.dive.data.repository.AuthRepository
 import com.sopt.dive.data.repositoryImpl.AuthRepositoryImpl
-import com.sopt.dive.ui.screen.login.LoginUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.serialization.SerialName
-import kotlin.getValue
 
 class SignUpViewModel: ViewModel() {
 

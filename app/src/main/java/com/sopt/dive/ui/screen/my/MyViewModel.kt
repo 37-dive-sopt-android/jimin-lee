@@ -1,13 +1,9 @@
 package com.sopt.dive.ui.screen.my
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sopt.dive.data.datasourceImpl.AuthDataSourceImpl
-import kotlin.getValue
-import com.sopt.dive.data.network.ServicePool
 import com.sopt.dive.ui.common.UiState
-import com.sopt.dive.data.dto.my.ResponseUserDataDto
 import com.sopt.dive.data.model.UserResponseModel
 import com.sopt.dive.data.repository.AuthRepository
 import com.sopt.dive.data.repositoryImpl.AuthRepositoryImpl

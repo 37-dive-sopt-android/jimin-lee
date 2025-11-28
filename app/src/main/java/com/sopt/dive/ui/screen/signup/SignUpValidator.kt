@@ -22,11 +22,4 @@ object SignUpValidator {
     fun validateAge(userAge: Int): String? =
         if (userAge == 0 && !userAge.toString().matches(AGE_PATTERN)) "숫자만 입력 가능합니다" else null
 
-    fun validateAll(userId: String, userPw: String, userNickname: String, userEmail: String, userAge: Int): Boolean {
-        return validateId(userId) == null
-                && validatePw(userPw) == null
-                && validateNickname(userNickname) == null
-                && validateEmail(userEmail) == null
-                && validateAge(userAge) == null
-    }
 }
