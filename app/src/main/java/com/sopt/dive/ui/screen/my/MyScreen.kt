@@ -55,10 +55,10 @@ fun MyRoute(
         is UiState.Success -> {
             val user = state.data
             MyScreen(
-                userUName = user?.username ?: "",
-                userName = user?.name ?: "",
-                userEmail = user?.email ?: "",
-                userAge = user?.age ?: 0,
+                userUName = user.username,
+                userName = user.name,
+                userEmail = user.email,
+                userAge = user.age,
                 innerPadding = innerPadding
             )
         }

@@ -17,8 +17,8 @@ class MyViewModel: ViewModel() {
 
     private val authRepository: AuthRepository = AuthRepositoryImpl( authDataSource = AuthDataSourceImpl() )
 
-    private val _myState = MutableStateFlow<UiState<UserResponseModel?>>(UiState.Loading)
-    val myState: StateFlow<UiState<UserResponseModel?>> = _myState.asStateFlow()
+    private val _myState = MutableStateFlow<UiState<UserResponseModel>>(UiState.Loading)
+    val myState: StateFlow<UiState<UserResponseModel>> = _myState.asStateFlow()
 
     fun getUserData(id: Long) {
         viewModelScope.launch {
